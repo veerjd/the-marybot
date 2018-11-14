@@ -7,9 +7,17 @@ client.on('ready', () => {
 });
 
 client.on('message', msg => {
-  if (msg.content === 'ping') {
-    msg.reply('Pong!');
+  if(msg.author.bot) return;
+  if(msg.channel.type === "dm") return;
+
+  let prefix = botconfig.prefix;
+  let messageArray = msg.content.split(" ");
+  let cmd = messageArray[0];
+  let args = messageArray.slice(1);
+
+  if(cmd === `${prefix}hello`) {
+    return msg.channel.send("Hello!");
   }
 });
 
-client.login('NDkyNTU0NTI2NTU4MjU3MTc1.Ds02Xg.E2KPwa2cMerbybTdRVICQcGQhmc');
+client.login(botconfig.token);
