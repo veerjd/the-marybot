@@ -1,6 +1,9 @@
 const botconfig = require('./botconfig.json')
 const Discord = require('discord.js');
 const client = new Discord.Client();
+const express = require('express');
+
+var app = express();
 
 client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}!`);
