@@ -26,28 +26,27 @@ client.on('message', message => {
   }
 //CREATE CHANNEL
   if(cmd === "project" || cmd === "newproject" || cmd === "") {
-    let allMentions = message.mentions.users;
-
-    
-    console.log('UsersMentionned:',allMentions);
-    /*
-    for(i=0;allMentions[i];i++) {
-      
-    };
-    guild.createChannel("", "text", [{
-      id: guild.id,
-      deny: ['MANAGE_MESSAGES'],
-      allow: ['SEND_MESSAGES']
-    }])
+    let permArray = [];
+    let mentionsArray = Object.keys(message.mentions.users);
+    let len = Object.keys(message.mentions.users).results.length;
+    for (var i = 0; i < len; i++) {
+      arr.push({
+          id: mentionsArray.results[i].label,
+          allow: ['VIEW_CHANNEL']
+      });
+  }
+    console.log('UsersMentionned:',permArray);
+    guild.createChannel(args[0], "text", permArray)
     .then(channel => {
       let category = guild.channels.find(c => c.name == "Text Channels" && c.type == "category");
       let channel = guild.channels.find(c => c.name == "general" && c.type == "text");
   
       if (!category) throw new Error("Category channel does not exist");
       channel.setParent(category.id);
-    }).catch(console.error);*/
+    }).catch(console.error);
   }
 });
+
 
 const port = process.env.PORT || 5000;
 
