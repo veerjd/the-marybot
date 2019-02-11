@@ -9,6 +9,8 @@ client.on('ready', () => {
 });
 
 client.on('message', msg => {
+  prefix = process.env.PREFIX;
+  
   if (!msg.content.startsWith(process.env.PREFIX) || msg.author.bot || msg.channel.type === "dm") return;
 
   const args = message.content.slice(prefix.length).split(' ');
