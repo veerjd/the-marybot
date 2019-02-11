@@ -28,7 +28,7 @@ client.on('message', message => {
   if(cmd === "project" || cmd === "newproject" || cmd === "projet") {    
     let permArray = [];
     let mentionsArray = Object.keys(message.mentions.users);
-    let len = mentionsArray.results.length;
+    let len = mentionsArray.length;
     for (var i = 0; i < len; i++) {
       permArray.push({
           id: mentionsArray.results[i].label,
