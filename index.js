@@ -8,12 +8,12 @@ client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}!`);
 });
 
-client.on('message', msg => {
+client.on('message', message => {
   prefix = process.env.PREFIX;
 
-  if (!msg.content.startsWith(process.env.PREFIX) || msg.content === '?' || msg.author.bot || !msg.guild) return;
+  if (!message.content.startsWith(process.env.PREFIX) || message.content === '?' || message.author.bot || !message.guild) return;
 
-  const args = msg.content.slice(prefix.length).split(' ');
+  const args = message.content.slice(prefix.length).split(' ');
   const cmd = args.shift().toLowerCase();
 
   console.log("cmd: ", cmd);
@@ -21,12 +21,12 @@ client.on('message', msg => {
 
 //HELLO
   if(cmd === "hello") {
-    msg.channel.send("world!")
+    message.channel.send("world!")
       .catch(console.error);
   }
 //CREATE CHANNEL
   if(cmd === "project" || cmd === "newproject" || cmd === "") {
-    let allMentions = msg.mentions.users.array();
+    let allMentions = message.mentions.users.array();
 
     console.log(allMentions);
     /*
