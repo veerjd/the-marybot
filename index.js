@@ -22,7 +22,7 @@ client.on('message', msg => {
 //HELLO
   if(cmd === "hello") {
     console.log("entered 'hello'");
-    msg.reply("world!");
+    msg.channel.send("world!");
   }
 //CREATE CHANNEL
   if(cmd === "project" || cmd === "newproject" || cmd === "") {
