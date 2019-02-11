@@ -26,7 +26,7 @@ client.on('message', msg => {
   }
 //CREATE CHANNEL
   if(cmd === "project" || cmd === "newproject" || cmd === "") {
-    let allMentions = msg.mentions.array();
+    let allMentions = msg.mentions.members.array();
 
       console.log(allMentions);
     /*
