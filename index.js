@@ -28,7 +28,7 @@ client.on('message', msg => {
   if(cmd === "project" || cmd === "newproject" || cmd === "") {
     let allMentions = msg.mentions.members.array();
 
-      console.log(allMentions);
+    console.log(allMentions);
     /*
     for(i=0;allMentions[i];i++) {
       
