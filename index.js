@@ -38,7 +38,7 @@ client.on('message', message => {
     console.log('UsersMentionned:',permArray);
     guild.createChannel(args[0], "text", permArray)
     .then(newChannel => {
-      let category = guild.channels.find(c => c.name == "projets" && c.type == "category");
+      let category = message.guild.channels.find(c => c.name == "projets" && c.type == "category");
   
       if (!category) throw new Error("Category channel does not exist");
       newChannel.setParent(category.id);
