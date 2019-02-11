@@ -9,7 +9,7 @@ client.on('ready', () => {
 });
 
 client.on('message', msg => {
-  if (!message.content.startsWith(prefix) || message.author.bot || msg.channel.type === "dm") return;
+  if (!msg.content.startsWith(process.env.PREFIX) || msg.author.bot || msg.channel.type === "dm") return;
 
   const args = message.content.slice(prefix.length).split(' ');
   const cmd = args.shift().toLowerCase();
