@@ -14,17 +14,14 @@ client.on('message', msg => {
   const args = message.content.slice(prefix.length).split(' ');
   const cmd = args.shift().toLowerCase();
 
-  console.log("prefix:", prefix);
-  console.log("cmd:", cmd);
-  console.log("args:", args);
-
 //HELLO
   if(cmd === "hello") {
+    console.log("entered 'hello'");
     message.reply("world!");
   }
 //CREATE CHANNEL
-  if(cmd === "project") {
-
+  if(cmd === "project" || cmd === "newproject" || cmd === "") {
+    console.log("entered 'project'");
   };
 
 });
