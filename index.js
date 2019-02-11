@@ -25,10 +25,10 @@ client.on('message', message => {
       .catch(console.error);
   }
 //CREATE CHANNEL
-  if(cmd === "project" || cmd === "newproject" || cmd === "") {    
+  if(cmd === "project" || cmd === "newproject" || cmd === "projet") {    
     let permArray = [];
     let mentionsArray = Object.keys(message.mentions.users);
-    let len = Object.keys(message.mentions.users).results.length;
+    let len = mentionsArray.results.length;
     for (var i = 0; i < len; i++) {
       permArray.push({
           id: mentionsArray.results[i].label,
