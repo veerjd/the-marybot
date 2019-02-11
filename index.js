@@ -11,7 +11,7 @@ client.on('ready', () => {
 client.on('message', msg => {
   prefix = process.env.PREFIX;
 
-  if (!msg.content.startsWith(process.env.PREFIX) || msg.author.bot || msg.channel.type === "dm") return;
+  if (!msg.content.startsWith(process.env.PREFIX) || msg.content === '?' || msg.author.bot || !msg.guild) return;
 
   const args = msg.content.slice(prefix.length).split(' ');
   const cmd = args.shift().toLowerCase();
@@ -21,14 +21,31 @@ client.on('message', msg => {
 
 //HELLO
   if(cmd === "hello") {
-    console.log("entered 'hello'");
-    msg.channel.send("world!");
+    msg.channel.send("world!")
+      .catch(console.error);
   }
 //CREATE CHANNEL
   if(cmd === "project" || cmd === "newproject" || cmd === "") {
-    console.log("entered 'project'");
-  };
+    let allMentions = msg.mentions.array([i]);
 
+      console.log(allMentions);
+    /*
+    for(i=0;allMentions[i];i++) {
+      
+    };
+    guild.createChannel("", "text", [{
+      id: guild.id,
+      deny: ['MANAGE_MESSAGES'],
+      allow: ['SEND_MESSAGES']
+    }])
+    .then(channel => {
+      let category = guild.channels.find(c => c.name == "Text Channels" && c.type == "category");
+      let channel = guild.channels.find(c => c.name == "general" && c.type == "text");
+  
+      if (!category) throw new Error("Category channel does not exist");
+      channel.setParent(category.id);
+    }).catch(console.error);*/
+  }
 });
 
 const port = process.env.PORT || 5000;
