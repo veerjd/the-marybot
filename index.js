@@ -25,24 +25,23 @@ client.on('message', message => {
       .catch(console.error);
   }
 //CREATE CHANNEL
-  if(cmd === "project" || cmd === "newproject" || cmd === "") {
+  if(cmd === "project" || cmd === "newproject" || cmd === "") {    
     let permArray = [];
     let mentionsArray = Object.keys(message.mentions.users);
     let len = Object.keys(message.mentions.users).results.length;
     for (var i = 0; i < len; i++) {
-      arr.push({
+      permArray.push({
           id: mentionsArray.results[i].label,
           allow: ['VIEW_CHANNEL']
       });
-  }
+    }
     console.log('UsersMentionned:',permArray);
     guild.createChannel(args[0], "text", permArray)
-    .then(channel => {
-      let category = guild.channels.find(c => c.name == "Text Channels" && c.type == "category");
-      let channel = guild.channels.find(c => c.name == "general" && c.type == "text");
+    .then(newChannel => {
+      let category = guild.channels.find(c => c.name == "projets" && c.type == "category");
   
       if (!category) throw new Error("Category channel does not exist");
-      channel.setParent(category.id);
+      newChannel.setParent(category.id);
     }).catch(console.error);
   }
 });
