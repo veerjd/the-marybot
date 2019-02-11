@@ -10,10 +10,10 @@ client.on('ready', () => {
 
 client.on('message', msg => {
   prefix = process.env.PREFIX;
-  
+
   if (!msg.content.startsWith(process.env.PREFIX) || msg.author.bot || msg.channel.type === "dm") return;
 
-  const args = message.content.slice(prefix.length).split(' ');
+  const args = msg.content.slice(prefix.length).split(' ');
   const cmd = args.shift().toLowerCase();
 
   console.log("cmd: ", cmd);
@@ -22,7 +22,7 @@ client.on('message', msg => {
 //HELLO
   if(cmd === "hello") {
     console.log("entered 'hello'");
-    message.reply("world!");
+    msg.reply("world!");
   }
 //CREATE CHANNEL
   if(cmd === "project" || cmd === "newproject" || cmd === "") {
