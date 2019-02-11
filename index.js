@@ -13,6 +13,8 @@ client.on('message', msg => {
   if(msg.author.bot) return;
   if(msg.channel.type === "dm") return;
 
+  console.log(msg);
+
   let prefix = botconfig.prefix;
   let messageArray = msg.content.split(" ");
   let cmd = messageArray[0];
