@@ -32,7 +32,7 @@ client.on('message', message => {
     // over at https://discord.js.org/#/docs/main/stable/class/RichEmbed
     const embed = new RichEmbed()
       // Set the title of the field
-      .setTitle('A slick little embed')
+      .setTitle('A slick little embed') 
       // Set the color of the embed
       .setColor(0xFF0000)
       // Set the main content of the embed
