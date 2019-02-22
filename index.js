@@ -1,4 +1,4 @@
-const { Client, RichEmbed } = require('discord.js');
+const { client, RichEmbed } = require('discord.js');
 const client = new Discord.Client();
 const express = require('express');
 
