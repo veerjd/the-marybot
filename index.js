@@ -11,7 +11,7 @@ client.on('ready', () => {
 client.on('message', message => {
   prefix = process.env.PREFIX;
 
-  if (!message.content.startsWith(process.env.PREFIX) || message.content === '?' || message.author.bot || !message.guild) return;
+  if (!message.content.startsWith(prefix) || message.content === prefix || message.author.bot || !message.guild) return;
 
   const args = message.content.slice(prefix.length).split(' ');
   const cmd = args.shift().toLowerCase();
