@@ -9,7 +9,8 @@ const express = require('express');
 var app = express();
 
 client.on('ready', () => {
-  console.log(`Logged in as ${client.user.tag}!`);
+  console.log(`Logged in as ${client.user.tag} (${client.user.id}) on ${client.guilds.size}`);
+  bot.user.setGame(`${prefix}aide`);
 });
 
 client.on('message', message => {
@@ -17,15 +18,18 @@ client.on('message', message => {
 
   if (!message.content.startsWith(prefix) || message.content === prefix || message.author.bot || !message.guild) return;
 
-  const args = message.content.slice(prefix.length).split(' ');
+  const args = message.content.slice(prefix.length).split(/ +/);
   const cmd = args.shift().toLowerCase();
 
-  console.log("cmd: ", cmd);
+  console.log(`cmd: ${cmd}`);
   console.log("args: ", args);
 
 //HELLO
   if(cmd === "hello") {
-    message.channel.send("world!")
+    const then = Date.now();
+    message.channel.send("worlding...").then(m => {
+      m.edit(`world! It took ${Date.now - then}ms to send that message!`);
+    })
       .catch(console.error);
   }
   //EMBED
