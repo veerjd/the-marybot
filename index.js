@@ -11,8 +11,8 @@ var app = express();
 
 client.on('ready', () => {
   prefix = process.env.PREFIX || botconfig.PREFIX;
-  console.log(`Logged in as ${client.user.tag} (${client.user.id}) on ${client.guilds.size}`);
-  client.user.setGame(`${prefix}aide`);
+  console.log(`Logged in as ${client.user.tag} (${client.user.id})`);
+  client.user.setActivity(`${prefix}aide`);
 });
 
 client.on('message', message => {
@@ -33,7 +33,7 @@ client.on('message', message => {
   }
   
   //CREATE CHANNEL
-  if(cmd === "project" || cmd === "newproject" || cmd === "projet") {    
+  if(cmd === "project" || cmd === "projet") {    
     const guild = message.guild;
     if(!guild.available){
       console.log(`Guild not available???`)
@@ -41,14 +41,30 @@ client.on('message', message => {
     } 
     
     guild.createChannel(args[0])
-      .then(newChannel => {
-        newChannel.setParent(544343900748513280);
-        for(i=1;args[i];i++) {
-          newChannel.overwritePermissions(args[i], {
-            VIEW_MESSAGES: true
-          });
-          console.log(`for ${i}`);
-        }
+      .then(async newChannel => {
+        await newChannel.setParent(`544343900748513280`)
+        newChannel.lockPermissions()
+          .then(newGuild => {
+            //Alternative to .lockPermissions()
+            newGuild.overwritePermissions(guild.defaultRole, {
+              VIEW_CHANNEL: false
+            });
+            newGuild.overwritePermissions(`535849987448242192`, {
+              VIEW_CHANNEL: true
+            });
+            mentionsArray = message.mentions.members.keyArray();
+            console.log(`mentionsArray1`);
+            console.log(mentionsArray);
+            mentionsArray = mentionsArray.concat(message.mentions.roles.keyArray());
+            console.log(`mentionsArray2`);
+            console.log(mentionsArray);
+            for(i=0;mentionsArray[i];i=i+1) {
+              newGuild.overwritePermissions(mentionsArray[i], {
+                VIEW_CHANNEL: true
+              });
+            }
+          })
+          .catch(console.error);
       })
       .catch(console.error);
   }
