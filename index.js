@@ -20,8 +20,8 @@ client.on('message', message => {
   const args = message.content.slice(prefix.length).split(' ');
   const cmd = args.shift().toLowerCase();
 
-  console.log("msg: ", message);
-  console.log("parsed msg: ", JSON.stringify(message));
+  console.log("cmd: ", cmd);
+  console.log("args: ", args);
 
 //HELLO
   if(cmd === "hello") {
