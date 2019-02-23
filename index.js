@@ -10,7 +10,7 @@ var app = express();
 
 client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag} (${client.user.id}) on ${client.guilds.size}`);
-  client.user.setGame(`${prefix}aide`);
+  client.user.setGame(`${process.env.PREFIX}aide`);
 });
 
 client.on('message', message => {
