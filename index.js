@@ -28,7 +28,7 @@ client.on('message', message => {
   if(cmd === "hello") {
     const then = Date.now();
     message.channel.send("worlding...").then(m => {
-      m.edit(`world! It took ${Date.now - then}ms to send that message!`);
+      m.edit(`world! It took ${Date.now() - then}ms to send that message!`);
     })
       .catch(console.error);
   }
