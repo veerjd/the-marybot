@@ -32,24 +32,12 @@ client.on('message', message => {
   
   //CREATE CHANNEL
   if(cmd === "project" || cmd === "newproject" || cmd === "projet") {    
-    let permArray = [];
-    let mentionsArray = Object.keys(message.mentions.members);
-    let len = mentionsArray.length;
-    for (var i = 0; i < len; i++) {
-      permArray.push({
-          id: mentionsArray.results[i].label,
-          allow: ['VIEW_CHANNEL']
-      });
-    }
-    console.log('UsersMentionned:',permArray);
-    guild.createChannel(args[0], "text", permArray)
-    .then(newChannel => {
-//    HERE IS THE PROBLEM, 'guilds' is not defined.
-      //      let category = message.guild.channels.find(c => c.name == "projets" && c.type == "category");
-  
-      if (!category) throw new Error("Category channel does not exist");
-      newChannel.setParent(category.id);
-    }).catch(console.error);
+    const guild = new Guild();
+    if(guild.available) {
+      console.log(guild);
+    } else {
+      console.log(`Guild unavailable`);
+    }    
   }
 });
 
