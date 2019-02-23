@@ -32,12 +32,20 @@ client.on('message', message => {
   
   //CREATE CHANNEL
   if(cmd === "project" || cmd === "newproject" || cmd === "projet") {    
-    const guild = message.guild;
-    if(guild.available) {
-      console.log(guild.id);
-    } else {
-      console.log(`Guild unavailable`);
-    }    
+    const guildId = message.guild.id;
+    if(!guildId.available) return;
+    
+    guildId.createChannel(args[0])
+      .then(newChannel => {
+        newChannel.setParent("Projets");
+        for(i=1;arg[i];i++) {
+          newChannel.overwritePermissions(args[i], {
+            VIEW_MESSAGES: true
+          });
+          console.log(`for ${i}`);
+        }
+      })
+      .catch(console.error);
   }
 });
 
