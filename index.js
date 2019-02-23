@@ -37,7 +37,7 @@ client.on('message', message => {
     
     guildId.createChannel(args[0])
       .then(newChannel => {
-        newChannel.setParent("Projets");
+        newChannel.setParent(544343900748513280);
         for(i=1;arg[i];i++) {
           newChannel.overwritePermissions(args[i], {
             VIEW_MESSAGES: true
