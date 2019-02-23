@@ -36,7 +36,7 @@ client.on('message', message => {
     if(!guildId.available) return;
     
     guildId.createChannel(args[0])
-      .then(newChannel => {
+      .then(console.log/*newChannel => {
         newChannel.setParent(544343900748513280);
         for(i=1;arg[i];i++) {
           newChannel.overwritePermissions(args[i], {
@@ -44,7 +44,7 @@ client.on('message', message => {
           });
           console.log(`for ${i}`);
         }
-      })
+      }*/)
       .catch(console.error);
   }
 });
