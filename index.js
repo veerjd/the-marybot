@@ -26,10 +26,7 @@ client.on('message', message => {
 
 //HELLO
   if(cmd === "hello") {
-    const then = Date.now();
-    message.channel.send("worlding...").then(m => {
-      m.edit(`world! It took ${Date.now() - then}ms to send that message!`);
-    })
+    message.channel.send("world!")
       .catch(console.error);
   }
   //EMBED
