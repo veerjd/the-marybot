@@ -21,7 +21,7 @@ client.on('message', message => {
   const cmd = args.shift().toLowerCase();
 
   console.log("msg: ", message);
-  console.log("parsed msg: ", JSON.parse(message));
+  console.log("parsed msg: ", JSON.stringify(message));
 
 //HELLO
   if(cmd === "hello") {
