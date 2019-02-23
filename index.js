@@ -32,9 +32,9 @@ client.on('message', message => {
   
   //CREATE CHANNEL
   if(cmd === "project" || cmd === "newproject" || cmd === "projet") {    
-    const guild = message.guild.id;
+    const guild = message.guild;
     if(guild.available) {
-      console.log(guild);
+      console.log(guild.id);
     } else {
       console.log(`Guild unavailable`);
     }    
