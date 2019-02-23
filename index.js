@@ -32,10 +32,13 @@ client.on('message', message => {
   
   //CREATE CHANNEL
   if(cmd === "project" || cmd === "newproject" || cmd === "projet") {    
-    const guildId = message.guild.id;
-    if(!guildId.available) return;
+    const guild = message.guild;
+    if(!guild.available){
+      console.log(`Guild not available???`)
+      return;
+    } 
     
-    guildId.createChannel(args[0])
+    guild.createChannel(args[0])
       .then(console.log/*newChannel => {
         newChannel.setParent(544343900748513280);
         for(i=1;arg[i];i++) {
