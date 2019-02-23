@@ -1,6 +1,6 @@
 // Extract the required classes from the discord.js module
 const { Client, RichEmbed, Guild } = require('discord.js');
-const botconfig = require('./botconfig.json')
+const botconfig = require('./botconfig.json');
 
 // Create an instance of a Discord client
 const client = new Client();
@@ -10,12 +10,13 @@ const express = require('express');
 var app = express();
 
 client.on('ready', () => {
+  prefix = process.env.PREFIX || botconfig.PREFIX;
   console.log(`Logged in as ${client.user.tag} (${client.user.id}) on ${client.guilds.size}`);
-  client.user.setGame(`${process.env.PREFIX}aide`);
+  client.user.setGame(`${prefix}aide`);
 });
 
 client.on('message', message => {
-  prefix = process.env.PREFIX;
+  prefix = process.env.PREFIX || botconfig.PREFIX;
 
   if (!message.content.startsWith(prefix) || message.content === prefix || message.author.bot || !message.guild) return;
 
@@ -59,4 +60,4 @@ app.listen(port, () => {
     console.log('Listening on ' + port);
 });
 
-client.login(process.env.TOKEN);
+client.login(process.env.TOKEN || botconfig.TOKEN);
