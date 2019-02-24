@@ -1,6 +1,6 @@
 // Extract the required classes from the discord.js module
 const { Client, RichEmbed, Guild } = require('discord.js');
-//const botconfig = require('./botconfig.json');
+const botconfig = require('./botconfig.json');
 
 // Create an instance of a Discord client
 const client = new Client();
@@ -53,11 +53,7 @@ client.on('message', message => {
               VIEW_CHANNEL: true
             });
             mentionsArray = message.mentions.members.keyArray();
-            console.log(`mentionsArray1`);
-            console.log(mentionsArray);
             mentionsArray = mentionsArray.concat(message.mentions.roles.keyArray());
-            console.log(`mentionsArray2`);
-            console.log(mentionsArray);
             for(i=0;mentionsArray[i];i=i+1) {
               newGuild.overwritePermissions(mentionsArray[i], {
                 VIEW_CHANNEL: true
