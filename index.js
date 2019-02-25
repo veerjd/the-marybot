@@ -18,7 +18,8 @@ client.on('ready', () => {
 client.on('message', message => {
   prefix = process.env.PREFIX || botconfig.PREFIX;
 
-  if (!message.content.startsWith(prefix) || message.content === prefix || message.author.bot || !message.guild) return;
+  if (!message.content.startsWith(prefix) || message.content === prefix || message.author.bot)
+    return;
 
   const args = message.content.slice(prefix.length).split(/ +/);
   const cmd = args.shift().toLowerCase();
@@ -26,43 +27,46 @@ client.on('message', message => {
   console.log(`cmd: ${cmd}`);
   console.log("args: ", args);
 
-//HELLO
-  if(cmd === "hello") {
-    message.channel.send("world!")
-      .catch(console.error);
-  }
-  
-  //CREATE CHANNEL
+//CREATE CHANNEL
   if(cmd === "project" || cmd === "projet") {    
     const guild = message.guild;
     if(!guild.available){
       console.log(`Guild not available???`)
       return;
-    } 
+    }
     
     guild.createChannel(args[0])
       .then(async newChannel => {
         await newChannel.setParent(`544343900748513280`)
-        newChannel.lockPermissions()
-          .then(newGuild => {
-            //Alternative to .lockPermissions()
-            newGuild.overwritePermissions(guild.defaultRole, {
-              VIEW_CHANNEL: false
-            });
-            newGuild.overwritePermissions(`535849987448242192`, {
-              VIEW_CHANNEL: true
-            });
-            mentionsArray = message.mentions.members.keyArray();
-            mentionsArray = mentionsArray.concat(message.mentions.roles.keyArray());
-            for(i=0;mentionsArray[i];i=i+1) {
-              newGuild.overwritePermissions(mentionsArray[i], {
-                VIEW_CHANNEL: true
-              });
-            }
+        newChannel.overwritePermissions(guild.defaultRole, {
+          VIEW_CHANNEL: false
+        });
+        newChannel.overwritePermissions(`535849987448242192`, {
+          VIEW_CHANNEL: true
+        });
+//If all mentions
+        permsArray = message.mentions.members.keyArray();
+        permsArray = permsArray.concat(message.mentions.roles.keyArray());
+        
+//No mentions
+        for(i=1;args[i];i=i+1) {
+          guild.fetchMember(args[i]).then(addingMember => {
+            console.log("addingMember");
+            console.log(addingMember);
+            permsArray = permsArray.concat(addingMember.id);
           })
           .catch(console.error);
-      })
+        }
+
+//Add permissions
+        for(i=0;permsArray[i];i=i+1) {
+          newChannel.overwritePermissions(permsArray[i], {
+            VIEW_CHANNEL: true
+          });
+        }
+      })//end of promise (then)
       .catch(console.error);
+    
   }
 });
 
