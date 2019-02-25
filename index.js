@@ -18,7 +18,7 @@ client.on('ready', () => {
 client.on('message', message => {
   prefix = process.env.PREFIX || botconfig.PREFIX;
 
-  if (!message.content.startsWith(prefix) || message.content === prefix || message.author.bot)
+  if (!message.content.startsWith(prefix) || message.content === prefix || message.author.bot || !message.guild)
     return;
 
   const args = message.content.slice(prefix.length).split(/ +/);
@@ -30,10 +30,8 @@ client.on('message', message => {
 //CREATE CHANNEL
   if(cmd === "project" || cmd === "projet") {    
     const guild = message.guild;
-    if(!guild.available){
-      console.log(`Guild not available???`)
-      return;
-    }
+
+    console.log(guild);
     
     guild.createChannel(args[0])
       .then(async newChannel => {
