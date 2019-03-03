@@ -30,10 +30,9 @@ client.on('message', message => {
 //CREATE CHANNEL
   if(cmd === "project" || cmd === "projet") {    
     const guild = message.guild;
-
-    console.log(guild);
+    const nomProjet = args.shift();
     
-    guild.createChannel(args[0])
+    guild.createChannel(nomProjet)
       .then(async newChannel => {
         await newChannel.setParent(`544343900748513280`)
         newChannel.overwritePermissions(guild.defaultRole, {
@@ -43,17 +42,24 @@ client.on('message', message => {
           VIEW_CHANNEL: true
         });
 //If all mentions
-        permsArray = message.mentions.members.keyArray();
+        let permsArray = message.mentions.members.keyArray();
         permsArray = permsArray.concat(message.mentions.roles.keyArray());
-        
+        console.log(`permsArray: `);
+        console.log(permsArray);
 //No mentions
-        for(i=1;args[i];i=i+1) {
-          guild.fetchMember(args[i]).then(addingMember => {
-            console.log("addingMember");
-            console.log(addingMember);
-            permsArray = permsArray.concat(addingMember.id);
+        console.log(`guild.members:`);
+        console.log(guild.members);
+        for(i=0;args[i];i=i+1) {
+          let newMember = guild.members.find(member => {
+            if(member.nickname == args[i]) {
+              return member.nickname == args[i];
+            } else if (member.username == args[i]) {
+              return member.username == args[i];
+            }
           })
-          .catch(console.error);
+          console.log(newMember);
+          permsArray.push(newMember);
+          console.log(permsArray);
         }
 
 //Add permissions
