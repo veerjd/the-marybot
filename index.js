@@ -47,18 +47,13 @@ client.on('message', message => {
         console.log(`permsArray: `);
         console.log(permsArray);
 //No mentions
-        console.log(`guild.members:`);
-        console.log(guild.members);
         for(i=0;args[i];i=i+1) {
-          let newMember = guild.members.find(member => {
-            if(member.nickname == args[i]) {
-              return member.nickname == args[i];
-            } else if (member.username == args[i]) {
-              return member.username == args[i];
-            }
-          })
-          console.log(newMember);
+          console.log("i:");
+          console.log(i);
+          var newMember = guild.members.find(u => u.user.username.toLowerCase() === args[i]);
+          //var newMember = guild.members.find(u => u.user.username.includes(args[i]));
           permsArray.push(newMember);
+          console.log("permsArray:");
           console.log(permsArray);
         }
 
@@ -70,7 +65,6 @@ client.on('message', message => {
         }
       })//end of promise (then)
       .catch(console.error);
-    
   }
 });
 
