@@ -1,6 +1,6 @@
 // Extract the required classes from the discord.js module
 const { Client, RichEmbed, Guild } = require('discord.js');
-const botconfig = require('./botconfig.json');
+//const botconfig = require('./botconfig.json');
 
 // Create an instance of a Discord client
 const client = new Client();
