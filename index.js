@@ -12,7 +12,7 @@ var app = express();
 client.on('ready', () => {
   prefix = process.env.PREFIX || botconfig.PREFIX;
   console.log(`Logged in as ${client.user.tag} (${client.user.id})`);
-  client.user.setActivity(`${prefix}aide`);
+  client.user.setActivity(`${prefix}`, { type: 'LISTENING' });
 });
 
 client.on('message', message => {
@@ -47,14 +47,14 @@ client.on('message', message => {
         console.log(`permsArray: `);
         console.log(permsArray);
 //No mentions
-        for(i=0;args[i] && args[i].startsWith("@");i=i+1) {
+        for(i=0;args[i] && !args[i].startsWith("@");i=i+1) {
           console.log("i:");
           console.log(i);
           var newMember = guild.members.find(u => u.user.username.toLowerCase() === args[i]);
           //var newMember = guild.members.find(u => u.user.username.includes(args[i]));
-          permsArray.push(newMember);
-          console.log("permsArray:");
-          console.log(permsArray);
+          if(newMember) {
+            permsArray.push(newMember);
+          }
         }
 
 //Add permissions
