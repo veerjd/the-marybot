@@ -1,6 +1,6 @@
 // Extract the required classes from the discord.js module
 const { Client, RichEmbed, Guild } = require('discord.js');
-//const botconfig = require('./botconfig.json');
+const botconfig = require('./botconfig.json');
 
 // Create an instance of a Discord client
 const client = new Client();
@@ -47,7 +47,7 @@ client.on('message', message => {
         console.log(`permsArray: `);
         console.log(permsArray);
 //No mentions
-        for(i=0;args[i];i=i+1) {
+        for(i=0;args[i] && args[i].startsWith("@");i=i+1) {
           console.log("i:");
           console.log(i);
           var newMember = guild.members.find(u => u.user.username.toLowerCase() === args[i]);
