@@ -49,9 +49,6 @@ client.on('message', message => {
         permsArray = permsArray.concat(message.mentions.roles.keyArray());
 //No mentions
         for(i=0;args[i] && !args[i].startsWith("@");i=i+1) {
-          // var newMember = guild.members.find((u) => { 
-          //   return u.user.username.toLowerCase() === args[i]
-          // });
           var newMember = guild.members.find(u => u.user.username.toLowerCase().includes(args[i]));
           if(newMember) {
             permsArray.push(newMember);
