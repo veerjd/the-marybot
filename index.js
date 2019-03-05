@@ -1,6 +1,6 @@
 // Extract the required classes from the discord.js module
 const { Client, RichEmbed, Guild } = require('discord.js');
-//const botconfig = require('./botconfig.json');
+const botconfig = require('./botconfig.json');
 
 // Create an instance of a Discord client
 const client = new Client();
@@ -11,7 +11,7 @@ var app = express();
 
 client.on('ready', () => {
   prefix = process.env.PREFIX || botconfig.PREFIX;
-  console.log(`Logged in as ${client.user.tag} (${client.user.id})`);
+  console.log(`Logged in as ${client.user.username}`);
   client.user.setActivity(`${prefix}`, { type: 'LISTENING' });
 });
 
