@@ -23,40 +23,43 @@ client.on('message', message => {
 
   const args = message.content.slice(prefix.length).split(/ +/);
   const cmd = args.shift().toLowerCase();
+  const categProjets = `544343900748513280`;
+  const roleStaff = `535849987448242192`;
 
   console.log(`cmd: ${cmd}`);
   console.log("args: ", args);
 
-//CREATE CHANNEL
+  //CREATE CHANNEL
+  // ?projet projet-orange Julien JD ArianneMoffatt
   if(cmd === "project" || cmd === "projet") {    
     const guild = message.guild;
-    const nomProjet = args.shift();
+    const nomProjet = args.shift(); // projet-orange
     
     guild.createChannel(nomProjet)
       .then(async newChannel => {
-        await newChannel.setParent(`544343900748513280`)
+        await newChannel.setParent(categProjets) // 
         newChannel.overwritePermissions(guild.defaultRole, {
           VIEW_CHANNEL: false
         });
-        newChannel.overwritePermissions(`535849987448242192`, {
+        newChannel.overwritePermissions(roleStaff, {
           VIEW_CHANNEL: true
         });
 //If all mentions
         let permsArray = message.mentions.members.keyArray();
         permsArray = permsArray.concat(message.mentions.roles.keyArray());
-        console.log(`permsArray: `);
-        console.log(permsArray);
 //No mentions
         for(i=0;args[i] && !args[i].startsWith("@");i=i+1) {
-          console.log("i:");
-          console.log(i);
-          var newMember = guild.members.find(u => u.user.username.toLowerCase() === args[i]);
-          //var newMember = guild.members.find(u => u.user.username.includes(args[i]));
+          // var newMember = guild.members.find((u) => { 
+          //   return u.user.username.toLowerCase() === args[i]
+          // });
+          var newMember = guild.members.find(u => u.user.username.toLowerCase().includes(args[i]));
           if(newMember) {
             permsArray.push(newMember);
           }
         }
 
+        console.log(`permsArray: `);
+        console.log(permsArray);
 //Add permissions
         for(i=0;permsArray[i];i=i+1) {
           newChannel.overwritePermissions(permsArray[i], {
