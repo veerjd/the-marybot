@@ -21,7 +21,7 @@ client.on('message', message => {
   if (!message.content.startsWith(prefix) || message.content === prefix || message.author.bot || !message.guild)
     return;
 
-  const args = message.content.slice(prefix.length).split(/ +/);
+  const args = message.content.toLowerCase().slice(prefix.length).split(/ +/);
   const cmd = args.shift().toLowerCase();
   const categProjets = `544343900748513280`;
   const categArchive = `542019038180540436`;
@@ -30,6 +30,18 @@ client.on('message', message => {
 
   console.log(`cmd: ${cmd}`);
   console.log("args: ", args);
+
+  //HELP
+  if (cmd == "help") {
+    var embedhelpadmin = new RichEmbed()
+      .setAuthor("Commandes pour Admins.")
+      .addField("?projet", "Crée un nouveau projet en donnant les permissions demandées.")
+      .addField("?archive", "Archiver un channel.")
+      .setColor(0xF5F5DC)
+      .setFooter("Ⓒ 2019 Example Bot.", client.user.displayAvatarURL);
+    message.channel.send(embedhelpmember);
+    if(message.member.hasPermission('MANAGE_MESSAGES')) return message.channel.send(embedhelpadmin);
+  }
 
   //CREATE CHANNEL
   // ?projet projet-orange Julien JD ArianneMoffatt
