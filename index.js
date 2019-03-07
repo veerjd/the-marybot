@@ -24,6 +24,8 @@ client.on('message', message => {
   const args = message.content.slice(prefix.length).split(/ +/);
   const cmd = args.shift().toLowerCase();
   const categProjets = `544343900748513280`;
+  const categArchive = `542019038180540436`;
+  const archiveChannel = `542019112839413790`;
   const roleStaff = `535849987448242192`;
 
   console.log(`cmd: ${cmd}`);
@@ -31,7 +33,7 @@ client.on('message', message => {
 
   //CREATE CHANNEL
   // ?projet projet-orange Julien JD ArianneMoffatt
-  if(cmd === "project" || cmd === "projet") {    
+  if(cmd === "project" || cmd === "projet") {
     const guild = message.guild;
     const nomProjet = args.shift(); // projet-orange
     
@@ -65,6 +67,13 @@ client.on('message', message => {
         }
       })//end of promise (then)
       .catch(console.error);
+  }
+
+//CMD = ARCHIVE
+  if(cmd === "archive") {
+    message.channel.setParent(categArchive);
+    message.guild.channels.get(archiveChannel).send(`${message.channel} a été archivé le **${message.createdAt}**.`);
+    message.delete();
   }
 });
 
