@@ -1,5 +1,5 @@
 // Extract the required classes from the discord.js module
-const { Client, RichEmbed, Guild } = require('discord.js');
+const { Client, RichEmbed } = require('discord.js');
 //const botconfig = require('./botconfig.json');
 
 // Create an instance of a Discord client
@@ -31,15 +31,26 @@ client.on('message', message => {
   console.log(`cmd: ${cmd}`);
   console.log("args: ", args);
 
+  //SET ACTIVITY
+  if (cmd == "statut") {
+    var data = {};
+    var game = {};
+    game.name = args.join(" ");
+    game.type = "WATCHING";
+    data.game = game;
+    console.log(`data:`);
+    console.log(data);
+    message.client.user.setPresence(data)
+      .catch(console.error);
+  }
   //HELP
   if (cmd == "help") {
     var embedhelpadmin = new RichEmbed()
       .setAuthor("Commandes pour Admins.")
-      .addField("?projet", "Crée un nouveau projet en donnant les permissions demandées.")
-      .addField("?archive", "Archiver un channel.")
+      .addField("!projet", "Crée un nouveau projet en donnant les permissions demandées.")
+      .addField("!archive", "Archiver un channel.")
       .setColor(0xF5F5DC)
       .setFooter("Ⓒ 2019 Example Bot.", client.user.displayAvatarURL);
-    message.channel.send(embedhelpmember);
     if(message.member.hasPermission('MANAGE_MESSAGES')) return message.channel.send(embedhelpadmin);
   }
 
@@ -77,7 +88,7 @@ client.on('message', message => {
             VIEW_CHANNEL: true
           });
         }
-      })//end of promise (then)
+      })//end of promise
       .catch(console.error);
   }
 
