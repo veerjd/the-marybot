@@ -1,5 +1,5 @@
 // Extract the required classes from the discord.js module
-const { Client, RichEmbed } = require('discord.js');
+const { Discord, Client, RichEmbed } = require('discord.js');
 //const botconfig = require('./botconfig.json');
  
 // Create an instance of a Discord client
@@ -76,20 +76,16 @@ client.on('message', message => {
         collector.on('collect', m => {
           if (m.content.toLowerCase() == "oui") {
               m.channel.send(`Tu as dit \`oui\`!`);
+              for(i=0;permsArray[i];i=i+1) {
+                newChannel.overwritePermissions(permsArray[i], {
+                  VIEW_CHANNEL: true
+                });
+              }
           } else if (m.content.toLowerCase() == "non") {
               m.channel.send(`Tu as dit \`non\`!`);
           }
         });
 //Add permissions
-        if (0===0) {
-          for(i=0;permsArray[i];i=i+1) {
-            newChannel.overwritePermissions(permsArray[i], {
-              VIEW_CHANNEL: true
-            });
-          }
-        } else {
-
-        }
       })//end of promise
       .catch(console.error);
     }
