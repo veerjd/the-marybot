@@ -12,7 +12,7 @@ var app = express();
 client.on('ready', () => {
   prefix = process.env.PREFIX || botconfig.PREFIX;
   console.log(`Logged in as ${client.user.username}`);
-  client.user.setActivity(`${prefix}`, { type: 'LISTENING' });
+  client.user.setActivity(`préfixe: ${prefix}`, { type: 'LISTENING' });
 });
 
 client.on('message', message => {
