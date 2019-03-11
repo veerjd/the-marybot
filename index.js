@@ -1,6 +1,6 @@
 // Extract the required classes from the discord.js module
 const { Client, RichEmbed } = require('discord.js');
-//const botconfig = require('./botconfig.json');
+const botconfig = require('./botconfig.json');
 
 // Create an instance of a Discord client
 const client = new Client();
@@ -31,18 +31,6 @@ client.on('message', message => {
   console.log(`cmd: ${cmd}`);
   console.log("args: ", args);
 
-  //SET ACTIVITY
-  if (cmd == "statut") {
-    var data = {};
-    var game = {};
-    game.name = args.join(" ");
-    game.type = "WATCHING";
-    data.game = game;
-    console.log(`data:`);
-    console.log(data);
-    message.client.user.setPresence(data)
-      .catch(console.error);
-  }
   //HELP
   if (cmd == "help") {
     var embedhelpadmin = new RichEmbed()
@@ -55,7 +43,7 @@ client.on('message', message => {
   }
 
   //CREATE CHANNEL
-  // ?projet projet-orange Julien JD ArianneMoffatt
+  //!projet projet-orange julien jd ariannemoffatt
   if(cmd === "project" || cmd === "projet") {
     const guild = message.guild;
     const nomProjet = args.shift(); // projet-orange
@@ -74,14 +62,13 @@ client.on('message', message => {
         permsArray = permsArray.concat(message.mentions.roles.keyArray());
 //No mentions
         for(i=0;args[i] && !args[i].startsWith("@");i=i+1) {
-          var newMember = guild.members.find(u => u.user.username.toLowerCase().includes(args[i]));
+          var newMember = guild.members.find(u => u.nickname.toLowerCase().includes(args[i]));
           if(newMember) {
             permsArray.push(newMember);
           }
         }
 
-        console.log(`permsArray: `);
-        console.log(permsArray);
+        console.log(`permsArray: ${permsArray.length}`);
 //Add permissions
         for(i=0;permsArray[i];i=i+1) {
           newChannel.overwritePermissions(permsArray[i], {
