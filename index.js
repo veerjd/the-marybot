@@ -1,5 +1,5 @@
 // Extract the required classes from the discord.js module
-const { Discord, Client, RichEmbed } = require('discord.js');
+const { MessageCollector, Client, RichEmbed } = require('discord.js');
 //const botconfig = require('./botconfig.json');
  
 // Create an instance of a Discord client
@@ -71,7 +71,7 @@ client.on('message', message => {
         }
 
 //CONFIRMATION
-        collector = new Discord.MessageCollector(message.channel,m => m.author.id === message.author.id,{ time: 10000 });
+        collector = new MessageCollector(message.channel,m => m.author.id === message.author.id,{ time: 10000 });
         console.log(collector);
         collector.on('collect', m => {
           if (m.content.toLowerCase() == "oui") {
