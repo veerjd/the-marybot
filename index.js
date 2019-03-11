@@ -32,7 +32,7 @@ client.on('message', message => {
   console.log("args: ", args);
 
   //HELP
-  if (cmd == "help") {
+  if (cmd == "aide") {
     var embedhelpadmin = new RichEmbed()
       .setAuthor("Commandes pour Admins.")
       .addField("!projet", "Crée un nouveau projet en donnant les permissions demandées.")
@@ -59,25 +59,40 @@ client.on('message', message => {
         });
 //If all mentions
         let permsArray = message.mentions.members.keyArray();
+        let nicknameArray = [];
         permsArray = permsArray.concat(message.mentions.roles.keyArray());
 //No mentions
         for(i=0;args[i] && !args[i].startsWith("@");i=i+1) {
           var newMember = guild.members.find(u => u.nickname.toLowerCase().includes(args[i]));
           if(newMember) {
             permsArray.push(newMember);
+            nicknameArray.push(newMember.nickname);
           }
         }
 
-        console.log(`permsArray: ${permsArray.length}`);
+//CONFIRMATION
+        collector = new Discord.MessageCollector(message.channel,m => m.author.id === message.author.id,{ time: 10000 });
+        console.log(collector);
+        collector.on('collect', m => {
+          if (m.content.toLowerCase() == "oui") {
+              m.channel.send(`Tu as dit \`oui\`!`);
+          } else if (m.content.toLowerCase() == "non") {
+              m.channel.send(`Tu as dit \`non\`!`);
+          }
+        });
 //Add permissions
-        for(i=0;permsArray[i];i=i+1) {
-          newChannel.overwritePermissions(permsArray[i], {
-            VIEW_CHANNEL: true
-          });
+        if (0===0) {
+          for(i=0;permsArray[i];i=i+1) {
+            newChannel.overwritePermissions(permsArray[i], {
+              VIEW_CHANNEL: true
+            });
+          }
+        } else {
+
         }
       })//end of promise
       .catch(console.error);
-  }
+    }
 
 //CMD = ARCHIVE
   if(cmd === "archive") {
