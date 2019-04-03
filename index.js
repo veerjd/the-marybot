@@ -23,10 +23,13 @@ client.on('raw', event => {
 //--------------------------------------
 //                 ROLE
 //--------------------------------------
+    console.log(`event.emoji.name`);
+    console.log(event.emoji.name);
+
     if(event.d.emoji.name === "reply") {
       const user = client.users.get(event.d.user_id);
-      const guildMember = client.guilds.get(event.d.guild_id).fetchMember(user)
-        .catch(console.error);
+      const guild = client.guilds.get(event.d.guild_id).fetchMember(user);
+      const guildMember = guild.fetchMember(user);
 
       console.log(`GuildMember`);
       console.log(guildMember);
