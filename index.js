@@ -25,7 +25,8 @@ client.on('raw', event => {
 //--------------------------------------
     if(event.d.emoji.name === "reply") {
       const user = client.users.get(event.d.user_id);
-      const guildMember = client.guilds.get(event.d.guild_id).fetchMember(user);
+      const guildMember = client.guilds.get(event.d.guild_id).fetchMember(user)
+        .catch(console.error);
 
       console.log(`GuildMember`);
       console.log(guildMember);
