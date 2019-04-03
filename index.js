@@ -1,6 +1,7 @@
 // Extract the required classes from the discord.js module
 const { MessageCollector, Client, RichEmbed } = require('discord.js');
 //const botconfig = require('./botconfig.json');
+const commande = require('./commandes');
 //const { postgres } = require('pg');
 //const pg;
  
@@ -18,47 +19,65 @@ client.on('ready', () => {
 });
 
 client.on('raw', event => {
-  if(event.t === "MESSAGE_REACTION_ADD" && event.d.emoji.name === "reply") {
-    const user = client.users.get(event.d.user_id);
-    const channel = client.channels.get(event.d.channel_id);
+  if(event.t === "MESSAGE_REACTION_ADD") {
+//--------------------------------------
+//                 ROLE
+//--------------------------------------
+    if(event.d.emoji.name === "reply") {
+      const user = client.users.get(event.d.user_id);
+      const guildMember = client.guilds.get(event.d.guild_id).fetchMember(user);
 
-    // if you're on the master/v12 branch, use `channel.messages.fetch()`
-    const message = channel.fetchMessage(event.d.message_id)
-      .then(message => {
-        let author;
+      console.log(`GuildMember`);
+      console.log(guildMember);
+    }
+//--------------------------------------
+//                 REPLY
+//--------------------------------------
+    if(event.d.emoji.name === "reply") {
+      const user = client.users.get(event.d.user_id);
+      const channel = client.channels.get(event.d.channel_id);
 
-        if (message.guild.members.get(message.author.id) === "undefined") {
-          author = message.guild.members.get(message.author.id).nickname;
-        } else {
-          author = message.author.username;
-        }
+      // if you're on the master/v12 branch, use `channel.messages.fetch()`
+      channel.fetchMessage(event.d.message_id)
+        .then(message => {
+          let author;
 
-        if (!author) {
-          author = message.author.username;
-        }
+          if (message.guild.members.get(message.author.id) === "undefined") {
+            author = message.guild.members.get(message.author.id).nickname;
+          } else {
+            author = message.author.username;
+          }
 
-        // custom emojis reactions are keyed in a `name:ID` format, while unicode emojis are keyed by names
-        // if you're on the master/v12 branch, custom emojis reactions are keyed by their ID
-        const replyEmbed = new RichEmbed()
-          .setColor('#AAFFFF')
-          .setAuthor(author, message.author.displayAvatarURL)
-          .setTitle(`Ce message a été rappeler par **${user.username}**`)
-          .addBlankField(true)
-          .addField(`**`+message.content+`**`, message.url)
-          .addBlankField(true)
-          .setFooter('Message original envoyé')
-          .setTimestamp(message.createdAt);
-        channel.send(replyEmbed);
-      })
-      .catch(console.error);
+          if (!author) {
+            author = message.author.username;
+          }
+
+          // custom emojis reactions are keyed in a `name:ID` format, while unicode emojis are keyed by names
+          // if you're on the master/v12 branch, custom emojis reactions are keyed by their ID
+          const replyEmbed = new RichEmbed()
+            .setColor('#AAFFFF')
+            .setAuthor(author, message.author.displayAvatarURL)
+            .setTitle(`Ce message a été rappeler par **${user.username}**`)
+            .addBlankField(true)
+            .addField(`**`+message.content+`**`, message.url)
+            .addBlankField(true)
+            .setFooter('Message original envoyé')
+            .setTimestamp(message.createdAt);
+          channel.send(replyEmbed);
+        })
+        .catch(console.error);
+    }
   }
 });
 
 client.on('message', message => {
   prefix = process.env.PREFIX || botconfig.PREFIX;
 
-  if (!message.content.startsWith(prefix) || message.content === prefix || message.author.bot || !message.guild)
-    return;
+  if (!message.content.startsWith(prefix) || message.content === prefix || message.author.bot ||
+      !message.guild || !message.member.hasPermission('MANAGE_MESSAGES'))
+        return message.channel.send("Ils semble que tu ne puisses pas utiliser mes commandes, oups!");
+
+    
 
   const args = message.content.toLowerCase().slice(prefix.length).split(/ +/);
   const cmd = args.shift().toLowerCase();
@@ -71,14 +90,9 @@ client.on('message', message => {
   console.log("args: ", args);
 
   //HELP
-  if (cmd == "aide") {
-    var embedhelpadmin = new RichEmbed()
-      .setAuthor("Commandes pour Admins.")
-      .addField("!projet", "Crée un nouveau projet en donnant les permissions demandées.")
-      .addField("!archive", "Archiver un channel.")
-      .setColor(0xF5F5DC)
-      .setFooter("Ⓒ 2019 Example Bot.", client.user.displayAvatarURL);
-    if(message.member.hasPermission('MANAGE_MESSAGES')) return message.channel.send(embedhelpadmin);
+  if (cmd === "aide") {
+    let embedhelpadmin = commande.aide(args);
+    return message.channel.send(embedhelpadmin);
   }
 
   //CREATE CHANNEL
