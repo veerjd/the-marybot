@@ -25,6 +25,8 @@ client.on('raw', event => {
 //--------------------------------------
     console.log(`event.emoji.name`);
     console.log(event.d.emoji.name);
+    console.log(`event.emoji.id`);
+    console.log(event.d.emoji.id);
 
     if(event.d.emoji.name === "reply") {
       const user = client.users.get(event.d.user_id);
