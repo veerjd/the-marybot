@@ -1,6 +1,6 @@
 // Extract the required classes from the discord.js module
 const { MessageCollector, Client, RichEmbed } = require('discord.js');
-//const botconfig = require('./botconfig.json');
+const botconfig = require('./botconfig.json');
 const commande = require('./commandes');
 //const { postgres } = require('pg');
 //const pg;
@@ -21,21 +21,44 @@ client.on('ready', () => {
 client.on('raw', event => {
   if(event.t === "MESSAGE_REACTION_ADD") {
 //--------------------------------------
-//                 ROLE
+//         RÉACTION ROLE
 //--------------------------------------
-    console.log(`event.emoji.name`);
-    console.log(event.d.emoji.name);
-    console.log(`event.emoji.id`);
-    console.log(event.d.emoji.id);
-
-    if(event.d.emoji.name === "reply") {
-      const user = client.users.get(event.d.user_id);
-      const guild = client.guilds.get(event.d.guild_id).fetchMember(user);
-      const guildMember = guild.fetchMember(user);
-
-      console.log(`GuildMember`);
-      console.log(guildMember);
-    }
+    const user = client.users.get(event.d.user_id);
+    const guild = client.guilds.get(event.d.guild_id);
+    guild.fetchMember(user)
+    .then(guildMember => {
+      switch (event.d.emoji.name) {
+        case "🇷":
+          newRole = guild.roles.find(x => x.name.toLowerCase() === "rosemont");
+          console.log("R");
+          guildMember.addRole(newRole)
+            .then(console.log("Role added!"))
+            .catch(console.error);
+          break;
+        case "🇲":
+          newRole = guild.roles.find(x => x.name.toLowerCase() === "mile-end");
+          console.log("M");
+          guildMember.addRole(newRole)
+            .then(console.log("Role added!"))
+            .catch(console.error);
+          break;
+        case "🇦":
+          newRole = guild.roles.find(x => x.name.toLowerCase() === "ahuntsic");
+          console.log("A");
+          guildMember.addRole(newRole)
+            .then(console.log("Role added!"))
+            .catch(console.error);
+          break;
+        case "🇬":
+          newRole = guild.roles.find(x => x.name.toLowerCase() === "gatineau");
+          console.log("G");
+          guildMember.addRole(newRole)
+            .then(console.log("Role added!"))
+            .catch(console.error);
+          break;
+      }
+    });
+    
 //--------------------------------------
 //                 REPLY
 //--------------------------------------
@@ -79,9 +102,10 @@ client.on('raw', event => {
 client.on('message', message => {
   prefix = process.env.PREFIX || botconfig.PREFIX;
 
-  if (!message.content.startsWith(prefix) || message.content === prefix || message.author.bot ||
-      !message.guild || !message.member.hasPermission('MANAGE_MESSAGES'))
-        return message.channel.send("Ils semble que tu ne puisses pas utiliser mes commandes, oups!");
+  if (!message.guild || !message.member.hasPermission('MANAGE_MESSAGES'))
+    return message.channel.send("Ils semble que tu ne puisses pas utiliser mes commandes, oups!");
+  else if(!message.content.startsWith(prefix) || message.content === prefix)
+    return;
 
     
 
