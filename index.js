@@ -19,95 +19,137 @@ client.on('ready', () => {
 });
 
 client.on('raw', event => {
-  if(event.t === "MESSAGE_REACTION_ADD") {
 //--------------------------------------
-//         RÉACTION ROLE
+//          ADD.RÉACTION->ROLE
 //--------------------------------------
+  if(event.t === "MESSAGE_REACTION_ADD" && (event.d.channel_id === "563175853706575872" || event.d.channel_id==="563104709968265219")) {
+    console.log('react');
     const user = client.users.get(event.d.user_id);
     const guild = client.guilds.get(event.d.guild_id);
     guild.fetchMember(user)
-    .then(guildMember => {
-      switch (event.d.emoji.name) {
-        case "🇷":
-          newRole = guild.roles.find(x => x.name.toLowerCase() === "rosemont");
-          console.log("R");
-          guildMember.addRole(newRole)
-            .then(console.log("Role added!"))
-            .catch(console.error);
-          break;
-        case "🇲":
-          newRole = guild.roles.find(x => x.name.toLowerCase() === "mile-end");
-          console.log("M");
-          guildMember.addRole(newRole)
-            .then(console.log("Role added!"))
-            .catch(console.error);
-          break;
-        case "🇦":
-          newRole = guild.roles.find(x => x.name.toLowerCase() === "ahuntsic");
-          console.log("A");
-          guildMember.addRole(newRole)
-            .then(console.log("Role added!"))
-            .catch(console.error);
-          break;
-        case "🇬":
-          newRole = guild.roles.find(x => x.name.toLowerCase() === "gatineau");
-          console.log("G");
-          guildMember.addRole(newRole)
-            .then(console.log("Role added!"))
-            .catch(console.error);
-          break;
-      }
-    });
-    
+      .then(guildMember => {
+        switch (event.d.emoji.name) {
+          case "🇷":
+            newRole = guild.roles.find(x => x.name.toLowerCase() === "rosemont");
+            console.log("R");
+            guildMember.addRole(newRole)
+              .then(console.log("Role added!"))
+              .catch(console.error);
+          break
+          case "🇲":
+            newRole = guild.roles.find(x => x.name.toLowerCase() === "mile-end");
+            console.log("M");
+            guildMember.addRole(newRole)
+              .then(console.log("Role added!"))
+              .catch(console.error);
+          break
+          case "🇦":
+            newRole = guild.roles.find(x => x.name.toLowerCase() === "ahuntsic");
+            console.log("A");
+            guildMember.addRole(newRole)
+              .then(console.log("Role added!"))
+              .catch(console.error);
+          break
+          case "🇬":
+            newRole = guild.roles.find(x => x.name.toLowerCase() === "gatineau");
+            console.log("G");
+            guildMember.addRole(newRole)
+              .then(console.log("Role added!"))
+              .catch(console.error);
+          break
+        }
+      });
+  }
 //--------------------------------------
-//                 REPLY
+//        REMOVE.RÉACTION->ROLE
 //--------------------------------------
-    if(event.d.emoji.name === "reply") {
-      const user = client.users.get(event.d.user_id);
-      const channel = client.channels.get(event.d.channel_id);
+  if(event.t === "MESSAGE_REACTION_ADD" && (event.d.channel_id === "563175853706575872" || event.d.channel_id==="563104709968265219")) {
+    console.log('react');
+    const user = client.users.get(event.d.user_id);
+    const guild = client.guilds.get(event.d.guild_id);
+    guild.fetchMember(user)
+      .then(guildMember => {
+        switch (event.d.emoji.name) {
+          case "🇷":
+            newRole = guild.roles.find(x => x.name.toLowerCase() === "rosemont");
+            console.log("R");
+            guildMember.addRole(newRole)
+              .then(console.log("Role added!"))
+              .catch(console.error);
+          break;
+          case "🇲":
+            newRole = guild.roles.find(x => x.name.toLowerCase() === "mile-end");
+            console.log("M");
+            guildMember.addRole(newRole)
+              .then(console.log("Role added!"))
+              .catch(console.error);
+          break;
+          case "🇦":
+            newRole = guild.roles.find(x => x.name.toLowerCase() === "ahuntsic");
+            console.log("A");
+            guildMember.addRole(newRole)
+              .then(console.log("Role added!"))
+              .catch(console.error);
+          break;
+          case "🇬":
+            newRole = guild.roles.find(x => x.name.toLowerCase() === "gatineau");
+            console.log("G");
+            guildMember.addRole(newRole)
+              .then(console.log("Role added!"))
+              .catch(console.error);
+          break;
+        }
+      });
+  }
+//--------------------------------------
+//                REPLY
+//--------------------------------------
+  if(event.d.emoji.name === "reply") {
+    const user = client.users.get(event.d.user_id);
+    const channel = client.channels.get(event.d.channel_id);
 
-      // if you're on the master/v12 branch, use `channel.messages.fetch()`
-      channel.fetchMessage(event.d.message_id)
-        .then(message => {
-          let author;
+    // if you're on the master/v12 branch, use `channel.messages.fetch()`
+    channel.fetchMessage(event.d.message_id)
+      .then(message => {
+        let author;
 
-          if (message.guild.members.get(message.author.id) === "undefined") {
-            author = message.guild.members.get(message.author.id).nickname;
-          } else {
-            author = message.author.username;
-          }
+        if (message.guild.members.get(message.author.id) === "undefined") {
+          author = message.guild.members.get(message.author.id).nickname;
+        } else {
+          author = message.author.username;
+        }
 
-          if (!author) {
-            author = message.author.username;
-          }
+        if (!author) {
+          author = message.author.username;
+        }
 
-          // custom emojis reactions are keyed in a `name:ID` format, while unicode emojis are keyed by names
-          // if you're on the master/v12 branch, custom emojis reactions are keyed by their ID
-          const replyEmbed = new RichEmbed()
-            .setColor('#AAFFFF')
-            .setAuthor(author, message.author.displayAvatarURL)
-            .setTitle(`Ce message a été rappeler par **${user.username}**`)
-            .addBlankField(true)
-            .addField(`**`+message.content+`**`, message.url)
-            .addBlankField(true)
-            .setFooter('Message original envoyé')
-            .setTimestamp(message.createdAt);
-          channel.send(replyEmbed);
-        })
-        .catch(console.error);
-    }
+        // custom emojis reactions are keyed in a `name:ID` format, while unicode emojis are keyed by names
+        // if you're on the master/v12 branch, custom emojis reactions are keyed by their ID
+        const replyEmbed = new RichEmbed()
+          .setColor('#AAFFFF')
+          .setAuthor(author, message.author.displayAvatarURL)
+          .setTitle(`Ce message a été rappeler par **${user.username}**`)
+          .addBlankField(true)
+          .addField(`**`+message.content+`**`, message.url)
+          .addBlankField(true)
+          .setFooter('Message original envoyé')
+          .setTimestamp(message.createdAt);
+        channel.send(replyEmbed);
+      })
+      .catch(console.error);
   }
 });
 
 client.on('message', message => {
   prefix = process.env.PREFIX || botconfig.PREFIX;
-
+//--------------------------------------
+//         CONDITIONs/PERMS
+//--------------------------------------
   if (!message.guild || !message.member.hasPermission('MANAGE_MESSAGES'))
     return message.channel.send("Ils semble que tu ne puisses pas utiliser mes commandes, oups!");
   else if(!message.content.startsWith(prefix) || message.content === prefix)
-    return;
-
-    
+    {
+      return;}
 
   const args = message.content.toLowerCase().slice(prefix.length).split(/ +/);
   const cmd = args.shift().toLowerCase();
@@ -119,14 +161,17 @@ client.on('message', message => {
   console.log(`cmd: ${cmd}`);
   console.log("args: ", args);
 
-  //HELP
+//--------------------------------------
+//               HELP
+//--------------------------------------
   if (cmd === "aide") {
     let embedhelpadmin = commande.aide(args);
     return message.channel.send(embedhelpadmin);
   }
 
-  //CREATE CHANNEL
-  //!projet projet-orange julien jd ariannemoffatt
+//--------------------------------------
+//          CREATE CHANNEL
+//--------------------------------------
   if(cmd === "project" || cmd === "projet") {
     const guild = message.guild;
     const nomProjet = args.shift(); // projet-orange
@@ -173,7 +218,9 @@ client.on('message', message => {
       .catch(console.error);
     }
 
-//CMD = ARCHIVE
+//--------------------------------------
+//             ARCHIVE
+//--------------------------------------
   if(cmd === "archive") {
     message.channel.setParent(categArchive);
     message.guild.channels.get(archiveChannel).send(`${message.channel} a été archivé le **${message.createdAt}**.`);
@@ -181,6 +228,9 @@ client.on('message', message => {
   }
 });
 
+//--------------------------------------
+//               END
+//--------------------------------------
 const port = process.env.PORT || 5000;
 
 app.listen(port, () => {
