@@ -1,7 +1,7 @@
 // Extract the required classes from the discord.js module
 const { MessageCollector, Client, RichEmbed } = require('discord.js');
 //const botconfig = require('./botconfig.json');
-const commande = require('./commandes');
+//const commande = require('./commandes/commandes');
 //const { postgres } = require('pg');
 //const pg;
  
@@ -19,131 +19,197 @@ client.on('ready', () => {
 });
 
 client.on('raw', event => {
+  if(event.t === "MESSAGE_REACTION_ADD") {
 //--------------------------------------
 //          ADD.RÉACTION->ROLE
 //--------------------------------------
-  if(event.t === "MESSAGE_REACTION_ADD" && (event.d.channel_id === "563175853706575872" || event.d.channel_id==="563104709968265219")) {
-    console.log('react');
-    const user = client.users.get(event.d.user_id);
-    const guild = client.guilds.get(event.d.guild_id);
-    guild.fetchMember(user)
-      .then(guildMember => {
-        switch (event.d.emoji.name) {
-          case "🇷":
-            newRole = guild.roles.find(x => x.name.toLowerCase() === "rosemont");
-            console.log("R");
-            guildMember.addRole(newRole)
-              .then(console.log("Role added!"))
-              .catch(console.error);
-          break
-          case "🇲":
-            newRole = guild.roles.find(x => x.name.toLowerCase() === "mile-end");
-            console.log("M");
-            guildMember.addRole(newRole)
-              .then(console.log("Role added!"))
-              .catch(console.error);
-          break
-          case "🇦":
-            newRole = guild.roles.find(x => x.name.toLowerCase() === "ahuntsic");
-            console.log("A");
-            guildMember.addRole(newRole)
-              .then(console.log("Role added!"))
-              .catch(console.error);
-          break
-          case "🇬":
-            newRole = guild.roles.find(x => x.name.toLowerCase() === "gatineau");
-            console.log("G");
-            guildMember.addRole(newRole)
-              .then(console.log("Role added!"))
-              .catch(console.error);
-          break
-        }
-      });
+    if (event.d.channel_id === "563175853706575872" || event.d.channel_id==="563104709968265219") {
+      const user = client.users.get(event.d.user_id);
+      const guild = client.guilds.get(event.d.guild_id);
+      guild.fetchMember(user)
+        .then(guildMember => {
+          switch (event.d.emoji.name) {
+            case "🇷":
+              newRole = guild.roles.find(x => x.name.toLowerCase() === "rosemont");
+              guildMember.addRole(newRole)
+                .then(console.log(`The role ${newRole.name} was added to ${user.username}`))
+                .catch(console.error);
+            break
+            case "🇲":
+              newRole = guild.roles.find(x => x.name.toLowerCase() === "mile-end");
+              guildMember.addRole(newRole)
+                .then(console.log(`The role ${newRole.name} was added to ${user.username}`))
+                .catch(console.error);
+            break
+            case "🇦":
+              newRole = guild.roles.find(x => x.name.toLowerCase() === "ahuntsic");
+              guildMember.addRole(newRole)
+                .then(console.log(`The role ${newRole.name} was added to ${user.username}`))
+                .catch(console.error);
+            break
+            case "🇬":
+              newRole = guild.roles.find(x => x.name.toLowerCase() === "gatineau");
+              guildMember.addRole(newRole)
+                .then(console.log(`The role ${newRole.name} was added to ${user.username}`))
+                .catch(console.error);
+            break
+            case "📽":
+              newRole = guild.roles.find(x => x.name.toLowerCase() === "prod")
+              guildMember.addRole(newRole)
+                .then(console.log(`The role ${newRole.name} was added to ${user.username}`))
+                .catch(console.error);
+            break
+            case "🔩":
+              newRole = guild.roles.find(x => x.name.toLowerCase() === "opérations")
+              guildMember.addRole(newRole)
+                .then(console.log(`The role ${newRole.name} was added to ${user.username}`))
+                .catch(console.error);
+            break
+            case "🎵":
+              newRole = guild.roles.find(x => x.name.toLowerCase() === "musique")
+              guildMember.addRole(newRole)
+                .then(console.log(`The role ${newRole.name} was added to ${user.username}`))
+                .catch(console.error);
+            break
+            case "🐤":
+              newRole = guild.roles.find(x => x.name.toLowerCase() === "junior")
+              guildMember.addRole(newRole)
+                .then(console.log(`The role ${newRole.name} was added to ${user.username}`))
+                .catch(console.error);
+            break
+            case "📱":
+              newRole = guild.roles.find(x => x.name.toLowerCase() === "treize10huit")
+              guildMember.addRole(newRole)
+                .then(console.log(`The role ${newRole.name} was added to ${user.username}`))
+                .catch(console.error);
+            break
+            case "📣":
+              newRole = guild.roles.find(x => x.name.toLowerCase() === "comm")
+              guildMember.addRole(newRole)
+                .then(console.log(`The role ${newRole.name} was added to ${user.username}`))
+                .catch(console.error);
+            break
+          }
+        });
+    }
+//--------------------------------------
+//                REPLY
+//--------------------------------------
+    if(event.d.emoji.name === "reply") {
+      const user = client.users.get(event.d.user_id);
+      const channel = client.channels.get(event.d.channel_id);
+
+      // if you're on the master/v12 branch, use `channel.messages.fetch()`
+      channel.fetchMessage(event.d.message_id)
+        .then(message => {
+          let author;
+
+          if (message.guild.members.get(message.author.id) === "undefined") {
+            author = message.guild.members.get(message.author.id).nickname;
+          } else {
+            author = message.author.username;
+          }
+
+          if (!author) {
+            author = message.author.username;
+          }
+
+          // custom emojis reactions are keyed in a `name:ID` format, while unicode emojis are keyed by names
+          // if you're on the master/v12 branch, custom emojis reactions are keyed by their ID
+          const replyEmbed = new RichEmbed()
+            .setColor('#AAFFFF')
+            .setAuthor(author, message.author.displayAvatarURL)
+            .setTitle(`Ce message a été rappeler par **${user.username}**`)
+            .addBlankField(true)
+            .addField(`**`+message.content+`**`, message.url)
+            .addBlankField(true)
+            .setFooter('Message original envoyé')
+            .setTimestamp(message.createdAt);
+          channel.send(replyEmbed);
+        })
+        .catch(console.error);
+    }
   }
 //--------------------------------------
 //        REMOVE.RÉACTION->ROLE
 //--------------------------------------
-  if(event.t === "MESSAGE_REACTION_ADD" && (event.d.channel_id === "563175853706575872" || event.d.channel_id==="563104709968265219")) {
-    console.log('react');
-    const user = client.users.get(event.d.user_id);
-    const guild = client.guilds.get(event.d.guild_id);
-    guild.fetchMember(user)
-      .then(guildMember => {
-        switch (event.d.emoji.name) {
-          case "🇷":
-            newRole = guild.roles.find(x => x.name.toLowerCase() === "rosemont");
-            console.log("R");
-            guildMember.addRole(newRole)
-              .then(console.log("Role added!"))
-              .catch(console.error);
-          break;
-          case "🇲":
-            newRole = guild.roles.find(x => x.name.toLowerCase() === "mile-end");
-            console.log("M");
-            guildMember.addRole(newRole)
-              .then(console.log("Role added!"))
-              .catch(console.error);
-          break;
-          case "🇦":
-            newRole = guild.roles.find(x => x.name.toLowerCase() === "ahuntsic");
-            console.log("A");
-            guildMember.addRole(newRole)
-              .then(console.log("Role added!"))
-              .catch(console.error);
-          break;
-          case "🇬":
-            newRole = guild.roles.find(x => x.name.toLowerCase() === "gatineau");
-            console.log("G");
-            guildMember.addRole(newRole)
-              .then(console.log("Role added!"))
-              .catch(console.error);
-          break;
-        }
-      });
-  }
-//--------------------------------------
-//                REPLY
-//--------------------------------------
-  if(event.d.emoji.name === "reply") {
-    const user = client.users.get(event.d.user_id);
-    const channel = client.channels.get(event.d.channel_id);
-
-    // if you're on the master/v12 branch, use `channel.messages.fetch()`
-    channel.fetchMessage(event.d.message_id)
-      .then(message => {
-        let author;
-
-        if (message.guild.members.get(message.author.id) === "undefined") {
-          author = message.guild.members.get(message.author.id).nickname;
-        } else {
-          author = message.author.username;
-        }
-
-        if (!author) {
-          author = message.author.username;
-        }
-
-        // custom emojis reactions are keyed in a `name:ID` format, while unicode emojis are keyed by names
-        // if you're on the master/v12 branch, custom emojis reactions are keyed by their ID
-        const replyEmbed = new RichEmbed()
-          .setColor('#AAFFFF')
-          .setAuthor(author, message.author.displayAvatarURL)
-          .setTitle(`Ce message a été rappeler par **${user.username}**`)
-          .addBlankField(true)
-          .addField(`**`+message.content+`**`, message.url)
-          .addBlankField(true)
-          .setFooter('Message original envoyé')
-          .setTimestamp(message.createdAt);
-        channel.send(replyEmbed);
-      })
-      .catch(console.error);
+  if(event.t === "MESSAGE_REACTION_REMOVE") {
+    if (event.d.channel_id === "563175853706575872" || event.d.channel_id==="563104709968265219") {
+      const user = client.users.get(event.d.user_id);
+      const guild = client.guilds.get(event.d.guild_id);
+      guild.fetchMember(user)
+        .then(guildMember => {
+          switch (event.d.emoji.name) {
+            case "🇷":
+              removedRole = guild.roles.find(x => x.name.toLowerCase() === "rosemont");
+              guildMember.removeRole(removedRole)
+                .then(console.log(`The role ${removedRole.name} was removed from ${user.username}`))
+                .catch(console.error);
+            break;
+            case "🇲":
+              removedRole = guild.roles.find(x => x.name.toLowerCase() === "mile-end");
+              guildMember.removeRole(removedRole)
+                .then(console.log(`The role ${removedRole.name} was removed from ${user.username}`))
+                .catch(console.error);
+            break;
+            case "🇦":
+              removedRole = guild.roles.find(x => x.name.toLowerCase() === "ahuntsic");
+              guildMember.removeRole(removedRole)
+                .then(console.log(`The role ${removedRole.name} was removed from ${user.username}`))
+                .catch(console.error);
+            break;
+            case "🇬":
+              removedRole = guild.roles.find(x => x.name.toLowerCase() === "gatineau");
+              guildMember.removeRole(removedRole)
+                .then(console.log(`The role ${removedRole.name} was removed from ${user.username}`))
+                .catch(console.error);
+            break;
+            case "📽":
+              removedRole = guild.roles.find(x => x.name.toLowerCase() === "prod");
+              guildMember.removeRole(removedRole)
+                .then(console.log(`The role ${removedRole.name} was removed from ${user.username}`))
+                .catch(console.error);
+            break;
+            case "🔩":
+              removedRole = guild.roles.find(x => x.name.toLowerCase() === "opérations");
+              guildMember.removeRole(removedRole)
+                .then(console.log(`The role ${removedRole.name} was removed from ${user.username}`))
+                .catch(console.error);
+            break;
+            case "🎵":
+              removedRole = guild.roles.find(x => x.name.toLowerCase() === "musique");
+              guildMember.removeRole(removedRole)
+                .then(console.log(`The role ${removedRole.name} was removed from ${user.username}`))
+                .catch(console.error);
+            break;
+            case "🐤":
+              removedRole = guild.roles.find(x => x.name.toLowerCase() === "junior");
+              guildMember.removeRole(removedRole)
+                .then(console.log(`The role ${removedRole.name} was removed from ${user.username}`))
+                .catch(console.error);
+            break;
+            case "📱":
+              removedRole = guild.roles.find(x => x.name.toLowerCase() === "treize10huit");
+              guildMember.removeRole(removedRole)
+                .then(console.log(`The role ${removedRole.name} was removed from ${user.username}`))
+                .catch(console.error);
+            break;
+            case "📣":
+              removedRole = guild.roles.find(x => x.name.toLowerCase() === "comm");
+              guildMember.removeRole(removedRole)
+                .then(console.log(`The role ${removedRole.name} was removed from ${user.username}`))
+                .catch(console.error);
+            break;
+          }
+        });
+    }
   }
 });
 
 client.on('message', message => {
   prefix = process.env.PREFIX || botconfig.PREFIX;
 //--------------------------------------
-//         CONDITIONs/PERMS
+//         CONDITIONS/PERMS
 //--------------------------------------
   if (!message.guild || !message.member.hasPermission('MANAGE_MESSAGES'))
     return message.channel.send("Ils semble que tu ne puisses pas utiliser mes commandes, oups!");
