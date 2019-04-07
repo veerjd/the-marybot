@@ -1,4 +1,4 @@
-const { MessageCollector, Client, RichEmbed } = require('discord.js');
+//const { MessageCollector, Client, RichEmbed } = require('discord.js');
 
 const categArchive = `542019038180540436`;
 const archiveChannel = `542019112839413790`;
