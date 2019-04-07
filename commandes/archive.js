@@ -1,18 +1,16 @@
 const { MessageCollector, Client, RichEmbed } = require('discord.js');
-const aide = require('./aide');
 
-exports.aide = function(cmd) {
-    if (cmd)
-        return aide.commande(cmd);
-    else
-        console.log ("Entré dans .aide()");
-        return aide.aide();
-}
+const categArchive = `542019038180540436`;
+const archiveChannel = `542019112839413790`;
 
-exports.projet = function(arg) {
-    
-}
+exports.name = "archive";
 
-exports.archive = function(arg) {
-    
+exports.description = "archive";
+
+exports.usage = "archive";
+
+exports.cmd = function(message) {
+    message.channel.setParent(categArchive);
+    message.guild.channels.get(archiveChannel).send(`${message.channel} a été archivé le **${message.createdAt}**.`);
+    message.delete();
 }

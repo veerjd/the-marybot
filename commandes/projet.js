@@ -1,18 +1,14 @@
 const { MessageCollector, Client, RichEmbed } = require('discord.js');
-const aide = require('./aide');
 
-exports.aide = function(cmd) {
-    if (cmd)
-        return aide.commande(cmd);
-    else
-        console.log ("Entré dans .aide()");
-        return aide.aide();
-}
+const categProjets = `544343900748513280`;
+const roleStaff = `535849987448242192`;
 
-exports.projet = function(arg) {
-    
-}
+exports.name = "archive";
 
-exports.archive = function(arg) {
+exports.description = "archive";
+
+exports.usage = "archive";
+
+exports.cmd = function(message) {
     
 }

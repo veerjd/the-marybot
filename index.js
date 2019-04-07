@@ -1,9 +1,9 @@
 // Extract the required classes from the discord.js module
 const { MessageCollector, Client, RichEmbed } = require('discord.js');
-//const botconfig = require('./botconfig.json');
-//const commande = require('./commandes/commandes');
-//const { postgres } = require('pg');
-//const pg;
+const botconfig = require('./botconfig.json');
+const archiveCmd = require('./commandes/archive');
+const projetCmd = require('./commandes/projet');
+const aideCmd = require('./commandes/aide');
  
 // Create an instance of a Discord client
 const client = new Client();
@@ -219,10 +219,6 @@ client.on('message', message => {
 
   const args = message.content.toLowerCase().slice(prefix.length).split(/ +/);
   const cmd = args.shift().toLowerCase();
-  const categProjets = `544343900748513280`;
-  const categArchive = `542019038180540436`;
-  const archiveChannel = `542019112839413790`;
-  const roleStaff = `535849987448242192`;
 
   console.log(`cmd: ${cmd}`);
   console.log("args: ", args);
@@ -231,8 +227,9 @@ client.on('message', message => {
 //               HELP
 //--------------------------------------
   if (cmd === "aide") {
-    let embedhelpadmin = commande.aide(args);
-    return message.channel.send(embedhelpadmin);
+    aideCmd.cmd(args);
+//    let embedhelpadmin = commande.aide(args);
+//    return message.channel.send(embedhelpadmin);
   }
 
 //--------------------------------------
@@ -285,17 +282,15 @@ client.on('message', message => {
     }
 
 //--------------------------------------
-//             ARCHIVE
+//               ARCHIVE
 //--------------------------------------
   if(cmd === "archive") {
-    message.channel.setParent(categArchive);
-    message.guild.channels.get(archiveChannel).send(`${message.channel} a été archivé le **${message.createdAt}**.`);
-    message.delete();
+    archiveCmd.cmd(message);
   }
 });
 
 //--------------------------------------
-//               END
+//              END/OTHER
 //--------------------------------------
 const port = process.env.PORT || 5000;
 
