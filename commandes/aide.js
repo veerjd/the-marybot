@@ -1,4 +1,5 @@
 const { MessageCollector, Client, RichEmbed } = require('discord.js'); 
+const client = new Client();
 
 exports.cmd = function (cmd) {
     let c = new RichEmbed()
