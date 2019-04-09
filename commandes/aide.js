@@ -1,9 +1,4 @@
-const { MessageCollector, Client, RichEmbed } = require('discord.js');
-
-const archiveCmd = require('./commandes/archive');
-const projetCmd = require('./commandes/projet');
-const aideCmd = require('./commandes/aide');
- 
+const { MessageCollector, Client, RichEmbed } = require('discord.js'); 
 
 exports.cmd = function (cmd) {
     let c = new RichEmbed()
