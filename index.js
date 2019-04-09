@@ -1,9 +1,7 @@
 // Extract the required classes from the discord.js module
 const { MessageCollector, Client, RichEmbed } = require('discord.js');
-//const botconfig = require('./botconfig.json');
-const archiveCmd = require('./commandes/archive');
-const projetCmd = require('./commandes/projet');
-const aideCmd = require('./commandes/aide');
+const botconfig = require('./botconfig.json');
+const commandes = require('./commandes');
  
 // Create an instance of a Discord client
 const client = new Client();
@@ -214,8 +212,7 @@ client.on('message', message => {
   if (!message.guild || !message.member.hasPermission('MANAGE_MESSAGES'))
     return message.channel.send("Ils semble que tu ne puisses pas utiliser mes commandes, oups!");
   else if(!message.content.startsWith(prefix) || message.content === prefix)
-    {
-      return;}
+    return;
 
   const args = message.content.toLowerCase().slice(prefix.length).split(/ +/);
   const cmd = args.shift().toLowerCase();
@@ -224,7 +221,7 @@ client.on('message', message => {
   console.log("args: ", args);
 
 //--------------------------------------
-//               HELP
+//               AIDE
 //--------------------------------------
   if (cmd === "aide") {
     aideCmd.cmd(args);
@@ -285,7 +282,14 @@ client.on('message', message => {
 //               ARCHIVE
 //--------------------------------------
   if(cmd === "archive") {
-    archiveCmd.cmd(message);
+    let channelTagged = message.mentions.channels.first();
+    commandes.archive(message, channelTagged);
+/*    if (channelTagged) {
+      commandes.archive(message, channelTagged);
+      message.channel.send(`J'ai archivé ${channelTagged}!`);
+    }else{
+      commandes.archive(message);
+    }*/
   }
 });
 

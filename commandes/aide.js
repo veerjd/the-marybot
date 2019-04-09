@@ -1,7 +1,11 @@
 const { MessageCollector, Client, RichEmbed } = require('discord.js');
 
+const archiveCmd = require('./commandes/archive');
+const projetCmd = require('./commandes/projet');
+const aideCmd = require('./commandes/aide');
+ 
 
-exports.cmd = function () {
+exports.cmd = function (cmd) {
     let c = new RichEmbed()
       .setAuthor("Commandes pour Admins.")
       .setColor(0xF5F5DC)
@@ -10,9 +14,4 @@ exports.cmd = function () {
       c.addField(undefined,`nom: ${allCmds[i].nom}, description: ${allCmds[i].description}`, false);
     }
     return c;
-};
-
-exports.commande = function (arg) {
-
-//    return c
 };
