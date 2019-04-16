@@ -1,5 +1,6 @@
 const { MessageCollector, Client, RichEmbed } = require('discord.js');
-const prefix = process.env.PREFIX || botconfig.PREFIX;
+//const botconfig = require('./botconfig.json');
+const prefix = process.env.PREFIX/* || botconfig.PREFIX*/;
  
 //const categArchive = `542019038180540436`;
 //const archiveChannel = `542019112839413790`;
