@@ -233,6 +233,7 @@ client.on('message', message => {
 //          CREATE CHANNEL
 //--------------------------------------
   if(cmd === "project" || cmd === "projet") {
+    commandes.projet(message);
     const guild = message.guild;
     const nomProjet = args.shift(); // projet-orange
     
