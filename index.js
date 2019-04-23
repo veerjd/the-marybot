@@ -24,7 +24,7 @@ client.on('raw', event => {
     if (event.d.channel_id === "563175853706575872" || event.d.channel_id==="563104709968265219") {
       const user = client.users.get(event.d.user_id);
       const guild = client.guilds.get(event.d.guild_id);
-      guild.fetchMember(user)
+      guild.members.get(user)
         .then(guildMember => {
           switch (event.d.emoji.name) {
             case "🇷":
