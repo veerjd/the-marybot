@@ -307,7 +307,7 @@ client.on('guildMemberAdd', newMember => {
 //        MESSAGE D'AU REVOIR
 //--------------------------------------
 client.on('guildMemberRemove', oldMember => {
-  newMember.createDM()
+  oldMember.createDM()
     .then(DMs => DMs.send(`Si tu as quitté par erreur, tu peux rejoindre les deux équipe avec ces liens, sinon on se reverra peut-être!\n
     [Global] La Chapelle: http://discord.gg/yzQJpmS\n
     [Local] La Chapelle: http://discord.gg/BAA7sHf`))
