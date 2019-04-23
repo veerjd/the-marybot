@@ -207,10 +207,10 @@ client.on('message', message => {
 //--------------------------------------
 //         CONDITIONS/PERMS
 //--------------------------------------
-  if (!message.member.hasPermission('MANAGE_MESSAGES'))
-    return message.channel.send("Ils semble que tu ne puisses pas utiliser mes commandes, oups!");
-  else if(!message.content.startsWith(prefix) || message.content === prefix)
+  if (message.author.bot || !message.content.startsWith(prefix) || message.content === prefix)
     return;
+  else if(!message.member.hasPermission('MANAGE_MESSAGES'))
+    return message.channel.send("Ils semble que tu ne puisses pas utiliser mes commandes, oups!");
 
   const args = message.content.toLowerCase().slice(prefix.length).split(/ +/);
   const cmd = args.shift().toLowerCase();
