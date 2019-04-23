@@ -207,7 +207,7 @@ client.on('message', message => {
 //--------------------------------------
 //         CONDITIONS/PERMS
 //--------------------------------------
-  if (!message.guild || !message.member.hasPermission('MANAGE_MESSAGES'))
+  if (!message.member.hasPermission('MANAGE_MESSAGES'))
     return message.channel.send("Ils semble que tu ne puisses pas utiliser mes commandes, oups!");
   else if(!message.content.startsWith(prefix) || message.content === prefix)
     return;
