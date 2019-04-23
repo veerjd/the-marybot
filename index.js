@@ -293,6 +293,28 @@ client.on('message', message => {
 });
 
 //--------------------------------------
+//        MESSAGE DE BIENVENUE
+//--------------------------------------
+client.on('guildMemberAdd', newMember => {
+  newMember.createDM()
+    .then(DMs => DMs.send(`Bienvenue ${newMember.user.username} dans l'outil de communication de la Chapelle!\n
+    Tu n'as qu'à aller dans le channel **#assignation-de-roles** de l'équipe ${newMember.guild.name} et réagir avec les emojis qui correspondent à tes rôles!\n
+    Si tu as des questions, tu peux toujours écrire dans **#pour-les-nouveaux** à la même place.`))
+    .catch(console.error);
+});
+
+//--------------------------------------
+//        MESSAGE D'AU REVOIR
+//--------------------------------------
+client.on('guildMemberRemove', oldMember => {
+  newMember.createDM()
+    .then(DMs => DMs.send(`Si tu as quitté par erreur, tu peux rejoindre les deux équipe avec ces liens, sinon on se reverra peut-être!\n
+    [Global] La Chapelle: http://discord.gg/yzQJpmS\n
+    [Local] La Chapelle: http://discord.gg/BAA7sHf`))
+    .catch(console.error);
+});
+
+//--------------------------------------
 //              END/OTHER
 //--------------------------------------
 const port = process.env.PORT || 5000;
