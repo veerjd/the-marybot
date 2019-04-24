@@ -297,9 +297,12 @@ if(cmd === "archive") {
 //--------------------------------------
 client.on('guildMemberAdd', newMember => {
 newMember.createDM()
-    .then(DMs => DMs.send(`Bienvenue **@${newMember.user.username}** dans l'outil de communication de la Chapelle!
+    .then(DMs => {
+        DMs.send(`Bienvenue **@${newMember.user.username}** dans l'outil de communication de la Chapelle!
 Tu n'as qu'à aller dans le channel **#assignation-de-roles** de l'équipe **${newMember.guild.name}** et réagir avec les emojis qui correspondent à tes rôles!
-Si tu as des questions, tu peux toujours écrire dans **#pour-les-nouveaux** à la même place.`))
+Si tu as des questions, tu peux toujours écrire dans **#pour-les-nouveaux** à la même place.`);
+        console.log(`${newMember.user.username} est arrivé!`);
+    })
     .catch(console.error);
 });
 
@@ -310,9 +313,10 @@ Si tu as des questions, tu peux toujours écrire dans **#pour-les-nouveaux** à 
 client.on('guildMemberRemove', oldMember => {
 oldMember.createDM()
     .then(DMs => {
-    DMs.send(`Si tu as quitté par erreur, tu peux rejoindre les deux équipes (global et local) avec ces liens, sinon on se reverra peut-être!\n
+        DMs.send(`Si tu as quitté par erreur, tu peux rejoindre les deux équipes (global et local) avec ces liens, sinon on se reverra peut-être!\n
 [Global] La Chapelle: http://discord.gg/yzQJpmS`);
-    DMs.send(`[Local] La Chapelle: http://discord.gg/BAA7sHf`);
+        DMs.send(`[Local] La Chapelle: http://discord.gg/BAA7sHf`);
+        console.log(`${newMember.user.username} est parti!`);
     })
     .catch(console.error);
 });
