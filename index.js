@@ -112,15 +112,15 @@ if(event.t === "MESSAGE_REACTION_ADD") {
 
         // custom emojis reactions are keyed in a `name:ID` format, while unicode emojis are keyed by names
         // if you're on the master/v12 branch, custom emojis reactions are keyed by their ID
-        const replyEmbed = new RichEmbed()
-            .setColor('#AAFFFF')
-            .setAuthor(author, message.author.displayAvatarURL)
-            .setTitle(`Ce message a été rappeler par **${user.username}**`)
-            .addBlankField(true)
-            .addField(`**`+message.content+`**`, message.url)
-            .addBlankField(true)
-            .setFooter('Message original envoyé')
-            .setTimestamp(message.createdAt);
+            const replyEmbed = new RichEmbed()
+                .setColor('#AAFFFF')
+                .setAuthor(author, message.author.displayAvatarURL)
+                .setTitle(`Ce message a été rappeler par **${user.username}**`)
+                .addBlankField(true)
+                .addField(`**`+message.content+`**`, message.url)
+                .addBlankField(true)
+                .setFooter('Message original envoyé')
+                .setTimestamp(message.createdAt);
         channel.send(replyEmbed);
         })
         .catch(console.error);
