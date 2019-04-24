@@ -222,7 +222,7 @@ client.on('message', message => {
 //               AIDE
 //--------------------------------------
   if (cmd === "aide") {
-    aideCmd.cmd(args);
+    commandes.aide(args);
 //    let embedhelpadmin = commande.aide(args);
 //    return message.channel.send(embedhelpadmin);
   }
@@ -298,8 +298,8 @@ client.on('message', message => {
 client.on('guildMemberAdd', newMember => {
   newMember.createDM()
     .then(DMs => DMs.send(`Bienvenue ${newMember.user.username} dans l'outil de communication de la Chapelle!\n
-    Tu n'as qu'à aller dans le channel **#assignation-de-roles** de l'équipe ${newMember.guild.name} et réagir avec les emojis qui correspondent à tes rôles!\n
-    Si tu as des questions, tu peux toujours écrire dans **#pour-les-nouveaux** à la même place.`))
+Tu n'as qu'à aller dans le channel **#assignation-de-roles** de l'équipe ${newMember.guild.name} et réagir avec les emojis qui correspondent à tes rôles!\n
+Si tu as des questions, tu peux toujours écrire dans **#pour-les-nouveaux** à la même place.`))
     .catch(console.error);
 });
 
@@ -308,9 +308,9 @@ client.on('guildMemberAdd', newMember => {
 //--------------------------------------
 client.on('guildMemberRemove', oldMember => {
   oldMember.createDM()
-    .then(DMs => DMs.send(`Si tu as quitté par erreur, tu peux rejoindre les deux équipe avec ces liens, sinon on se reverra peut-être!\n
-    [Global] La Chapelle: http://discord.gg/yzQJpmS\n
-    [Local] La Chapelle: http://discord.gg/BAA7sHf`))
+    .then(DMs => DMs.send(`Si tu as quitté par erreur, tu peux rejoindre les deux équipes (global et local) avec ces liens, sinon on se reverra peut-être!\n
+[Global] La Chapelle: http://discord.gg/yzQJpmS\n
+[Local] La Chapelle: http://discord.gg/BAA7sHf`))
     .catch(console.error);
 });
 
