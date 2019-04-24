@@ -57,7 +57,7 @@ if(event.t === "MESSAGE_REACTION_ADD") {
             .catch(console.error);
         break
         case "🔩":
-        newRole = guild.roles.find(x => x.name.toLowerCase() === "opérations")
+        newRole = guild.roles.find(x => x.name.toLowerCase() === "operations")
         guildMember.addRole(newRole)
             .then(console.log(`The role ${newRole.name} was added to ${user.username}`))
             .catch(console.error);
@@ -98,17 +98,17 @@ if(event.t === "MESSAGE_REACTION_ADD") {
     // if you're on the master/v12 branch, use `channel.messages.fetch()`
     channel.fetchMessage(event.d.message_id)
         .then(message => {
-        let author;
+            let author;
 
-        if (message.guild.members.get(message.author.id) === "undefined") {
-            author = message.guild.members.get(message.author.id).nickname;
-        } else {
-            author = message.author.username;
-        }
+            if (message.guild.members.get(message.author.id) === "undefined") {
+                author = message.guild.members.get(message.author.id).nickname;
+            } else {
+                author = message.author.username;
+            }
 
-        if (!author) {
-            author = message.author.username;
-        }
+            if (!author) {
+                author = message.author.username;
+            }
 
         // custom emojis reactions are keyed in a `name:ID` format, while unicode emojis are keyed by names
         // if you're on the master/v12 branch, custom emojis reactions are keyed by their ID
