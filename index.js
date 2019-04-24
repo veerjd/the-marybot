@@ -167,7 +167,7 @@ if(event.t === "MESSAGE_REACTION_REMOVE") {
                 .catch(console.error);
             break;
             case "🔩":
-            removedRole = guild.roles.find(x => x.name.toLowerCase() === "opérations");
+            removedRole = guild.roles.find(x => x.name.toLowerCase() === "operations");
             guildMember.removeRole(removedRole)
                 .then(console.log(`The role ${removedRole.name} was removed from ${user.username}`))
                 .catch(console.error);
@@ -314,7 +314,7 @@ client.on('guildMemberRemove', oldMember => {
     oldMember.createDM()
         .then(DMs => {
             DMs.send(`Si tu as quitté par erreur, tu peux rejoindre les deux équipes (global et local) avec ces liens, sinon on se reverra peut-être!\n
-    [Global] La Chapelle: http://discord.gg/yzQJpmS`);
+[Global] La Chapelle: http://discord.gg/yzQJpmS`);
             DMs.send(`[Local] La Chapelle: http://discord.gg/BAA7sHf`);
             console.log(`${oldMember.user.username} est parti!`);
             quitteChannel = oldMember.guild.channels.find(x => x.name === "quitte");
