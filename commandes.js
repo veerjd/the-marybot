@@ -47,8 +47,7 @@ exports.archive = function(message, channel) {
 //--------------------------------------
 //              PROJET
 //--------------------------------------
-exports.projet = function(message) {
-    const guild = message.guild;
+exports.projet = function(args, guild) {
     const nomProjet = args.shift(); // projet-orange
     
     guild.createChannel(nomProjet)
