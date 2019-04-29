@@ -202,6 +202,9 @@ if(event.t === "MESSAGE_REACTION_REMOVE") {
 }
 });
 
+//--------------------------------------
+//             ON MESSAGES
+//--------------------------------------
 client.on('message', message => {
 prefix = process.env.PREFIX || botconfig.PREFIX;
 //--------------------------------------
@@ -211,6 +214,10 @@ if (message.author.bot || !message.content.startsWith(prefix) || message.content
     return;
 else if(!message.member.hasPermission('MANAGE_MESSAGES'))
     return message.channel.send("Ils semble que tu ne puisses pas utiliser mes commandes, oups!");
+
+if (message.channel.name.includes("annonce")) {
+    console.log(message.mentions);
+}
 
 const args = message.content.toLowerCase().slice(prefix.length).split(/ +/);
 const cmd = args.shift().toLowerCase();
