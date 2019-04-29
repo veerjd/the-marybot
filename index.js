@@ -130,7 +130,7 @@ if(event.t === "MESSAGE_REACTION_ADD") {
 //        REMOVE.RÉACTION->ROLE
 //--------------------------------------
 if(event.t === "MESSAGE_REACTION_REMOVE") {
-    if (event.d.channel_id === "563175853706575872" || event.d.channel_id==="563104709968265219") {
+    if (event.d.channel_id === "572430115389308939" || event.d.channel_id==="563104709968265219") {
     const user = client.users.get(event.d.user_id);
     const guild = client.guilds.get(event.d.guild_id);
     guild.fetchMember(user)
