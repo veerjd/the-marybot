@@ -208,10 +208,12 @@ if(event.t === "MESSAGE_REACTION_REMOVE") {
 client.on('message', message => {
 prefix = process.env.PREFIX || botconfig.PREFIX;
 
-if (message.channel.name.includes("annonce") && (!message.mentions.users.count || !message.mentions.roles.count)) {
+if (message.channel.name.includes("annonce") && (message.mentions.users.count === 'undefined' || !message.mentions.roles.count === 'undefined')) {
     console.log(message.mentions.users," & ",message.mentions.roles);
     message.channel.send(`Normalement, il faut mentionner les rôles ou personnes concernées par l'annonce que tu fais, ${message.author}
-Je te conseille même de supprimer ton message et le réécrire en taggant les gens et rôles concernés (en utilisant le @)`);
+Je te conseille même de supprimer ton message et le réécrire en taggant les gens et rôles concernés (en utilisant le @)`)
+    .then(message => console.log(message))
+    .catch(console.error());
 }
 
 //--------------------------------------
