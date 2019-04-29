@@ -207,6 +207,11 @@ if(event.t === "MESSAGE_REACTION_REMOVE") {
 //--------------------------------------
 client.on('message', message => {
 prefix = process.env.PREFIX || botconfig.PREFIX;
+
+if (message.channel.name.includes("annonce")) {
+    console.log(message.mentions);
+}
+
 //--------------------------------------
 //         CONDITIONS/PERMS
 //--------------------------------------
@@ -215,9 +220,7 @@ if (message.author.bot || !message.content.startsWith(prefix) || message.content
 else if(!message.member.hasPermission('MANAGE_MESSAGES'))
     return message.channel.send("Ils semble que tu ne puisses pas utiliser mes commandes, oups!");
 
-if (message.channel.name.includes("annonce")) {
-    console.log(message.mentions);
-}
+
 
 const args = message.content.toLowerCase().slice(prefix.length).split(/ +/);
 const cmd = args.shift().toLowerCase();
