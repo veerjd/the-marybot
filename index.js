@@ -208,8 +208,9 @@ if(event.t === "MESSAGE_REACTION_REMOVE") {
 client.on('message', message => {
 prefix = process.env.PREFIX || botconfig.PREFIX;
 
-if (message.channel.name.includes("annonce") && ()) {
+if (message.channel.name.includes("annonce")) {
     console.log(message.mentions.users);
+    console.log(message.mentions.roles);
 }
 
 //--------------------------------------
