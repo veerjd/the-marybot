@@ -211,7 +211,7 @@ prefix = process.env.PREFIX || botconfig.PREFIX;
 message.channel.send(`Normalement, il faut mentionner les rôles ou personnes concernées par l'annonce que tu fais, ${message.author}
 Je te conseille même de supprimer ton message et le réécrire en taggant les gens et rôles concernés (en utilisant le @)`)
     .then(console.log("WORKED!"))
-    .error(console.error());
+    .catch(console.error());
 
 console.log("message.channel.name.includes('annonce'):",message.channel.name.includes("annonce"));
 console.log("message.mentions.users.count:",message.mentions.users.count === 'undefined');
