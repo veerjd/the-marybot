@@ -208,8 +208,9 @@ if(event.t === "MESSAGE_REACTION_REMOVE") {
 client.on('message', message => {
 prefix = process.env.PREFIX || botconfig.PREFIX;
 
-console.log("message.mentions.users.count: ",message.mentions.users.count);
-console.log("message.mentions.roles.count: ",message.mentions.roles.count);
+console.log("message.channel.name.includes('annonce'):",message.channel.name.includes("annonce"))
+console.log("message.mentions.users.count:",message.mentions.users.count);
+console.log("message.mentions.roles.count:",message.mentions.roles.count);
 if (message.channel.name.includes("annonce") && (message.mentions.users.count === 'undefined' || message.mentions.roles.count === 'undefined')) {
     console.log(message.mentions.users," & ",message.mentions.roles);
     message.channel.send(`Normalement, il faut mentionner les rôles ou personnes concernées par l'annonce que tu fais, ${message.author}
