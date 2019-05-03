@@ -211,8 +211,7 @@ prefix = process.env.PREFIX || botconfig.PREFIX;
 if(message.author.bot)
     return;
 
-message.channel.send(`Normalement, il faut mentionner les rôles ou personnes concernées par l'annonce que tu fais, ${message.author}
-Je te conseille même de supprimer ton message et le réécrire en taggant les gens et rôles concernés (en utilisant le @)`)
+message.channel.send(`Normalement, il faut mentionner les rôles ou personnes concernées par l'annonce que tu fais, ${message.author}. Je te conseille même de supprimer ton message et le réécrire en taggant les gens et rôles concernés (en utilisant le \`@\`)`)
     .then(console.log("WORKED!"))
     .catch(console.error());
 
