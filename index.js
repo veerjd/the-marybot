@@ -216,16 +216,30 @@ if(message.author.bot || message.content.startsWith("?")) {
 //--------------------------------------
 //         AUTO-RESPONDER TAG
 //--------------------------------------
-if (message.channel.name.includes("annonce")) {
-    if((!message.mentions.users.count === undefined && !message.mentions.roles.count === undefined) == false) {
+if((!message.mentions.users.count === undefined && !message.mentions.roles.count === undefined) == false) {
+    if (message.channel.name.includes("annonce")) {
         message.channel.send(`Normalement, il faut mentionner les rôles ou personnes concernées par l'annonce que tu fais, ${message.author}. Je te conseille même de supprimer ton message et le réécrire en taggant les gens et rôles concernés (en utilisant le \`@\`)`)
             .then(msg => {
                 console.log(`Avertissement de mentions envoyé dans ${message.channel.name}`);
-                setTimeout(()=>msg.delete(), 15000);
+                setTimeout(()=>msg.delete(), 30000);
+            })
+            .catch(console.error());
+    } else if (message.channel.name.includes("question")) {
+        message.channel.send(`Normalement, il faut mentionner les rôles ou personnes concernées quand tu poses une question, ${message.author}. Pas besoin de recommencer, fais juste écrire un nouveau message en taggant les personnes concernées (en utilisant le \`@\`)`)
+            .then(msg => {
+                console.log(`Avertissement de mentions envoyé dans ${message.channel.name}`);
+                setTimeout(()=>msg.delete(), 30000);
+            })
+            .catch(console.error());
+    } else if (message.channel.name.includes("requêtes") && message.channel.name != "requêtes-de-prière") {
+        message.channel.send(`Normalement, il faut mentionner les rôles ou personnes concernées quand tu fais une requête, ${message.author}. Pas besoin de recommencer, fais juste écrire un nouveau message en taggant les personnes concernées (en utilisant le \`@\`)`)
+            .then(msg => {
+                console.log(`Avertissement de mentions envoyé dans ${message.channel.name}`);
+                setTimeout(()=>msg.delete(), 30000);
             })
             .catch(console.error());
     }
-}
+} 
 
 //--------------------------------------
 //         CONDITIONS/PERMS
