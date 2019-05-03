@@ -1,6 +1,6 @@
 // Extract the required classes from the discord.js module
 const { MessageCollector, Client, RichEmbed } = require('discord.js');
-//const botconfig = require('./botconfig.json');
+const botconfig = require('./botconfig.json');
 const commandes = require('./commandes');
 const timer = require('timers');
 
@@ -209,26 +209,19 @@ if(event.t === "MESSAGE_REACTION_REMOVE") {
 client.on('message', message => {
 prefix = process.env.PREFIX || botconfig.PREFIX;
 
-if(message.author.bot)
+if(message.author.bot || message.content.startsWith("?")) {
     return;
+}
 
 //--------------------------------------
 //         AUTO-RESPONDER TAG
 //--------------------------------------
-if (message.channel.name.includes("annonce") && !(!message.mentions.users.count === undefined && !message.mentions.roles.count === undefined)) {
-    console.log("Les conditions sont rencontrées");
-} else {
-    console.log("annonce:",message.channel.name.includes("annonce"));
-    console.log("users tagged:", !message.mentions.users.count === undefined);
-    console.log("roles tagged:", !message.mentions.users.count === undefined);
-}
-
 if (message.channel.name.includes("annonce")) {
     if((!message.mentions.users.count === undefined && !message.mentions.roles.count === undefined) == false) {
         message.channel.send(`Normalement, il faut mentionner les rôles ou personnes concernées par l'annonce que tu fais, ${message.author}. Je te conseille même de supprimer ton message et le réécrire en taggant les gens et rôles concernés (en utilisant le \`@\`)`)
             .then(msg => {
                 console.log(`Avertissement de mentions envoyé dans ${message.channel.name}`);
-                setTimeout(msg.delete(), 6000);
+                setTimeout(()=>msg.delete(), 15000);
             })
             .catch(console.error());
     }
