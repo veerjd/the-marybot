@@ -2,6 +2,7 @@
 const { MessageCollector, Client, RichEmbed } = require('discord.js');
 //const botconfig = require('./botconfig.json');
 const commandes = require('./commandes');
+const timer = require('timers');
 
 // Create an instance of a Discord client
 const client = new Client();
