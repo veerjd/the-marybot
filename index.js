@@ -216,8 +216,7 @@ console.log("message.channel.name.includes('annonce'):",message.channel.name.inc
 console.log("message.mentions.users.count:",message.mentions.users.count === 'undefined');
 console.log("message.mentions.roles.count:",message.mentions.roles.count === 'undefined');
 if (message.channel.name.includes("annonce")) {
-    if(message.mentions.users.count === undefined && message.mentions.roles.count === undefined) {
-        console.log(message.mentions.users," & ",message.mentions.roles);
+    if(!message.mentions.users.count === undefined && !message.mentions.roles.count === undefined) {
         message.channel.send(`Normalement, il faut mentionner les rôles ou personnes concernées par l'annonce que tu fais, ${message.author}. Je te conseille même de supprimer ton message et le réécrire en taggant les gens et rôles concernés (en utilisant le \`@\`)`)
             .then(console.log(`Avertissement de mentions envoyé dans ${message.channel.name}`))
             .catch(console.error());
