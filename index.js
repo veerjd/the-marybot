@@ -3,6 +3,7 @@ const { MessageCollector, Client, RichEmbed } = require('discord.js');
 //const botconfig = require('./botconfig.json');
 const commandes = require('./commandes');
 const timer = require('timers');
+const warningMessage = `Normalement, il faut mentionner les rôles ou personnes concernées quand tu fais une requête. Pas besoin de recommencer, fais juste écrire un nouveau message en taggant les personnes concernées (en utilisant le \`@\`)`;
 
 // Create an instance of a Discord client
 const client = new Client();
@@ -12,9 +13,9 @@ const express = require('express');
 var app = express();
 
 client.on('ready', () => {
-prefix = process.env.PREFIX || botconfig.PREFIX;
-console.log(`Logged in as ${client.user.username}`);
-client.user.setActivity(`préfixe: ${prefix}`, { type: 'LISTENING' });
+    const prefix = process.env.PREFIX || botconfig.PREFIX;
+    console.log(`Logged in as ${client.user.username}`);
+    client.user.setActivity(`préfixe: ${prefix}`, { type: 'LISTENING' });
 });
 
 client.on('raw', event => {
@@ -208,37 +209,62 @@ if(event.t === "MESSAGE_REACTION_REMOVE") {
 //--------------------------------------
 client.on('message', message => {
     prefix = process.env.PREFIX || botconfig.PREFIX;
-    globalServer = client.guilds.find(x=>x.name == '[Global] La Chapelle');
-    console.log(globalServer.name);
-    localServer = client.guilds.find(x=>x.name == '[Local] La Chapelle');
-    console.log(localServer.name);
-
+    
     if(message.author.bot || message.content.startsWith("?"))
         return;
+
+    //--------------------------------------
+    //        GLOBAL OFFICIEL->LOCAL
+    //--------------------------------------
+    globalServer = client.guilds.find(x=>x.name == '[Global] La Chapelle');
+
+    if (message.channel.name === "annonces-officielles" && message.guild === globalServer) {
+        localServer = client.guilds.find(x=>x.name == '[Local] La Chapelle');
+        localAnnonces = localServer.channels.find(x=>x.name=='annonces-officielles');
+        let c = new RichEmbed()
+            .setAuthor("Une nouvelle annonce dans le server Global:")
+            .setColor(0xF5F5DC)
+            .setTitle(message.content);
+        localAnnonces.send(c);
+    }
 
     //--------------------------------------
     //         AUTO-RESPONDER TAG
     //--------------------------------------
     if((!message.mentions.users.count === undefined && !message.mentions.roles.count === undefined) == false) {
         if (message.channel.name.includes("annonce") && message.channel.name != "annonces-officielles") {
-            message.channel.send(`Normalement, il faut mentionner les rôles ou personnes concernées par l'annonce que tu fais, ${message.author}. Je te conseille même de supprimer ton message et le réécrire en taggant les gens et rôles concernés (en utilisant le \`@\`)`)
+            message.channel.send(`${message.author}`)
+                .then(msg => {
+                    setTimeout(()=>msg.delete(), 30000);
+                })
+                .catch(console.error());
+            message.channel.send(warningMessage)
                 .then(msg => {
                     console.log(`Avertissement de mentions envoyé dans ${message.channel.name}`);
                     setTimeout(()=>msg.delete(), 30000);
                 })
                 .catch(console.error());
         } else if (message.channel.name === "annonces-officielles" && message.guild === globalServer) {
-            localAnnonces = localServer.channels.find(x=>x.name=='annonces-officielles');
-            localAnnonces.send(message.content);
+            message.author.createDM("Pas besoin de le faire maintenant, mais la prochaine fois que tu publies dans **#annonces-officielles**, assure-toi de tagger les personnes concernées");
         } else if (message.channel.name.includes("question")) {
-            message.channel.send(`Normalement, il faut mentionner les rôles ou personnes concernées quand tu poses une question, ${message.author}. Pas besoin de recommencer, fais juste écrire un nouveau message en taggant les personnes concernées (en utilisant le \`@\`)`)
+            message.channel.send(`${message.author}`)
+                .then(msg => {
+                    setTimeout(()=>msg.delete(), 30000);
+                })
+                .catch(console.error());
+            message.channel.send(warningMessage)
                 .then(msg => {
                     console.log(`Avertissement de mentions envoyé dans ${message.channel.name}`);
                     setTimeout(()=>msg.delete(), 30000);
                 })
                 .catch(console.error());
         } else if (message.channel.name.includes("requêtes") && message.channel.name != "requêtes-de-prière") {
-            message.channel.send(`Normalement, il faut mentionner les rôles ou personnes concernées quand tu fais une requête, ${message.author}. Pas besoin de recommencer, fais juste écrire un nouveau message en taggant les personnes concernées (en utilisant le \`@\`)`)
+            message.channel.send(`${message.author}`)
+                .then(msg => {
+                    setTimeout(()=>msg.delete(), 30000);
+                })
+                .catch(console.error());
+            message.channel.send(warningMessage)
                 .then(msg => {
                     console.log(`Avertissement de mentions envoyé dans ${message.channel.name}`);
                     setTimeout(()=>msg.delete(), 30000);
@@ -252,19 +278,20 @@ client.on('message', message => {
     //--------------------------------------
     if(!message.member.hasPermission('MANAGE_MESSAGES'))
         return message.channel.send("Ils semble que tu ne puisses pas utiliser mes commandes, oups!");
-
+    
     const args = message.content.toLowerCase().slice(prefix.length).split(/ +/);
     const cmd = args.shift().toLowerCase();
-
-    console.log(`cmd: ${cmd}`);
-    console.log("args: ", args);
+    
+    if(message.content.startsWith(prefix)) {
+        console.log(`cmd: ${cmd}`);
+        console.log("args: ", args);
+    }
 
     //--------------------------------------
     //           COMMANDE: AIDE
     //--------------------------------------
     if (cmd === "aide") {
-        res = commandes.aide(args, client.user.displayAvatarURL);
-        message.channel.send(res);
+        commandes.aide(message, args, client.user.displayAvatarURL);
     //    let embedhelpadmin = commande.aide(args);
     //    return message.channel.send(embedhelpadmin);
     }

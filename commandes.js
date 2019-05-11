@@ -1,22 +1,25 @@
 const { MessageCollector, Client, RichEmbed } = require('discord.js');
+//const botconfig = require('./botconfig.json');
 const prefix = process.env.PREFIX/* || botconfig.PREFIX*/;
  
 //const categArchive = `542019038180540436`;
 //const archiveChannel = `542019112839413790`;
+let allCmds = new Map();
 
-const archiveAide = {
+allCmds.set(`archiveAide`, {
     nom : `archive`,
     description : `Archiver le channel en question ou le channel mentionné.`,
     usage : `${prefix}archive`,
     example : `${prefix}projet brochure-2018 jean-daniel julien alexis`
-}
+});
 
-const projetAide = {
+allCmds.set(`projetAide`, {
     nom : `projet`,
     description : `La création de projet qui donne les accès aux personnes mise en arguments.`,
     usage : `${prefix}projet *NOM UTILISATEUR UTILISATEUR*`,
     example : `${prefix}projet brochure-2018 jean-daniel julien alexis`
-}
+});
+
 //--------------------------------------
 //               ARCHIVE
 //--------------------------------------
@@ -94,13 +97,28 @@ exports.projet = function(args, guild) {
 //--------------------------------------
 //                AIDE
 //--------------------------------------
-exports.aide = function (cmd, botAvatar) {
+exports.aide = function (msg, cmd, botAvatar) {
+    const prefix = process.env.PREFIX || botconfig.PREFIX;
+
     let c = new RichEmbed()
-      .setAuthor("Commandes pour Admins.")
-      .setColor(0xF5F5DC)
-      .setFooter("Ⓒ 2019 Example Bot.", botAvatar);
-    for(i=0;c[i];i++) {
-      c.addField(undefined,`nom: ${allCmds[i].nom}, description: ${allCmds[i].description}`, false);
+        .setAuthor("Commandes pour Admins.")
+        .setColor(0xF5F5DC)
+        .setFooter("Ⓒ 2019 Example Bot.", botAvatar);
+    if (cmd.length == 0) {
+        allCmds.forEach(x => {
+            c.addField(`${prefix}${x.nom}`, x.description);
+        });
+        console.log("c: ", c)
+        msg.channel.send(c)
+            .then(() => {console.log(`Commande d'aide réussi!`)})
+            .catch(console.error);
     }
-    return c;
+    
+    else {
+/*        
+            c.addField("description",x.description);
+            c.addField("usage",x.usage);
+            c.addField("exemple",x.exemple);*/
+    }
+    
 };
