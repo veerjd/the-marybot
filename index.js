@@ -207,117 +207,120 @@ if(event.t === "MESSAGE_REACTION_REMOVE") {
 //             ON MESSAGES
 //--------------------------------------
 client.on('message', message => {
-prefix = process.env.PREFIX || botconfig.PREFIX;
+    prefix = process.env.PREFIX || botconfig.PREFIX;
+    globalServer = client.guilds.find(x=>x.name == '[Global] La Chapelle');
+    console.log(globalServer.name);
+    localServer = client.guilds.find(x=>x.name == '[Local] La Chapelle');
+    console.log(localServer.name);
 
-if(message.author.bot || message.content.startsWith("?")) {
-    return;
-}
+    if(message.author.bot || message.content.startsWith("?"))
+        return;
 
-//--------------------------------------
-//         AUTO-RESPONDER TAG
-//--------------------------------------
-if((!message.mentions.users.count === undefined && !message.mentions.roles.count === undefined) == false) {
-    if (message.channel.name.includes("annonce")) {
-        message.channel.send(`Normalement, il faut mentionner les rôles ou personnes concernées par l'annonce que tu fais, ${message.author}. Je te conseille même de supprimer ton message et le réécrire en taggant les gens et rôles concernés (en utilisant le \`@\`)`)
-            .then(msg => {
-                console.log(`Avertissement de mentions envoyé dans ${message.channel.name}`);
-                setTimeout(()=>msg.delete(), 30000);
-            })
-            .catch(console.error());
-    } else if (message.channel.name.includes("question")) {
-        message.channel.send(`Normalement, il faut mentionner les rôles ou personnes concernées quand tu poses une question, ${message.author}. Pas besoin de recommencer, fais juste écrire un nouveau message en taggant les personnes concernées (en utilisant le \`@\`)`)
-            .then(msg => {
-                console.log(`Avertissement de mentions envoyé dans ${message.channel.name}`);
-                setTimeout(()=>msg.delete(), 30000);
-            })
-            .catch(console.error());
-    } else if (message.channel.name.includes("requêtes") && message.channel.name != "requêtes-de-prière") {
-        message.channel.send(`Normalement, il faut mentionner les rôles ou personnes concernées quand tu fais une requête, ${message.author}. Pas besoin de recommencer, fais juste écrire un nouveau message en taggant les personnes concernées (en utilisant le \`@\`)`)
-            .then(msg => {
-                console.log(`Avertissement de mentions envoyé dans ${message.channel.name}`);
-                setTimeout(()=>msg.delete(), 30000);
-            })
-            .catch(console.error());
+    //--------------------------------------
+    //         AUTO-RESPONDER TAG
+    //--------------------------------------
+    if((!message.mentions.users.count === undefined && !message.mentions.roles.count === undefined) == false) {
+        if (message.channel.name.includes("annonce") && message.channel.name != "annonces-officielles") {
+            message.channel.send(`Normalement, il faut mentionner les rôles ou personnes concernées par l'annonce que tu fais, ${message.author}. Je te conseille même de supprimer ton message et le réécrire en taggant les gens et rôles concernés (en utilisant le \`@\`)`)
+                .then(msg => {
+                    console.log(`Avertissement de mentions envoyé dans ${message.channel.name}`);
+                    setTimeout(()=>msg.delete(), 30000);
+                })
+                .catch(console.error());
+        } else if (message.channel.name === "annonces-officielles" && message.guild === globalServer) {
+            localAnnonces = localServer.channels.find(x=>x.name=='annonces-officielles');
+            localAnnonces.send(message.content);
+        } else if (message.channel.name.includes("question")) {
+            message.channel.send(`Normalement, il faut mentionner les rôles ou personnes concernées quand tu poses une question, ${message.author}. Pas besoin de recommencer, fais juste écrire un nouveau message en taggant les personnes concernées (en utilisant le \`@\`)`)
+                .then(msg => {
+                    console.log(`Avertissement de mentions envoyé dans ${message.channel.name}`);
+                    setTimeout(()=>msg.delete(), 30000);
+                })
+                .catch(console.error());
+        } else if (message.channel.name.includes("requêtes") && message.channel.name != "requêtes-de-prière") {
+            message.channel.send(`Normalement, il faut mentionner les rôles ou personnes concernées quand tu fais une requête, ${message.author}. Pas besoin de recommencer, fais juste écrire un nouveau message en taggant les personnes concernées (en utilisant le \`@\`)`)
+                .then(msg => {
+                    console.log(`Avertissement de mentions envoyé dans ${message.channel.name}`);
+                    setTimeout(()=>msg.delete(), 30000);
+                })
+                .catch(console.error());
+        }
+    } 
+
+    //--------------------------------------
+    //           MANAGE MESSAGES
+    //--------------------------------------
+    if(!message.member.hasPermission('MANAGE_MESSAGES'))
+        return message.channel.send("Ils semble que tu ne puisses pas utiliser mes commandes, oups!");
+
+    const args = message.content.toLowerCase().slice(prefix.length).split(/ +/);
+    const cmd = args.shift().toLowerCase();
+
+    console.log(`cmd: ${cmd}`);
+    console.log("args: ", args);
+
+    //--------------------------------------
+    //           COMMANDE: AIDE
+    //--------------------------------------
+    if (cmd === "aide") {
+        res = commandes.aide(args, client.user.displayAvatarURL);
+        message.channel.send(res);
+    //    let embedhelpadmin = commande.aide(args);
+    //    return message.channel.send(embedhelpadmin);
     }
-} 
 
-//--------------------------------------
-//         CONDITIONS/PERMS
-//--------------------------------------
-if (message.author.bot || !message.content.startsWith(prefix) || message.content === prefix)
-    return;
-else if(!message.member.hasPermission('MANAGE_MESSAGES'))
-    return message.channel.send("Ils semble que tu ne puisses pas utiliser mes commandes, oups!");
+    //--------------------------------------
+    //      COMMANDE: NOUVEAU PROJECT
+    //--------------------------------------
+    if(cmd === "project" || cmd === "projet") {
+        const guild = message.guild;
+        commandes.projet(args, guild);
+    }
 
+    //--------------------------------------
+    //         COMMANDE: ARCHIVE
+    //--------------------------------------
+    if(cmd === "archive") {
+        let channelTagged = message.mentions.channels.first();
+        commandes.archive(message, channelTagged);
+    /*    if (channelTagged) {
+        commandes.archive(message, channelTagged);
+        message.channel.send(`J'ai archivé ${channelTagged}!`);
+        }else{
+        commandes.archive(message);
+        }*/
+    }
+    });
 
-
-const args = message.content.toLowerCase().slice(prefix.length).split(/ +/);
-const cmd = args.shift().toLowerCase();
-
-console.log(`cmd: ${cmd}`);
-console.log("args: ", args);
-
-//--------------------------------------
-//               AIDE
-//--------------------------------------
-if (cmd === "aide") {
-    commandes.aide(args);
-//    let embedhelpadmin = commande.aide(args);
-//    return message.channel.send(embedhelpadmin);
-}
-
-//--------------------------------------
-//          NOUVEAU PROJECT
-//--------------------------------------
-if(cmd === "project" || cmd === "projet") {
-    const guild = message.guild;
-    commandes.projet(args, guild);
-}
-
-//--------------------------------------
-//               ARCHIVE
-//--------------------------------------
-if(cmd === "archive") {
-    let channelTagged = message.mentions.channels.first();
-    commandes.archive(message, channelTagged);
-/*    if (channelTagged) {
-    commandes.archive(message, channelTagged);
-    message.channel.send(`J'ai archivé ${channelTagged}!`);
-    }else{
-    commandes.archive(message);
-    }*/
-}
-});
-
-//--------------------------------------
-//        MESSAGE DE BIENVENUE
-//--------------------------------------
-client.on('guildMemberAdd', newMember => {
-    newMember.createDM()
-        .then(DMs => {
-            DMs.send(`Bienvenue **@${newMember.user.username}** dans l'outil de communication de la Chapelle!
+    //--------------------------------------
+    //        MESSAGE DE BIENVENUE
+    //--------------------------------------
+    client.on('guildMemberAdd', newMember => {
+        newMember.createDM()
+            .then(DMs => {
+                DMs.send(`Bienvenue **@${newMember.user.username}** dans l'outil de communication de la Chapelle!
 Tu n'as qu'à aller dans le channel **#assignation-de-roles** de l'équipe **${newMember.guild.name}** et réagir avec les emojis qui correspondent à tes rôles!
 Si tu as des questions, tu peux toujours écrire dans **#pour-les-nouveaux** à la même place.`);
-            console.log(`${newMember.user.username} est arrivé!`);
-        })
-        .catch(console.error);
-});
+                console.log(`${newMember.user.username} est arrivé!`);
+            })
+            .catch(console.error);
+    });
 
 
-//--------------------------------------
-//        MESSAGE D'AU REVOIR
-//--------------------------------------
-client.on('guildMemberRemove', oldMember => {
-    oldMember.createDM()
-        .then(DMs => {
-            DMs.send(`Si tu as quitté par erreur, tu peux rejoindre les deux équipes (global et local) avec ces liens, sinon on se reverra peut-être!\n
-[Global] La Chapelle: http://discord.gg/yzQJpmS`);
-            DMs.send(`[Local] La Chapelle: http://discord.gg/BAA7sHf`);
-            console.log(`${oldMember.user.username} est parti!`);
-            quitteChannel = oldMember.guild.channels.find(x => x.name === "quitte");
-            quitteChannel.send(`${oldMember.user.username} est parti!`);
-        })
-        .catch(console.error);
+    //--------------------------------------
+    //        MESSAGE D'AU REVOIR
+    //--------------------------------------
+    client.on('guildMemberRemove', oldMember => {
+        oldMember.createDM()
+            .then(DMs => {
+                DMs.send(`Si tu as quitté par erreur, tu peux rejoindre les deux équipes (global et local) avec ces liens, sinon on se reverra peut-être!\n
+    [Global] La Chapelle: http://discord.gg/yzQJpmS`);
+                DMs.send(`[Local] La Chapelle: http://discord.gg/BAA7sHf`);
+                console.log(`${oldMember.user.username} est parti!`);
+                quitteChannel = oldMember.guild.channels.find(x => x.name === "quitte");
+                quitteChannel.send(`${oldMember.user.username} est parti!`);
+            })
+            .catch(console.error);
 });
 
 //--------------------------------------
@@ -329,4 +332,4 @@ app.listen(port, () => {
     console.log('Listening on ' + port);
 });
 
-client.login(process.env.TOKEN || botconfig.TOKEN);
+client.login(process.env.TOKEN/* || botconfig.TOKEN*/);

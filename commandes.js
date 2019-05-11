@@ -1,5 +1,4 @@
 const { MessageCollector, Client, RichEmbed } = require('discord.js');
-//const botconfig = require('./botconfig.json');
 const prefix = process.env.PREFIX/* || botconfig.PREFIX*/;
  
 //const categArchive = `542019038180540436`;
@@ -95,11 +94,11 @@ exports.projet = function(args, guild) {
 //--------------------------------------
 //                AIDE
 //--------------------------------------
-exports.aide = function (cmd) {
+exports.aide = function (cmd, botAvatar) {
     let c = new RichEmbed()
       .setAuthor("Commandes pour Admins.")
       .setColor(0xF5F5DC)
-      .setFooter("Ⓒ 2019 Example Bot.", client.user.displayAvatarURL);
+      .setFooter("Ⓒ 2019 Example Bot.", botAvatar);
     for(i=0;c[i];i++) {
       c.addField(undefined,`nom: ${allCmds[i].nom}, description: ${allCmds[i].description}`, false);
     }
