@@ -246,8 +246,12 @@ client.on('message', message => {
                 })
                 .catch(console.error());
         } else if (message.channel.name === "annonces-officielles" && message.guild === globalServer) {
-            message.author.createDM(warningMessage)
-                .then(console.log(`DM d'avertissement envoyé à ${message.author}.`))
+            message.author.createDM()
+                .then(x => {
+                    x.send(warningMessage)
+                        .then(console.log(`DM d'avertissement envoyé à ${message.author}.`))
+                        .catch(console.error);
+                })
                 .catch(console.error);
         } else if (message.channel.name.includes("question")) {
             message.channel.send(`${message.author}`)
