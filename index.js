@@ -2,7 +2,6 @@
 const { MessageCollector, Client, RichEmbed } = require('discord.js');
 //const botconfig = require('./botconfig.json');
 const commandes = require('./commandes');
-const timer = require('timers');
 const warningMessage = `Normalement, il faut mentionner les rôles ou personnes concernées quand tu fais une requête. Pas besoin de recommencer, fais juste écrire un nouveau message en taggant les personnes concernées (en utilisant le \`@\`)`;
 
 // Create an instance of a Discord client
@@ -247,7 +246,9 @@ client.on('message', message => {
                 })
                 .catch(console.error());
         } else if (message.channel.name === "annonces-officielles" && message.guild === globalServer) {
-            message.author.createDM(warningMessage);
+            message.author.createDM(warningMessage)
+                .then(console.log(`DM d'avertissement envoyé à ${message.author}.`))
+                .catch(console.error);
         } else if (message.channel.name.includes("question")) {
             message.channel.send(`${message.author}`)
                 .then(msg => {
