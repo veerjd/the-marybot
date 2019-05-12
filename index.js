@@ -217,6 +217,8 @@ client.on('message', message => {
     //        GLOBAL OFFICIEL->LOCAL
     //--------------------------------------
     globalServer = client.guilds.find(x=>x.name == '[Global] La Chapelle');
+    console.log("true:", globalServer === message.guild);
+    console.log("true:", globalServer == message.guild);
 
     if (message.channel.name === "annonces-officielles" && message.guild === globalServer) {
         localServer = client.guilds.find(x=>x.name == '[Local] La Chapelle');
@@ -245,7 +247,7 @@ client.on('message', message => {
                 })
                 .catch(console.error());
         } else if (message.channel.name === "annonces-officielles" && message.guild === globalServer) {
-            message.author.createDM("Pas besoin de le faire maintenant, mais la prochaine fois que tu publies dans **#annonces-officielles**, assure-toi de tagger les personnes concernées");
+            message.author.createDM(warningMessage);
         } else if (message.channel.name.includes("question")) {
             message.channel.send(`${message.author}`)
                 .then(msg => {
