@@ -248,8 +248,11 @@ client.on('message', message => {
         } else if (message.channel.name === "annonces-officielles" && message.guild === globalServer) {
             message.author.createDM()
                 .then(x => {
+                    x.send(`Tu viens de publier dans ${message.channel}`)
+                        .then(x => {})
+                        .catch(console.error);
                     x.send(warningMessage)
-                        .then(console.log(`DM d'avertissement envoyé à ${message.author}.`))
+                        .then(console.log(`DM d'avertissement envoyé à ${message.author.name}.`))
                         .catch(console.error);
                 })
                 .catch(console.error);
