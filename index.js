@@ -351,8 +351,8 @@ Si tu as des questions, tu peux toujours écrire dans **#pour-les-nouveaux** à 
         oldMember.createDM()
             .then(DMs => {
                 DMs.send(`Si tu as quitté par erreur, tu peux rejoindre les deux équipes (global et local) avec ces liens, sinon on se reverra peut-être!\n
-    [Global] La Chapelle: http://discord.gg/yzQJpmS`);
-                DMs.send(`[Local] La Chapelle: http://discord.gg/BAA7sHf`);
+[Global] La Chapelle: https://discord.gg/NpND6qj`);
+                DMs.send(`[Local] La Chapelle: https://discord.gg/jsGCDzu`);
                 console.log(`${oldMember.user.username} est parti!`);
                 quitteChannel = oldMember.guild.channels.find(x => x.name === "quitte");
                 quitteChannel.send(`${oldMember.user.username} est parti!`);
