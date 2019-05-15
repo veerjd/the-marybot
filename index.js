@@ -217,8 +217,6 @@ client.on('message', message => {
     //        GLOBAL OFFICIEL->LOCAL
     //--------------------------------------
     globalServer = client.guilds.find(x=>x.name == '[Global] La Chapelle');
-    console.log("true:", globalServer === message.guild);
-    console.log("true:", globalServer == message.guild);
 
     if (message.channel.name === "annonces-officielles" && message.guild === globalServer) {
         localServer = client.guilds.find(x=>x.name == '[Local] La Chapelle');

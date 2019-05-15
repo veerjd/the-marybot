@@ -1,5 +1,6 @@
 const { MessageCollector, Client, RichEmbed } = require('discord.js');
 const prefix = process.env.PREFIX;
+const util = require('./util');
  
 let allCmds = new Map();
 
@@ -20,17 +21,15 @@ allCmds.set(`projet`, {
 //               ARCHIVE
 //--------------------------------------
 exports.archive = async function(channel) {
-    const archiveChannel = channel.client.channels.find(x => x.name.toLowerCase() === "log-archive");
-    console.log(`archiveChannel: `,`${archiveChannel.name}`);
-    const categArchive = archiveChannel.parent;
-    console.log(`categArchive: `,`${categArchive.name}`);
+    const archiveLog = util.findChanneByStr("log-archive");
+    console.log(`archiveLog: `,`${archiveLog.name}`);
+    const archiveCategory = util.archiveCategory();
+    console.log(`archiveCategory: `,`${archiveCategory.name}`);
 
-    const channelDeplacer = await channel.setParent(categArchive).catch(console.error)
+    await channel.setParent(archiveCategory).catch(console.error);
     
-    
-        channel.lockPermissions()
-            .then(() => console.log("Permissions lockée!"))
-            .catch(console.error);
+    await channel.lockPermissions().catch(console.error);
+    console.log("Permissions synchronisées!");
     message.delete();
 }
 //--------------------------------------
