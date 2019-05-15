@@ -21,12 +21,14 @@ allCmds.set(`projet`, {
 //               ARCHIVE
 //--------------------------------------
 exports.archive = async function(channel) {
-    const archiveLog = util.findChanneByStr("log-archive");
+    const archiveLog = util.findChanneByStr(channel.client, "log-archive");
     console.log(`archiveLog: `,`${archiveLog.name}`);
-    const archiveCategory = util.archiveCategory();
+    const archiveCategory = util.archiveCategory(client);
     console.log(`archiveCategory: `,`${archiveCategory.name}`);
 
-    await channel.setParent(archiveCategory).catch(console.error);
+    channel.setParent(archiveCategory).catch(console.error)
+        .then(()=>{})
+        .catch(console.error);
     
     await channel.lockPermissions().catch(console.error);
     console.log("Permissions synchronisées!");

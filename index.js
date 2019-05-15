@@ -331,11 +331,11 @@ client.on('message', message => {
 
         const archiveLog = util.findChanneByStr(client, "log-archive");
         console.log(`archiveLog: `,`${archiveLog.name}`);
-        const archiveCategory = util.archiveCategory();
+        const archiveCategory = util.archiveCategory(client);
         console.log(`archiveCategory: `,`${archiveCategory.name}`);
 
-        archiveLog.send(`${channelDeplacer} a été archivé le **${channelDeplacer.createdAt}** par ${channelDeplacer.author.username}.`);
-        message.channel.send(`Ce channel a été archivé le **${channelDeplacer.createdAt}** par ${channelDeplacer.author.username}.`);
+        archiveLog.send(`${message.channel} a été archivé le **${message.createdAt}** par ${message.author.username}.`);
+        message.channel.send(`Ce channel a été archivé le **${message.createdAt}** par ${message.author.username}.`);
     }
     });
 
