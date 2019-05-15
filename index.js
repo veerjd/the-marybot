@@ -329,7 +329,7 @@ client.on('message', message => {
             commandes.archive(message.channel);
         }
 
-        const archiveLog = util.findChanneByStr("log-archive");
+        const archiveLog = util.findChanneByStr(client, "log-archive");
         console.log(`archiveLog: `,`${archiveLog.name}`);
         const archiveCategory = util.archiveCategory();
         console.log(`archiveCategory: `,`${archiveCategory.name}`);

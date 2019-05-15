@@ -1,8 +1,4 @@
-const { MessageCollector, Client, RichEmbed } = require('discord.js');
-
-const client = new Client();
-
-exports.findChanneByStr = function (channelStr) {
+exports.findChanneByStr = function (client, channelStr) {
     return client.channels.find(x => x.name.toLowerCase() === channelStr);
 }
 
