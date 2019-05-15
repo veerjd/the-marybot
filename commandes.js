@@ -23,7 +23,7 @@ allCmds.set(`projet`, {
 exports.archive = async function(channel) {
     const archiveLog = util.findChanneByStr(channel.client, "log-archive");
     console.log(`archiveLog: `,`${archiveLog.name}`);
-    const archiveCategory = util.archiveCategory(client);
+    const archiveCategory = util.archiveCategory(channel.client);
     console.log(`archiveCategory: `,`${archiveCategory.name}`);
 
     channel.setParent(archiveCategory).catch(console.error)
