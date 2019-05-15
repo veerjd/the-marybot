@@ -34,7 +34,6 @@ exports.archive = function(channel) {
         .then(()=>{})
         .catch(console.error);
     console.log("Permissions synchronisées!");
-    message.delete();
 }
 //--------------------------------------
 //              PROJET
