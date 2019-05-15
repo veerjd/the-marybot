@@ -1,6 +1,6 @@
 // Extract the required classes from the discord.js module
 const { MessageCollector, Client, RichEmbed } = require('discord.js');
-const botconfig = require('./botconfig.json');
+//const botconfig = require('./botconfig.json');
 const commandes = require('./commandes');
 const warningMessage = `Normalement, il faut mentionner les rôles ou personnes concernées quand tu fais une requête. Pas besoin de recommencer, fais juste écrire un nouveau message en taggant les personnes concernées (en utilisant le \`@\`.)`;
 
