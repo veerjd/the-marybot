@@ -30,7 +30,9 @@ exports.archive = async function(channel) {
         .then(()=>{})
         .catch(console.error);
     
-    await channel.lockPermissions().catch(console.error);
+    channel.lockPermissions().catch(console.error)
+        .then(()=>{})
+        .catch(console.error);
     console.log("Permissions synchronisées!");
     message.delete();
 }
