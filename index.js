@@ -330,8 +330,8 @@ client.on('message', message => {
         } else {
             commandes.archive(message.channel);
         }
-        await archiveChannel.send(`${channelDeplacer} a été archivé le **${channelDeplacer.createdAt}** par ${channelDeplacer.author.username}.`);
-        await message.channel.send(`Ce channel a été archivé le **${channelDeplacer.createdAt}** par ${channelDeplacer.author.username}.`);
+        archiveChannel.send(`${channelDeplacer} a été archivé le **${channelDeplacer.createdAt}** par ${channelDeplacer.author.username}.`);
+        message.channel.send(`Ce channel a été archivé le **${channelDeplacer.createdAt}** par ${channelDeplacer.author.username}.`);
         
     /*    if (channelTagged) {
         commandes.archive(message, channelTagged);
