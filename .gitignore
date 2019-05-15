@@ -3,5 +3,4 @@ package-lock.json
 
 # ignore bot configuration
 botconfig.json
-channel.py
-message.json
+.env

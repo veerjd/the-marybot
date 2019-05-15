@@ -12,7 +12,7 @@ const express = require('express');
 var app = express();
 
 client.on('ready', () => {
-    const prefix = process.env.PREFIX || botconfig.PREFIX;
+    const prefix = process.env.PREFIX/* || botconfig.PREFIX*/;
     console.log(`Logged in as ${client.user.username}`);
     client.user.setActivity(`préfixe: ${prefix}`, { type: 'LISTENING' });
 });
@@ -207,7 +207,7 @@ if(event.t === "MESSAGE_REACTION_REMOVE") {
 //             ON MESSAGES
 //--------------------------------------
 client.on('message', message => {
-    prefix = process.env.PREFIX || botconfig.PREFIX;
+    prefix = process.env.PREFIX/* || botconfig.PREFIX*/;
     
     if(message.author.bot || message.content.startsWith("?"))
         return;
@@ -369,4 +369,4 @@ app.listen(port, () => {
     console.log('Listening on ' + port);
 });
 
-client.login(process.env.TOKEN || botconfig.TOKEN);
+client.login(process.env.TOKEN/* || botconfig.TOKEN*/);
