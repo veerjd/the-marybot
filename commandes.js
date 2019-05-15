@@ -1,23 +1,22 @@
 const { MessageCollector, Client, RichEmbed } = require('discord.js');
-//const botconfig = require('./botconfig.json');
-const prefix = process.env.PREFIX/* || botconfig.PREFIX*/;
+const botconfig = require('./botconfig.json');
+const prefix = process.env.PREFIX || botconfig.PREFIX;
  
 //const categArchive = `542019038180540436`;
 //const archiveChannel = `542019112839413790`;
 let allCmds = new Map();
 
-allCmds.set(`archiveAide`, {
+allCmds.set(`archive`, {
     nom : `archive`,
     description : `Archiver le channel en question ou le channel mentionné.`,
-    usage : `${prefix}archive`,
-    example : `${prefix}projet brochure-2018 jean-daniel julien alexis`
+    usage : `${prefix}archive`
 });
 
-allCmds.set(`projetAide`, {
+allCmds.set(`projet`, {
     nom : `projet`,
     description : `La création de projet qui donne les accès aux personnes mise en arguments.`,
     usage : `${prefix}projet *NOM UTILISATEUR UTILISATEUR*`,
-    example : `${prefix}projet brochure-2018 jean-daniel julien alexis`
+    exemple : `${prefix}projet brochure-2018 jean-daniel julien alexis`
 });
 
 //--------------------------------------
@@ -44,6 +43,9 @@ exports.archive = function(message, channel) {
             })
             .catch(console.error);
     }
+    channel.lockPermissions()
+            .then(() => console.log("Permissions lockée!"))
+            .catch(console.error);
     message.delete();
 }
 //--------------------------------------
@@ -101,24 +103,23 @@ exports.aide = function (msg, cmd, botAvatar) {
     const prefix = process.env.PREFIX || botconfig.PREFIX;
 
     let c = new RichEmbed()
-        .setAuthor("Commandes pour Admins.")
         .setColor(0xF5F5DC)
-        .setFooter("Ⓒ 2019 Example Bot.", botAvatar);
+        .setFooter("Mary, un bot pour la Chapelle.", "https://mirrors.creativecommons.org/presskit/icons/cc.png");
     if (cmd.length == 0) {
+        c.setAuthor("Commandes pour Admins.");
         allCmds.forEach(x => {
             c.addField(`${prefix}${x.nom}`, x.description);
         });
-        console.log("c: ", c)
-        msg.channel.send(c)
-            .then(() => {console.log(`Commande d'aide réussi!`)})
-            .catch(console.error);
+    } else {
+        x = allCmds.get(cmd);
+        c.setAuthor(`Aide pour la commande ${prefix}${x.nom}`);
+        c.addField("description",x.description);
+        c.addField("usage",x.usage);
+        if(x.exemple) {
+            c.addField("exemple",x.exemple);
+        }
     }
-    
-    else {
-/*        
-            c.addField("description",x.description);
-            c.addField("usage",x.usage);
-            c.addField("exemple",x.exemple);*/
-    }
-    
+    msg.channel.send(c)
+        .then(() => {console.log(`Commande d'aide réussi!`)})
+        .catch(console.error);
 };

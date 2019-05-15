@@ -1,6 +1,6 @@
 // Extract the required classes from the discord.js module
 const { MessageCollector, Client, RichEmbed } = require('discord.js');
-//const botconfig = require('./botconfig.json');
+const botconfig = require('./botconfig.json');
 const commandes = require('./commandes');
 const warningMessage = `Normalement, il faut mentionner les rôles ou personnes concernées quand tu fais une requête. Pas besoin de recommencer, fais juste écrire un nouveau message en taggant les personnes concernées (en utilisant le \`@\`.)`;
 
@@ -301,7 +301,7 @@ client.on('message', message => {
     //           COMMANDE: AIDE
     //--------------------------------------
     if (cmd === "aide") {
-        commandes.aide(message, args, client.user.displayAvatarURL);
+        commandes.aide(message, args.toString(), client.user.displayAvatarURL);
     //    let embedhelpadmin = commande.aide(args);
     //    return message.channel.send(embedhelpadmin);
     }
@@ -369,4 +369,4 @@ app.listen(port, () => {
     console.log('Listening on ' + port);
 });
 
-client.login(process.env.TOKEN/* || botconfig.TOKEN*/);
+client.login(process.env.TOKEN || botconfig.TOKEN);
