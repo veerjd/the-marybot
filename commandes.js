@@ -27,13 +27,12 @@ exports.archive = function(channel) {
     console.log(`archiveCategory: `,`${archiveCategory.name}`);
 
     channel.setParent(archiveCategory)
-        .then(()=>{})
+        .then((x)=>{
+            x.lockPermissions()
+                .then(()=>{console.log("Permissions synchronisées!");})
+                .catch(console.error);
+        })
         .catch(console.error);
-    
-    channel.lockPermissions()
-        .then(()=>{})
-        .catch(console.error);
-    console.log("Permissions synchronisées!");
 }
 //--------------------------------------
 //              PROJET
