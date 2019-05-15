@@ -336,6 +336,7 @@ client.on('message', message => {
 
         archiveLog.send(`${message.channel} a été archivé le **${message.createdAt}** par ${message.author.username}.`);
         message.channel.send(`Ce channel a été archivé le **${message.createdAt}** par ${message.author.username}.`);
+        message.delete();
     }
     });
 
