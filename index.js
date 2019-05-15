@@ -330,7 +330,6 @@ client.on('message', message => {
         }
 
         const archiveLog = util.findChanneByStr(client, "log-archive");
-        console.log(`archiveLog: `,`${archiveLog.name}`);
         const archiveCategory = util.archiveCategory(client);
         console.log(`archiveCategory: `,`${archiveCategory.name}`);
 
