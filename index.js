@@ -328,15 +328,14 @@ client.on('message', message => {
         } else {
             commandes.archive(message.channel);
         }
-        archiveChannel.send(`${channelDeplacer} a été archivé le **${channelDeplacer.createdAt}** par ${channelDeplacer.author.username}.`);
+
+        const archiveLog = util.findChanneByStr("log-archive");
+        console.log(`archiveLog: `,`${archiveLog.name}`);
+        const archiveCategory = util.archiveCategory();
+        console.log(`archiveCategory: `,`${archiveCategory.name}`);
+
+        archiveLog.send(`${channelDeplacer} a été archivé le **${channelDeplacer.createdAt}** par ${channelDeplacer.author.username}.`);
         message.channel.send(`Ce channel a été archivé le **${channelDeplacer.createdAt}** par ${channelDeplacer.author.username}.`);
-        
-    /*    if (channelTagged) {
-        commandes.archive(message, channelTagged);
-        message.channel.send(`J'ai archivé ${channelTagged}!`);
-        }else{
-        commandes.archive(message);
-        }*/
     }
     });
 
