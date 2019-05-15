@@ -1,6 +1,6 @@
 // Extract the required classes from the discord.js module
+require('dotenv').config()
 const { MessageCollector, Client, RichEmbed } = require('discord.js');
-//const botconfig = require('./botconfig.json');
 const commandes = require('./commandes');
 const warningMessage = `Normalement, il faut mentionner les rôles ou personnes concernées quand tu fais une requête. Pas besoin de recommencer, fais juste écrire un nouveau message en taggant les personnes concernées (en utilisant le \`@\`.)`;
 
@@ -12,7 +12,7 @@ const express = require('express');
 var app = express();
 
 client.on('ready', () => {
-    const prefix = process.env.PREFIX/* || botconfig.PREFIX*/;
+    const prefix = process.env.PREFIX;
     console.log(`Logged in as ${client.user.username}`);
     client.user.setActivity(`préfixe: ${prefix}`, { type: 'LISTENING' });
 });
@@ -207,7 +207,7 @@ if(event.t === "MESSAGE_REACTION_REMOVE") {
 //             ON MESSAGES
 //--------------------------------------
 client.on('message', message => {
-    prefix = process.env.PREFIX/* || botconfig.PREFIX*/;
+    prefix = process.env.PREFIX;
     
     if(message.author.bot || message.content.startsWith("?"))
         return;
@@ -306,6 +306,12 @@ client.on('message', message => {
     //    return message.channel.send(embedhelpadmin);
     }
 
+    if (cmd === "fetch") {
+        message.channel.fetchMessage(577892811010211851)
+            .then()
+            .catch(console.error);
+    }
+
     //--------------------------------------
     //      COMMANDE: NOUVEAU PROJECT
     //--------------------------------------
@@ -369,4 +375,4 @@ app.listen(port, () => {
     console.log('Listening on ' + port);
 });
 
-client.login(process.env.TOKEN/* || botconfig.TOKEN*/);
+client.login(process.env.TOKEN);
