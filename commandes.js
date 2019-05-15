@@ -19,28 +19,16 @@ allCmds.set(`projet`, {
 //--------------------------------------
 //               ARCHIVE
 //--------------------------------------
-exports.archive = function(message, channel) {
-    const archiveChannel = message.client.channels.find(x => x.name.toLowerCase() === "log-archive");
+exports.archive = async function(channel) {
+    const archiveChannel = channel.client.channels.find(x => x.name.toLowerCase() === "log-archive");
     console.log(`archiveChannel: `,`${archiveChannel.name}`);
     const categArchive = archiveChannel.parent;
     console.log(`categArchive: `,`${categArchive.name}`);
 
-    if(channel) {
-        channel.setParent(categArchive)
-            .then(x => {
-                archiveChannel.send(`${x} a été archivé le **${message.createdAt}** par ${message.author.username}.`);
-                x.send(`Ce channel a été archivé le **${message.createdAt}** par ${message.author.username}.`);
-            })
-            .catch(console.error);
-    } else {
-        message.channel.setParent(categArchive)
-            .then(x => {
-                archiveChannel.send(`${message.channel} a été archivé le **${message.createdAt}** par ${message.author.username}.`);
-                x.send(`Ce channel a été archivé le **${message.createdAt}** par ${message.author.username}.`);
-            })
-            .catch(console.error);
-    }
-    channel.lockPermissions()
+    const channelDeplacer = await channel.setParent(categArchive).catch(console.error)
+    
+    
+        channel.lockPermissions()
             .then(() => console.log("Permissions lockée!"))
             .catch(console.error);
     message.delete();

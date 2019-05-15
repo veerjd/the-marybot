@@ -1,6 +1,7 @@
 // Extract the required classes from the discord.js module
 require('dotenv').config()
 const { MessageCollector, Client, RichEmbed } = require('discord.js');
+const util = require('./util');
 const commandes = require('./commandes');
 const warningMessage = `Normalement, il faut mentionner les rôles ou personnes concernées quand tu fais une requête. Pas besoin de recommencer, fais juste écrire un nouveau message en taggant les personnes concernées (en utilisant le \`@\`.)`;
 
@@ -301,7 +302,7 @@ client.on('message', message => {
     //           COMMANDE: AIDE
     //--------------------------------------
     if (cmd === "aide") {
-        commandes.aide(message, args.toString(), client.user.displayAvatarURL);
+        commandes.aide(message, args.toString());
     //    let embedhelpadmin = commande.aide(args);
     //    return message.channel.send(embedhelpadmin);
     }
@@ -324,8 +325,14 @@ client.on('message', message => {
     //         COMMANDE: ARCHIVE
     //--------------------------------------
     if(cmd === "archive") {
-        let channelTagged = message.mentions.channels.first();
-        commandes.archive(message, channelTagged);
+        if (message.mentions.channels.first()) {
+            commandes.archive(message.mentions.channels.first())
+        } else {
+            commandes.archive(message.channel);
+        }
+        await archiveChannel.send(`${channelDeplacer} a été archivé le **${channelDeplacer.createdAt}** par ${channelDeplacer.author.username}.`);
+        await message.channel.send(`Ce channel a été archivé le **${channelDeplacer.createdAt}** par ${channelDeplacer.author.username}.`);
+        
     /*    if (channelTagged) {
         commandes.archive(message, channelTagged);
         message.channel.send(`J'ai archivé ${channelTagged}!`);
