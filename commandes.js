@@ -29,7 +29,7 @@ exports.archive = function(channel) {
     channel.setParent(archiveCategory)
         .then(movedChannel=>{
             movedChannel.lockPermissions();
-            /*perms = archiveCategory.permissionOverwrites;
+            /*perms = archiveCategory.permissionOverwrites; OLD WAY TO DO IT
             movedChannel.replacePermissionOverwrites({
                 overwrites: perms,
             })*/
@@ -45,13 +45,11 @@ exports.projet = function(args, guild) {
     
     guild.createChannel(nomProjet)
         .then(async newChannel => {
-        await newChannel.setParent(categProjets) // 
-        newChannel.overwritePermissions(guild.defaultRole, {
-            VIEW_CHANNEL: false
-        });
-        newChannel.overwritePermissions(roleStaff, {
-            VIEW_CHANNEL: true
-        });
+        newChannel.setParent(categProjets)
+            .then(chan => {
+                chan.lockPermissions();
+            })
+            .catch(console.error);
 //If all mentions
         let permsArray = message.mentions.members.keyArray();
         let nicknameArray = [];
