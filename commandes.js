@@ -28,10 +28,11 @@ exports.archive = function(channel) {
 
     channel.setParent(archiveCategory)
         .then(movedChannel=>{
-            perms = archiveCategory.permissionOverwrites;
+            movedChannel.lockPermissions();
+            /*perms = archiveCategory.permissionOverwrites;
             movedChannel.replacePermissionOverwrites({
                 overwrites: perms,
-            })
+            })*/
             console.log("Permissions synchronisées!");
         })
         .catch(console.error);
