@@ -315,8 +315,7 @@ client.on('message', message => {
     //      COMMANDE: NOUVEAU PROJECT
     //--------------------------------------
     if(cmd === "project" || cmd === "projet") {
-        const guild = message.guild;
-        commandes.projet(args, guild);
+        commandes.projet(args, message);
     }
 
     //--------------------------------------

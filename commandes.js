@@ -40,46 +40,50 @@ exports.archive = function(channel) {
 //--------------------------------------
 //              PROJET
 //--------------------------------------
-exports.projet = function(args, guild) {
+exports.projet = function(args, message) {
     const nomProjet = args.shift(); // projet-orange
-    
-    guild.createChannel(nomProjet)
-        .then(async newChannel => {
-        newChannel.setParent(categProjets)
-            .then(chan => {
-                chan.lockPermissions();
-            })
-            .catch(console.error);
+    const categProjets = util.projetCategory(message.guild.client);
+
+    for(i=0;args[i];i=i+1) {
+        if(!args[i].startsWith("<@")) {
+            message.channel.send("Tous les arguments pour les permissions doivent être des mentions \`@\`");
+            return message.channel.send("Commande abortée.");
+        }
+    }
+    console.log("Sorti du for qui détermine si tous les arguments son des mentions");
+
+    message.guild.createChannel(nomProjet)
+        .then(newChannel => {
+            newChannel.setParent(categProjets)
+                .then(chan => {
+                    chan.lockPermissions()
+                        .then(() => {
+                            console.log(`${newChannel.name} est dans la catégorie projets!`);
+                        })
+                        .catch(console.error)
+                })
+                .catch(console.error);
 //If all mentions
-        let permsArray = message.mentions.members.keyArray();
-        let nicknameArray = [];
-        permsArray = permsArray.concat(message.mentions.roles.keyArray());
+
+            let permsArray = message.mentions.members.keyArray();
+            permsArray = permsArray.concat(message.mentions.roles.keyArray());
+//**** PAS TOUS LES MENTIONS SE FONT DONNER LES PERMISSIONS
+            for(i=0;permsArray[i];i=i+1) {
+                console.log(`permsArray[${i}]`, permsArray[i]);
+                newChannel.overwritePermissions(permsArray[i], {
+                    VIEW_CHANNEL: true
+                })
+            };
+            
 //No mentions
-        for(i=0;args[i] && !args[i].startsWith("@");i=i+1) {
-            var newMember = guild.members.find(u => u.nickname.toLowerCase().includes(args[i]));
+        /*for(i=0;args[i] && !args[i].startsWith("@");i=i+1) {
+            var newMember = message.guild.members.find(u => u.nickname.toLowerCase().includes(args[i]));
             if(newMember) {
             permsArray.push(newMember);
             nicknameArray.push(newMember.nickname);
             }
-        }
-
-//CONFIRMATION
-        collector = new MessageCollector(message.channel,m => m.author.id === message.author.id,{ time: 10000 });
-        console.log(collector);
-        collector.on('collect', m => {
-            if (m.content.toLowerCase() == "oui") {
-                m.channel.send(`Tu as dit \`oui\`!`);
-                for(i=0;permsArray[i];i=i+1) {
-                newChannel.overwritePermissions(permsArray[i], {
-                    VIEW_CHANNEL: true
-                });
-                }
-            } else if (m.content.toLowerCase() == "non") {
-                m.channel.send(`Tu as dit \`non\`!`);
-            }
-        });
-//Add permissions
-        })//end of promise
+        }*/
+        })
         .catch(console.error);
 }
 
