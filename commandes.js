@@ -22,7 +22,7 @@ allCmds.set(`projet`, {
 //--------------------------------------
 exports.archive = function(channel) {
     channel.send("La commande est présentement en développement, désolé!");
-    /*const archiveLog = util.findChanneByStr(channel.client, "log-archive");
+/*    const archiveLog = util.findChanneByStr(channel.client, "log-archive");
     console.log(`archiveLog: `,`${archiveLog.name}`);
     const archiveCategory = util.archiveCategory(channel.client);
     console.log(`archiveCategory: `,`${archiveCategory.name}`);
