@@ -330,8 +330,6 @@ client.on('message', message => {
         }
 
         const archiveLog = util.findChanneByStr(client, "log-archive");
-        const archiveCategory = util.archiveCategory(client);
-        console.log(`archiveCategory: `,`${archiveCategory.name}`);
 
         archiveLog.send(`${message.channel} a été archivé le **${message.createdAt}** par ${message.author.username}.`);
         message.channel.send(`Ce channel a été archivé le **${message.createdAt}** par ${message.author.username}.`);

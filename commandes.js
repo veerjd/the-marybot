@@ -21,21 +21,21 @@ allCmds.set(`projet`, {
 //               ARCHIVE
 //--------------------------------------
 exports.archive = function(channel) {
-    const archiveLog = util.findChanneByStr(channel.client, "log-archive");
+    channel.send("La commande est présentement en développement, désolé!");
+    /*const archiveLog = util.findChanneByStr(channel.client, "log-archive");
     console.log(`archiveLog: `,`${archiveLog.name}`);
     const archiveCategory = util.archiveCategory(channel.client);
     console.log(`archiveCategory: `,`${archiveCategory.name}`);
 
     channel.setParent(archiveCategory)
-        .then((x)=>{
+        .then(movedChannel=>{
             perms = archiveCategory.permissionOverwrites;
-            x.replacePermissionOverwrites({
-                overwrites: perms
+            movedChannel.replacePermissionOverwrites({
+                overwrites: perms,
             })
-                .then(()=>{console.log("Permissions synchronisées!")})
-                .catch(console.error);
+            console.log("Permissions synchronisées!");
         })
-        .catch(console.error);
+        .catch(console.error);*/
 }
 //--------------------------------------
 //              PROJET

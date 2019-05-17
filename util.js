@@ -3,6 +3,6 @@ exports.findChanneByStr = function (client, channelStr) {
 }
 
 exports.archiveCategory = function (client) {
-    const archiveChannel = client.channels.find(x => x.name.toLowerCase() === "log-archive");
-    return archiveChannel.parent;
+    const archiveChannel = client.channels.find(x => x.name.toLowerCase() === "archive");
+    return archiveChannel;
 }
