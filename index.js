@@ -255,7 +255,7 @@ client.on('message', message => {
         } else if (message.channel.name === "annonces-officielles" && message.guild === globalServer) {
             message.author.createDM()
                 .then(x => {
-                    x.send(`Tu viens de publier dans ${message.channel}`)
+                    x.send(`Tu viens de publier dans ${message.channel} sans tagé personne.`)
                         .then(x => {})
                         .catch(console.error);
                     x.send(warningMessage)
