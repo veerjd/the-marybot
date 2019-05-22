@@ -3,7 +3,7 @@ require('dotenv').config()
 const { MessageCollector, Client, RichEmbed } = require('discord.js');
 const util = require('./util');
 const commandes = require('./commandes');
-const warningMessage = `Normalement, il faut mentionner les rôles ou personnes concernées quand tu fais une requête. Pas besoin de recommencer, fais juste écrire un nouveau message en taggant les personnes concernées (en utilisant le \`@\`.)`;
+const warningMessage = `Normalement, il faut mentionner les rôles ou personnes concernées quand tu fais une requête. Pas besoin de recommencer, fais juste écrire un nouveau message en tagant les personnes concernées (en utilisant le \`@\`).\nCe message s'autodétruira dans quelques secondes.`;
 
 // Create an instance of a Discord client
 const client = new Client();
@@ -221,7 +221,7 @@ client.on('message', message => {
         return;
 
     //--------------------------------------
-    //        GLOBAL OFFICIEL->LOCAL
+    //       ANNONCES GLOBAL->LOCAL
     //--------------------------------------
     globalServer = client.guilds.find(x=>x.name == '[Global] La Chapelle');
 
@@ -231,14 +231,15 @@ client.on('message', message => {
         let c = new RichEmbed()
             .setAuthor("Une nouvelle annonce dans le server Global:")
             .setColor(0xF5F5DC)
-            .setTitle(message.content);
+            .setTitle(message.cleanContent);
         localAnnonces.send(c);
     }
 
     //--------------------------------------
     //         AUTO-RESPONDER TAG
     //--------------------------------------
-    if((!message.mentions.users.count === undefined && !message.mentions.roles.count === undefined) == false) {
+    if(message.mentions.users.first() === undefined && message.mentions.roles.first() === undefined) {
+        console.log(`There are no mentions`);
         if (message.channel.name.includes("annonce") && message.channel.name != "annonces-officielles") {
             message.channel.send(`${message.author}`)
                 .then(msg => {
@@ -270,7 +271,7 @@ client.on('message', message => {
                 .catch(console.error());
             message.channel.send(warningMessage)
                 .then(msg => {
-                    console.log(`Avertissement de mentions envoyé dans ${message.channel.name}`);
+                    console.log(`Avertissement de mentions envoyé dans ${message.channel.parent.name}/${message.channel.name}`);
                     setTimeout(()=>msg.delete(), 30000);
                 })
                 .catch(console.error());
@@ -282,12 +283,16 @@ client.on('message', message => {
                 .catch(console.error());
             message.channel.send(warningMessage)
                 .then(msg => {
-                    console.log(`Avertissement de mentions envoyé dans ${message.channel.name}`);
+                    console.log(`Avertissement de mentions envoyé dans ${message.channel.parent.name}/${message.channel.name}`);
                     setTimeout(()=>msg.delete(), 30000);
                 })
                 .catch(console.error());
+        } else {
+            console.log(`But is was written in a channel that doesn't require pinging.`);
         }
-    } 
+    } else {
+        console.log(`There are mentions. No warning sent.`);
+    }
 
     //--------------------------------------
     //           MANAGE MESSAGES
