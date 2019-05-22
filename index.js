@@ -18,6 +18,11 @@ client.on('ready', () => {
     client.user.setActivity(`préfixe: ${prefix}`, { type: 'LISTENING' });
 });
 
+//--------------------------------------
+//
+//           EVENT ON RAW
+//
+//--------------------------------------
 client.on('raw', event => {
 if(event.t === "MESSAGE_REACTION_ADD") {
 //--------------------------------------
@@ -205,7 +210,9 @@ if(event.t === "MESSAGE_REACTION_REMOVE") {
 });
 
 //--------------------------------------
-//             ON MESSAGES
+//
+//          EVENT ON MESSAGE
+//
 //--------------------------------------
 client.on('message', message => {
     prefix = process.env.PREFIX;
@@ -336,24 +343,27 @@ client.on('message', message => {
     }
     });
 
-    //--------------------------------------
-    //        MESSAGE DE BIENVENUE
-    //--------------------------------------
+//--------------------------------------
+//
+//            EVENT ON JOIN
+//
+//--------------------------------------
     client.on('guildMemberAdd', newMember => {
         newMember.createDM()
             .then(DMs => {
-                DMs.send(`Bienvenue **@${newMember.user.username}** dans l'outil de communication de la Chapelle!
-Tu n'as qu'à aller dans le channel **#assignation-de-roles** de l'équipe **${newMember.guild.name}** et réagir avec les emojis qui correspondent à tes rôles!
+                DMs.send(`Bienvenue **@${newMember.user}** dans l'outil de communication de la Chapelle!
+Tu n'as qu'à aller dans le channel **#assignation-de-roles** de l'équipe **${newMember.guild}** et réagir avec les emojis qui correspondent à tes rôles!
 Si tu as des questions, tu peux toujours écrire dans **#pour-les-nouveaux** à la même place.`);
                 console.log(`${newMember.user.username} est arrivé!`);
             })
             .catch(console.error);
     });
 
-
-    //--------------------------------------
-    //        MESSAGE D'AU REVOIR
-    //--------------------------------------
+//--------------------------------------
+//
+//           EVENT ON LEAVE
+//
+//--------------------------------------
     client.on('guildMemberRemove', oldMember => {
         oldMember.createDM()
             .then(DMs => {
