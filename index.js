@@ -292,7 +292,7 @@ client.on('message', message => {
     //--------------------------------------
     //           MANAGE MESSAGES
     //--------------------------------------
-    if(!message.member.hasPermission('MANAGE_MESSAGES'))
+    if(!message.member.hasPermission('MANAGE_MESSAGES') && message.channel.name != "bienvenue")
         return message.channel.send("Ils semble que tu ne puisses pas utiliser mes commandes, oups!");
     
     const args = message.content.toLowerCase().slice(prefix.length).split(/ +/);
@@ -302,7 +302,9 @@ client.on('message', message => {
         console.log(`cmd: ${cmd}`);
         console.log("args: ", args);
     }
-
+    //--------------------------------------
+    //          COMMANDE: FETCH
+    //--------------------------------------
     if(cmd === "fetch") {
         message.channel.fetchMessage(args[0])
             .then(x => {
