@@ -303,6 +303,16 @@ client.on('message', message => {
         console.log("args: ", args);
     }
 
+    if(cmd === "fetch") {
+        message.channel.fetchMessage(args[0])
+            .then(x => {
+                console.log(x);
+                console.log(x.author);
+                message.channel.send(`Tu peux aller voir les logs.`);
+                message.delete();
+            })
+            .catch(console.error);
+    }
     //--------------------------------------
     //           COMMANDE: AIDE
     //--------------------------------------
