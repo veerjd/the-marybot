@@ -351,9 +351,11 @@ client.on('message', message => {
     client.on('guildMemberAdd', newMember => {
         newMember.createDM()
             .then(DMs => {
-                DMs.send(`Bienvenue **@${newMember.user}** dans l'outil de communication de la Chapelle!
-Tu n'as qu'à aller dans le channel **#assignation-de-roles** de l'équipe **${newMember.guild}** et réagir avec les emojis qui correspondent à tes rôles!
-Si tu as des questions, tu peux toujours écrire dans **#pour-les-nouveaux** à la même place.`);
+                channelRoles = newMember.guild.channels.find(chan => chan.name === "assignation-de-rôles");
+                channelNouveau = newMember.guild.channels.find(chan => chan.name === "pour-les-nouveaux");
+                DMs.send(`Bienvenue **${newMember.user}** dans l'outil de communication de la Chapelle!
+Tu n'as qu'à aller dans le channel ${channelRoles} de l'équipe **${newMember.guild}** et réagir avec les emojis qui correspondent à tes rôles!
+Si tu as des questions, tu peux toujours écrire dans ${channelNouveau} à la même place.`);
                 console.log(`${newMember.user.username} est arrivé!`);
             })
             .catch(console.error);
