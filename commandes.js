@@ -46,7 +46,7 @@ exports.projet = function(args, message) {
 
     for(i=0;args[i];i=i+1) {
         if(!args[i].startsWith("<@")) {
-            message.channel.send("Tous les arguments pour les permissions doivent être des mentions \`@\`");
+            message.channel.send("Tous les arguments pour les permissions doivent être des mentions, \`@\`");
             return message.channel.send("Commande abortée.");
         }
     }
@@ -59,21 +59,28 @@ exports.projet = function(args, message) {
                     chan.lockPermissions()
                         .then(() => {
                             console.log(`${newChannel.name} est dans la catégorie projets!`);
+                            let permsArray = message.mentions.members.keyArray();
+                            console.log("permsArray: ", permsArray);
+                            permsArray = permsArray.concat(message.mentions.roles.keyArray());
+                            console.log("permsArrayAfterRoles: ", permsArray);
+                //**** PAS TOUS LES MENTIONS SE FONT DONNER LES PERMISSIONS
+                            for(i=0;permsArray[i];i=i+1) {
+                                console.log(`permsArray[${i}]`, permsArray[i]);
+                                newChannel.overwritePermissions(permsArray[i], {
+                                    VIEW_CHANNEL: true
+                                })
+                                    .then(x => {
+                                        console.log(`Les permissions de ${x.name} ont été changées.`)
+                                    })
+                                    .catch(console.error);
+                            };
                         })
                         .catch(console.error)
                 })
                 .catch(console.error);
 //If all mentions
 
-            let permsArray = message.mentions.members.keyArray();
-            permsArray = permsArray.concat(message.mentions.roles.keyArray());
-//**** PAS TOUS LES MENTIONS SE FONT DONNER LES PERMISSIONS
-            for(i=0;permsArray[i];i=i+1) {
-                console.log(`permsArray[${i}]`, permsArray[i]);
-                newChannel.overwritePermissions(permsArray[i], {
-                    VIEW_CHANNEL: true
-                })
-            };
+            
             
 //No mentions
         /*for(i=0;args[i] && !args[i].startsWith("@");i=i+1) {
