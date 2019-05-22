@@ -288,7 +288,7 @@ client.on('message', message => {
                 })
                 .catch(console.error());
         } else {
-            console.log(`But is was written in a channel that doesn't require pinging.`);
+            console.log(`But is was written in a channel that doesn't require pinging, ${message.channel.name}.`);
         }
     } else {
         console.log(`There are mentions. No warning sent.`);
@@ -386,7 +386,7 @@ Si tu as des questions, tu peux toujours écrire dans ${channelNouveau} à la m�
     client.on('guildMemberRemove', oldMember => {
         oldMember.createDM()
             .then(DMs => {
-                DMs.send(`Si tu as quitté par erreur, tu peux rejoindre les deux équipes (global et local) avec ces liens, sinon on se reverra peut-être!\n
+                DMs.send(`Si tu as quitté par erreur, tu peux rejoindre les deux équipes (Global et Local) avec ces liens, sinon on se reverra peut-être!\n
 [Global] La Chapelle: https://discord.gg/NpND6qj`);
                 DMs.send(`[Local] La Chapelle: https://discord.gg/jsGCDzu`);
                 console.log(`${oldMember.user.username} est parti!`);
