@@ -217,7 +217,7 @@ if(event.t === "MESSAGE_REACTION_REMOVE") {
 client.on('message', message => {
     prefix = process.env.PREFIX;
     
-    if(message.author.bot || message.content.startsWith("?"))
+    if(message.author.bot || message.content.startsWith(`${prefix}`))
         return;
 
     //--------------------------------------
