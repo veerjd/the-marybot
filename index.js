@@ -293,12 +293,6 @@ client.on('message', message => {
     } else {
         console.log(`There are mentions. No warning sent.`);
     }
-
-    //--------------------------------------
-    //           MANAGE MESSAGES
-    //--------------------------------------
-    if(!message.member.hasPermission('MANAGE_MESSAGES') && message.channel.name != "bienvenue")
-        return message.channel.send("Ils semble que tu ne puisses pas utiliser mes commandes, oups!");
     
     const args = message.content.toLowerCase().slice(prefix.length).split(/ +/);
     const cmd = args.shift().toLowerCase();
@@ -369,6 +363,10 @@ client.on('message', message => {
         newMember.createDM()
             .then(DMs => {
                 channelRoles = newMember.guild.channels.find(chan => chan.name === "assignation-de-rôles");
+                nouveauRole = newMember.guild.roles.find(nRole =>  nRole.name === "nouveau");
+                newMember.addRole(nouveauRole)
+                    .then(console.log(`${newMember.name} s'est fait donné ${nouveauRole.name}!`))
+                    .catch(console.log(`${newMember.name} s'est fait donné ${nouveauRole.name}!`));
                 channelNouveau = newMember.guild.channels.find(chan => chan.name === "pour-les-nouveaux");
                 DMs.send(`Bienvenue **${newMember.user}** dans l'outil de communication de la Chapelle!
 Tu n'as qu'à aller dans le channel ${channelRoles} de l'équipe **${newMember.guild}** et réagir avec les emojis qui correspondent à tes rôles!
