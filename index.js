@@ -64,7 +64,7 @@ if(event.t === "MESSAGE_REACTION_ADD") {
             .catch(console.error);
         break
         case "🔩":
-        newRole = guild.roles.find(x => x.name.toLowerCase() === "operations")
+        newRole = guild.roles.find(x => x.name.toLowerCase() === "opérations")
         guildMember.addRole(newRole)
             .then(console.log(`The role ${newRole.name} was added to ${user.username}`))
             .catch(console.error);
@@ -174,7 +174,7 @@ if(event.t === "MESSAGE_REACTION_REMOVE") {
                 .catch(console.error);
             break;
             case "🔩":
-            removedRole = guild.roles.find(x => x.name.toLowerCase() === "operations");
+            removedRole = guild.roles.find(x => x.name.toLowerCase() === "opérations");
             guildMember.removeRole(removedRole)
                 .then(console.log(`The role ${removedRole.name} was removed from ${user.username}`))
                 .catch(console.error);
@@ -352,10 +352,6 @@ client.on('message', message => {
         newMember.createDM()
             .then(DMs => {
                 channelRoles = newMember.guild.channels.find(chan => chan.name === "assignation-de-rôles");
-                nouveauRole = newMember.guild.roles.find(nRole =>  nRole.name === "nouveau");
-                newMember.addRole(nouveauRole)
-                    .then(console.log(`${newMember.name} s'est fait donné ${nouveauRole.name}!`))
-                    .catch(console.log(`${newMember.name} s'est fait donné ${nouveauRole.name}!`));
                 channelNouveau = newMember.guild.channels.find(chan => chan.name === "pour-les-nouveaux");
                 DMs.send(`Bienvenue **${newMember.user}** dans l'outil de communication de la Chapelle!
 Tu n'as qu'à aller dans le channel ${channelRoles} de l'équipe **${newMember.guild}** et réagir avec les emojis qui correspondent à tes rôles!
@@ -378,7 +374,7 @@ Si tu as des questions, tu peux toujours écrire dans ${channelNouveau} à la m�
                 DMs.send(`[Local] La Chapelle: https://discord.gg/jsGCDzu`);
                 console.log(`${oldMember.user.username} est parti!`);
                 quitteChannel = oldMember.guild.channels.find(x => x.name === "quitte");
-                quitteChannel.send(`${oldMember.user.username} est parti!`);
+                quitteChannel.send(`${oldMember.user} est parti!`);
             })
             .catch(console.error);
 });
