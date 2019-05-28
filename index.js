@@ -216,8 +216,8 @@ if(event.t === "MESSAGE_REACTION_REMOVE") {
 //--------------------------------------
 client.on('message', message => {
     prefix = process.env.PREFIX;
-    
-    if(message.author.bot || message.content.startsWith(`${prefix}`))
+
+    if(message.author.bot)
         return;
 
     //--------------------------------------
@@ -240,7 +240,7 @@ client.on('message', message => {
     //--------------------------------------
     if(message.mentions.users.first() === undefined && message.mentions.roles.first() === undefined) {
         console.log(`There are no mentions`);
-        if (message.channel.name.includes("annonce") && message.channel.name != "annonces-officielles") {
+        if (message.channel.name.includes("annonce") && message.channel.name != "annonces-officielles" && message.channel.name != "annonces-personnelles") {
             message.channel.send(`${message.author}`)
                 .then(msg => {
                     setTimeout(()=>msg.delete(), 30000);
@@ -255,7 +255,7 @@ client.on('message', message => {
         } else if (message.channel.name === "annonces-officielles" && message.guild === globalServer) {
             message.author.createDM()
                 .then(x => {
-                    x.send(`Tu viens de publier dans ${message.channel} sans tagé personne.`)
+                    x.send(`Tu viens de publier dans ${message.channel} sans *tager* personne.`)
                         .then(x => {})
                         .catch(console.error);
                     x.send(warningMessage)
@@ -288,7 +288,7 @@ client.on('message', message => {
                 })
                 .catch(console.error());
         } else {
-            console.log(`But is was written in a channel that doesn't require pinging, ${message.channel.name}.`);
+            console.log(`But is was written in a channel that doesn't require pinging, ${message.channel.parent.name}/${message.channel.name}.`);
         }
     } else {
         console.log(`There are mentions. No warning sent.`);
@@ -323,12 +323,6 @@ client.on('message', message => {
     //    return message.channel.send(embedhelpadmin);
     }
 
-    if (cmd === "fetch") {
-        message.channel.fetchMessage(577892811010211851)
-            .then()
-            .catch(console.error);
-    }
-
     //--------------------------------------
     //      COMMANDE: NOUVEAU PROJECT
     //--------------------------------------
@@ -341,15 +335,10 @@ client.on('message', message => {
     //--------------------------------------
     if(cmd === "archive") {
         if (message.mentions.channels.first()) {
-            commandes.archive(message.mentions.channels.first())
+            commandes.archive(message, message.mentions.channels.first())
         } else {
-            commandes.archive(message.channel);
+            commandes.archive(message, message.channel);
         }
-
-        const archiveLog = util.findChanneByStr(client, "log-archive");
-
-        archiveLog.send(`${message.channel} a été archivé le **${message.createdAt}** par ${message.author.username}.`);
-        message.channel.send(`Ce channel a été archivé le **${message.createdAt}** par ${message.author.username}.`);
         message.delete();
     }
     });

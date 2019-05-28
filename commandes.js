@@ -20,27 +20,45 @@ allCmds.set(`projet`, {
 //--------------------------------------
 //               ARCHIVE
 //--------------------------------------
-exports.archive = function(channel) {
-    const archiveLog = util.findChanneByStr(channel.client, "log-archive");
+exports.archive = function(message, channel) {
+    const archiveLog = util.findChanneByStr(message.guild, "log-archive");
     console.log(`archiveLog: `,`${archiveLog.name}`);
     const archiveCategory = util.archiveCategory(channel.client);
     console.log(`archiveCategory: `,`${archiveCategory.name}`);
 
-    channel.setParent(archiveCategory)
-        .then(movedChannel=>{
-            movedChannel.lockPermissions();
-            /*perms = archiveCategory.permissionOverwrites; OLD WAY TO DO IT
-            movedChannel.replacePermissionOverwrites({
-                overwrites: perms,
-            })*/
-            console.log("Permissions synchronisées!");
-        })
-        .catch(console.error);
+    if(archiveCategory === message.channel.parent) {
+        console.log("Le channel est déjà archivé!");
+        return;
+    } else {
+        channel.setParent(archiveCategory)
+            .then(movedChannel=>{
+                movedChannel.lockPermissions();
+                /*perms = archiveCategory.permissionOverwrites; OLD WAY TO DO IT
+                movedChannel.replacePermissionOverwrites({
+                    overwrites: perms,
+                })*/
+                console.log("Permissions synchronisées!");
+                archiveLog.send(`${channel} a été archivé le **${message.createdAt}** par ${message.author}.`)
+                    .then(()=>{})
+                    .catch(console.error)
+                message.channel.send(`Ce channel a été archivé le **${message.createdAt}** par ${message.author}.`)
+                    .then(console.log("Message d'archive envoyé!"))
+                    .catch(console.error);
+            })
+            .catch(console.error);
+    }
 }
 //--------------------------------------
 //              PROJET
 //--------------------------------------
 exports.projet = function(args, message) {
+
+    if(message.guild.name === "[Local] La Chapelle") {
+        message.channel.send("Les projets doivent être absolument créées dans le server Global.")
+            .then(console.log("Le message a été composé dans le server local"))
+            .catch(console.error);
+        return;
+    }
     const nomProjet = args.shift(); // projet-orange
     const categProjets = util.projetCategory(message.guild.client);
 
@@ -50,7 +68,7 @@ exports.projet = function(args, message) {
             return message.channel.send("Commande abortée.");
         }
     }
-    console.log("Sorti du for qui détermine si tous les arguments son des mentions");
+    console.log("Sorti du for qui détermine si tous les arguments sont des mentions");
 
     message.guild.createChannel(nomProjet)
         .then(newChannel => {
@@ -97,7 +115,7 @@ exports.projet = function(args, message) {
 //--------------------------------------
 //                AIDE
 //--------------------------------------
-exports.aide = function (msg, cmd, botAvatar) {
+exports.aide = function (msg, cmd) {
     const prefix = process.env.PREFIX;
 
     let c = new RichEmbed()

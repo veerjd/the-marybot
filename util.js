@@ -1,5 +1,5 @@
-exports.findChanneByStr = function (client, channelStr) {
-    return client.channels.find(x => x.name.toLowerCase() === channelStr);
+exports.findChanneByStr = function (server, channelStr) {
+    return server.channels.find(x => x.name.toLowerCase() === channelStr);
 }
 
 exports.archiveCategory = function (client) {
