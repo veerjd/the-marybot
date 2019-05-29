@@ -288,7 +288,10 @@ client.on('message', message => {
                 })
                 .catch(console.error());
         } else {
-            console.log(`But is was written in a channel that doesn't require pinging, ${message.channel.parent.name}/${message.channel.name}.`);
+            if (message.channel.parent.name)
+                console.log(`But is was written in a channel that doesn't require pinging, ${message.channel.parent.name}/${message.channel.name}.`);
+            else
+                console.log(`But is was written in a channel that doesn't require pinging, ${message.channel.name}.`);
         }
     } else {
         console.log(`There are mentions. No warning sent.`);
