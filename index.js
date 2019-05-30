@@ -220,20 +220,7 @@ client.on('message', message => {
     if(message.author.bot)
         return;
 
-    //--------------------------------------
-    //       ANNONCES GLOBAL->LOCAL
-    //--------------------------------------
     globalServer = client.guilds.find(x=>x.name == '[Global] La Chapelle');
-
-    if (message.channel.name === "annonces-officielles" && message.guild === globalServer) {
-        localServer = client.guilds.find(x=>x.name == '[Local] La Chapelle');
-        localAnnonces = localServer.channels.find(x=>x.name=='annonces-officielles');
-        let c = new RichEmbed()
-            .setAuthor("Une nouvelle annonce dans le server Global:")
-            .setColor(0xF5F5DC)
-            .setTitle(message.cleanContent);
-        localAnnonces.send(c);
-    }
 
     //--------------------------------------
     //         AUTO-RESPONDER TAG
@@ -355,7 +342,7 @@ client.on('message', message => {
         newMember.createDM()
             .then(DMs => {
                 channelRoles = newMember.guild.channels.find(chan => chan.name === "assignation-de-rôles");
-                channelNouveau = newMember.guild.channels.find(chan => chan.name === "pour-les-nouveaux");
+                channelNouveau = newMember.guild.channels.find(chan => chan.name === "soutien");
                 DMs.send(`Bienvenue **${newMember.user}** dans l'outil de communication de la Chapelle!
 Tu n'as qu'à aller dans le channel ${channelRoles} de l'équipe **${newMember.guild}** et réagir avec les emojis qui correspondent à tes rôles!
 Si tu as des questions, tu peux toujours écrire dans ${channelNouveau} à la même place.`);
