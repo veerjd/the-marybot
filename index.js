@@ -275,7 +275,7 @@ client.on('message', message => {
                 })
                 .catch(console.error());
         } else {
-            if (message.channel.parent.name)
+            if (message.channel.parent)
                 console.log(`But is was written in a channel that doesn't require pinging, ${message.channel.parent.name}/${message.channel.name}.`);
             else
                 console.log(`But is was written in a channel that doesn't require pinging, ${message.channel.name}.`);
