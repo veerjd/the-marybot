@@ -364,7 +364,7 @@ Si tu as des questions, tu peux toujours écrire dans ${channelNouveau} à la m�
                 DMs.send(`[Local] La Chapelle: https://discord.gg/jsGCDzu`);
                 console.log(`${oldMember.user.username} est parti!`);
                 quitteChannel = oldMember.guild.channels.find(x => x.name === "quitte");
-                quitteChannel.send(`${oldMember.user} est parti!`);
+                quitteChannel.send(`${oldMember.user} (${oldMember.user.username}) est parti!`);
             })
             .catch(console.error);
 });
