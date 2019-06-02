@@ -36,61 +36,61 @@ if(event.t === "MESSAGE_REACTION_ADD") {
         case "🇷":
         newRole = guild.roles.find(x => x.name.toLowerCase() === "rosemont");
         guildMember.addRole(newRole)
-            .then(console.log(`The role ${newRole.name} was added to ${user.username}`))
+            .then(console.log(`The role ${newRole.name} was added to ${user.username} in ${newRole.guild.name}`))
             .catch(console.error);
         break
         case "🇲":
         newRole = guild.roles.find(x => x.name.toLowerCase() === "mile-end");
         guildMember.addRole(newRole)
-            .then(console.log(`The role ${newRole.name} was added to ${user.username}`))
+            .then(console.log(`The role ${newRole.name} was added to ${user.username} in ${newRole.guild.name}`))
             .catch(console.error);
         break
         case "🇦":
         newRole = guild.roles.find(x => x.name.toLowerCase() === "ahuntsic");
         guildMember.addRole(newRole)
-            .then(console.log(`The role ${newRole.name} was added to ${user.username}`))
+            .then(console.log(`The role ${newRole.name} was added to ${user.username} in ${newRole.guild.name}`))
             .catch(console.error);
         break
         case "🇬":
         newRole = guild.roles.find(x => x.name.toLowerCase() === "gatineau");
         guildMember.addRole(newRole)
-            .then(console.log(`The role ${newRole.name} was added to ${user.username}`))
+            .then(console.log(`The role ${newRole.name} was added to ${user.username} in ${newRole.guild.name}`))
             .catch(console.error);
         break
         case "📽":
         newRole = guild.roles.find(x => x.name.toLowerCase() === "prod")
         guildMember.addRole(newRole)
-            .then(console.log(`The role ${newRole.name} was added to ${user.username}`))
+            .then(console.log(`The role ${newRole.name} was added to ${user.username} in ${newRole.guild.name}`))
             .catch(console.error);
         break
         case "🔩":
         newRole = guild.roles.find(x => x.name.toLowerCase() === "opérations")
         guildMember.addRole(newRole)
-            .then(console.log(`The role ${newRole.name} was added to ${user.username}`))
+            .then(console.log(`The role ${newRole.name} was added to ${user.username} in ${newRole.guild.name}`))
             .catch(console.error);
         break
         case "🎵":
         newRole = guild.roles.find(x => x.name.toLowerCase() === "musique")
         guildMember.addRole(newRole)
-            .then(console.log(`The role ${newRole.name} was added to ${user.username}`))
+            .then(console.log(`The role ${newRole.name} was added to ${user.username} in ${newRole.guild.name}`))
             .catch(console.error);
         break
         case "🐤":
         newRole = guild.roles.find(x => x.name.toLowerCase() === "junior")
         guildMember.addRole(newRole)
-            .then(console.log(`The role ${newRole.name} was added to ${user.username}`))
+            .then(console.log(`The role ${newRole.name} was added to ${user.username} in ${newRole.guild.name}`))
             .catch(console.error);
         break
         case "📱":
         newRole = guild.roles.find(x => x.name.toLowerCase() === "treize10huit")
         guildMember.addRole(newRole)
-            .then(console.log(`The role ${newRole.name} was added to ${user.username}`))
+            .then(console.log(`The role ${newRole.name} was added to ${user.username} in ${newRole.guild.name}`))
             .catch(console.error);
         break
         case "📣":
         newRole = guild.roles.find(x => x.name.toLowerCase() === "comm")
         guildMember.addRole(newRole)
-            .then(console.log(`The role ${newRole.name} was added to ${user.username}`))
+            .then(console.log(`The role ${newRole.name} was added to ${user.username} in ${newRole.guild.name}`))
             .catch(console.error);
         break
     }
