@@ -20,14 +20,63 @@ client.on('ready', () => {
 
 //--------------------------------------
 //
+//         EVENT ON ROLE UPDATE
+//
+//--------------------------------------
+client.on('guildMemberUpdate', (oldMember, newMember) => {
+    let otherGuild;
+    let userOtherGuild;
+    let otherRole;
+
+    if (oldMember.roles === newMember.roles)                                        //Si l'événement n'est pas un changement de rôle
+        return;
+    else {                                                                          //Si l'événement n'est pas un changement de rôle
+        if (newMember.guild.name === '[Local] La Chapelle') {
+            otherGuild = client.guilds.find(val => val.name === '[Global] La Chapelle');
+        } else if (newMember.guild.name === '[Global] La Chapelle') {
+            otherGuild = client.guilds.find(val => val.name === '[Local] La Chapelle');
+        }
+        if(otherGuild.members.get(newMember.id)) {
+            userOtherGuild = otherGuild.members.get(newMember.id);
+            console.log('userOtherGuild: ', userOtherGuild.user.username);
+        }
+        
+
+        if (oldMember.roles.size > newMember.roles.size) {                          //Si le rôle est enlevé
+            for (var [key, value] of oldMember.roles) {                             //Loop les rôles avant le changement (comparé celui qui en a le plus)
+                if(oldMember.roles.get(key) != newMember.roles.get(key)) {          //Cherche le rôle enlevé
+                    console.log(`Role, ${value.name}, removed from ${newMember.user.username}!`);
+                    otherRole = otherGuild.roles.find(r => r.name === value.name);
+                    if(otherRole) {
+                        userOtherGuild.removeRole(otherRole);
+                        console.log(`Role was ALSO removed from ${otherGuild}.`);
+                    }
+                }
+            }
+        } else if (oldMember.roles.size < newMember.roles.size) {                   //Si le rôle est ajouté
+            for (var [key, value] of newMember.roles) {                             //Loop les rôles après le changement (comparé celui qui en a le plus)
+                if(oldMember.roles.get(key) != newMember.roles.get(key)) {          //Cherche le rôle ajouté
+                    console.log(`Role, ${value.name}, added from ${newMember.user.username}!`);
+                    otherRole = otherGuild.roles.find(r => r.name === value.name);
+                    if(otherRole) {
+                        userOtherGuild.addRole(otherRole);
+                        console.log(`Role was ALSO added in ${otherGuild}.`);
+                    }
+                }
+            }
+        }
+    }
+});
+//--------------------------------------
+//
 //           EVENT ON RAW
 //
 //--------------------------------------
 client.on('raw', event => {
-if(event.t === "MESSAGE_REACTION_ADD") {
 //--------------------------------------
 //          ADD.RÉACTION->ROLE
 //--------------------------------------
+    if(event.t === "MESSAGE_REACTION_ADD") {
     if (event.d.channel_id === "572430115389308939" || event.d.channel_id==="563104709968265219") {
     const user = client.users.get(event.d.user_id);
     const guild = client.guilds.get(event.d.guild_id);
@@ -360,8 +409,8 @@ Si tu as des questions, tu peux toujours écrire dans ${channelNouveau} à la m�
         oldMember.createDM()
             .then(DMs => {
                 DMs.send(`Si tu as quitté par erreur, tu peux rejoindre les deux équipes (Global et Local) avec ces liens, sinon on se reverra peut-être!\n
-[Global] La Chapelle: https://discord.gg/NpND6qj`);
-                DMs.send(`[Local] La Chapelle: https://discord.gg/jsGCDzu`);
+[Global] La Chapelle: https://discord.gg/g2GfCNU`);
+                DMs.send(`[Local] La Chapelle: https://discord.gg/mBHuA2r`);
                 console.log(`${oldMember.user.username} est parti!`);
                 quitteChannel = oldMember.guild.channels.find(x => x.name === "quitte");
                 quitteChannel.send(`${oldMember.user} (${oldMember.user.username}) est parti!`);
