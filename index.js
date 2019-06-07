@@ -38,29 +38,38 @@ client.on('guildMemberUpdate', (oldMember, newMember) => {
         }
         if(otherGuild.members.get(newMember.id)) {
             userOtherGuild = otherGuild.members.get(newMember.id);
-            console.log('userOtherGuild: ', userOtherGuild.user.username);
+            console.log('The user exists on the other server');
+        } else {
+            console.log("The user doesn't exist on the other server, the role change was stopped.")
+            return;
         }
         
 
         if (oldMember.roles.size > newMember.roles.size) {                          //Si le rôle est enlevé
             for (var [key, value] of oldMember.roles) {                             //Loop les rôles avant le changement (comparé celui qui en a le plus)
                 if(oldMember.roles.get(key) != newMember.roles.get(key)) {          //Cherche le rôle enlevé
-                    console.log(`Role, ${value.name}, removed from ${newMember.user.username}!`);
+                    console.log(`@${value.name} removed from ${newMember.user.username} in ${newMember.guild.name}!`);
                     otherRole = otherGuild.roles.find(r => r.name === value.name);
-                    if(otherRole) {
-                        userOtherGuild.removeRole(otherRole);
-                        console.log(`Role was ALSO removed from ${otherGuild}.`);
+                    if(otherRole && otherRole.name != "nouveau") {
+                        userOtherGuild.removeRole(otherRole)
+                        .then(console.log(`@${value.name} also removed from ${otherGuild}.`))
+                        .catch(console.error);
+                    } else {
+                        return;
                     }
                 }
             }
         } else if (oldMember.roles.size < newMember.roles.size) {                   //Si le rôle est ajouté
             for (var [key, value] of newMember.roles) {                             //Loop les rôles après le changement (comparé celui qui en a le plus)
                 if(oldMember.roles.get(key) != newMember.roles.get(key)) {          //Cherche le rôle ajouté
-                    console.log(`Role, ${value.name}, added from ${newMember.user.username}!`);
+                    console.log(`@${value.name} added from ${newMember.user.username} in ${newMember.guild.name}!`);
                     otherRole = otherGuild.roles.find(r => r.name === value.name);
-                    if(otherRole) {
-                        userOtherGuild.addRole(otherRole);
-                        console.log(`Role was ALSO added in ${otherGuild}.`);
+                    if(otherRole && otherRole.name != "nouveau") {
+                        userOtherGuild.addRole(otherRole)
+                            .then(console.log(`@${value.name} also added in ${otherGuild}.`))
+                            .catch(console.error);
+                    } else {
+                        return;
                     }
                 }
             }
