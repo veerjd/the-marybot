@@ -296,7 +296,7 @@ client.on('message', message => {
                     setTimeout(()=>msg.delete(), 30000);
                 })
                 .catch(console.error());
-        } else if (message.channel.name === "annonces-officielles" && message.guild === globalServer) {
+        } else if (message.channel.name === "annonces-officielles" && message.guild === globalServer && message.mentions.everyone == false) {
             message.author.createDM()
                 .then(x => {
                     x.send(`Tu viens de publier dans ${message.channel} sans *tager* personne.`)
