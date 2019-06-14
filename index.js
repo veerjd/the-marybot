@@ -181,9 +181,9 @@ client.on('raw', event => {
                 .setColor('#AAFFFF')
                 .setAuthor(author, message.author.displayAvatarURL)
                 .setTitle(`Ce message a été rappeler par **${user.username}**`)
-                .addBlankField(true)
+                .addField("", "---------------")
                 .addField(`**`+message.cleanContent+`**`, message.url)
-                .addBlankField(true)
+                .addField("", "---------------")
                 .setFooter('Message original envoyé')
                 .setTimestamp(message.createdAt);
         channel.send(replyEmbed);
