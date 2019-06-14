@@ -156,7 +156,7 @@ client.on('raw', event => {
 //--------------------------------------
 //               RÉPONSE
 //--------------------------------------
-    if(event.d.emoji.name === "réponse") {
+    if(event.d.emoji.name === "reponse") {
     const user = client.users.get(event.d.user_id);
     const channel = client.channels.get(event.d.channel_id);
 
