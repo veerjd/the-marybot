@@ -182,7 +182,7 @@ client.on('raw', event => {
                 .setAuthor(author, message.author.displayAvatarURL)
                 .setTitle(`Ce message a été rappeler par **${user.username}**`)
                 .addBlankField(true)
-                .addField(`**`+message.content+`**`, message.url)
+                .addField(`**`+message.cleanContent+`**`, message.url)
                 .addBlankField(true)
                 .setFooter('Message original envoyé')
                 .setTimestamp(message.createdAt);
