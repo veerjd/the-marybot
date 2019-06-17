@@ -156,7 +156,7 @@ client.on('raw', event => {
 //--------------------------------------
 //               REPONSE
 //--------------------------------------
-    if(event.d.emoji.name === "reponse" && !message.channel.name.includes("annonce")) {
+    if(event.d.emoji.name === "reponse" && (!message.channel.name.includes("annonce") || message.channel.name == "annonces-dimanche")) {
         const user = client.users.get(event.d.user_id);
         const channel = client.channels.get(event.d.channel_id);
 
