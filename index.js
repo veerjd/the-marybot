@@ -156,7 +156,12 @@ client.on('raw', event => {
 //--------------------------------------
 //               REPONSE
 //--------------------------------------
-    if(event.d.emoji.name === "reponse" && (!message.channel.name.includes("annonce") || message.channel.name == "annonces-dimanche")) {
+    guild = client.guilds.find(x => x.id == event.d.guild_id);
+    console.log(`guild: `, guild);
+    channel = guild.channels.find(x => x.id == event.d.channel_id);
+    console.log(`channel: `, channel);
+
+    if(event.d.emoji.name === "reponse" && (!channel.name.includes("annonce") || channel.name == "annonces-dimanche")) {
         const user = client.users.get(event.d.user_id);
         const channel = client.channels.get(event.d.channel_id);
 
