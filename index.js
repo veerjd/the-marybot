@@ -94,61 +94,61 @@ client.on('raw', event => {
         case "🇷":
         newRole = guild.roles.find(x => x.name.toLowerCase() === "rosemont");
         guildMember.addRole(newRole)
-            .then(console.log(`The role ${newRole.name} was added to ${user.username} in ${newRole.guild.name}`))
+            .then(console.log(`${user.username} s'est ajouté ${newRole.name} dans ${newRole.guild.name}`))
             .catch(console.error);
         break
         case "🇲":
         newRole = guild.roles.find(x => x.name.toLowerCase() === "mile-end");
         guildMember.addRole(newRole)
-            .then(console.log(`The role ${newRole.name} was added to ${user.username} in ${newRole.guild.name}`))
+            .then(console.log(`${user.username} s'est ajouté ${newRole.name} dans ${newRole.guild.name}`))
             .catch(console.error);
         break
         case "🇦":
         newRole = guild.roles.find(x => x.name.toLowerCase() === "ahuntsic");
         guildMember.addRole(newRole)
-            .then(console.log(`The role ${newRole.name} was added to ${user.username} in ${newRole.guild.name}`))
+            .then(console.log(`${user.username} s'est ajouté ${newRole.name} dans ${newRole.guild.name}`))
             .catch(console.error);
         break
         case "🇬":
         newRole = guild.roles.find(x => x.name.toLowerCase() === "gatineau");
         guildMember.addRole(newRole)
-            .then(console.log(`The role ${newRole.name} was added to ${user.username} in ${newRole.guild.name}`))
+            .then(console.log(`${user.username} s'est ajouté ${newRole.name} dans ${newRole.guild.name}`))
             .catch(console.error);
         break
         case "📽":
         newRole = guild.roles.find(x => x.name.toLowerCase() === "prod")
         guildMember.addRole(newRole)
-            .then(console.log(`The role ${newRole.name} was added to ${user.username} in ${newRole.guild.name}`))
+            .then(console.log(`${user.username} s'est ajouté ${newRole.name} dans ${newRole.guild.name}`))
             .catch(console.error);
         break
         case "🔩":
         newRole = guild.roles.find(x => x.name.toLowerCase() === "opérations")
         guildMember.addRole(newRole)
-            .then(console.log(`The role ${newRole.name} was added to ${user.username} in ${newRole.guild.name}`))
+            .then(console.log(`${user.username} s'est ajouté ${newRole.name} dans ${newRole.guild.name}`))
             .catch(console.error);
         break
         case "🎵":
         newRole = guild.roles.find(x => x.name.toLowerCase() === "musique")
         guildMember.addRole(newRole)
-            .then(console.log(`The role ${newRole.name} was added to ${user.username} in ${newRole.guild.name}`))
+            .then(console.log(`${user.username} s'est ajouté ${newRole.name} dans ${newRole.guild.name}`))
             .catch(console.error);
         break
         case "🐤":
         newRole = guild.roles.find(x => x.name.toLowerCase() === "junior")
         guildMember.addRole(newRole)
-            .then(console.log(`The role ${newRole.name} was added to ${user.username} in ${newRole.guild.name}`))
+            .then(console.log(`${user.username} s'est ajouté ${newRole.name} dans ${newRole.guild.name}`))
             .catch(console.error);
         break
         case "📱":
         newRole = guild.roles.find(x => x.name.toLowerCase() === "treize10huit")
         guildMember.addRole(newRole)
-            .then(console.log(`The role ${newRole.name} was added to ${user.username} in ${newRole.guild.name}`))
+            .then(console.log(`${user.username} s'est ajouté ${newRole.name} dans ${newRole.guild.name}`))
             .catch(console.error);
         break
         case "📣":
         newRole = guild.roles.find(x => x.name.toLowerCase() === "comm")
         guildMember.addRole(newRole)
-            .then(console.log(`The role ${newRole.name} was added to ${user.username} in ${newRole.guild.name}`))
+            .then(console.log(`${user.username} s'est ajouté ${newRole.name} dans ${newRole.guild.name}`))
             .catch(console.error);
         break
     }
@@ -157,9 +157,7 @@ client.on('raw', event => {
 //               REPONSE
 //--------------------------------------
     guild = client.guilds.find(x => x.id == event.d.guild_id);
-    console.log(`guild: `, guild);
     channel = guild.channels.find(x => x.id == event.d.channel_id);
-    console.log(`channel: `, channel);
 
     if(event.d.emoji.name === "reponse" && (!channel.name.includes("annonce") || channel.name == "annonces-dimanche")) {
         const user = client.users.get(event.d.user_id);
@@ -208,61 +206,61 @@ if(event.t === "MESSAGE_REACTION_REMOVE") {
             case "🇷":
             removedRole = guild.roles.find(x => x.name.toLowerCase() === "rosemont");
             guildMember.removeRole(removedRole)
-                .then(console.log(`The role ${removedRole.name} was removed from ${user.username}`))
+                .then(console.log(`${user.username} s'est enlevé ${removedRole.name} dans ${removedRole.guild.name}`))
                 .catch(console.error);
             break;
             case "🇲":
             removedRole = guild.roles.find(x => x.name.toLowerCase() === "mile-end");
             guildMember.removeRole(removedRole)
-                .then(console.log(`The role ${removedRole.name} was removed from ${user.username}`))
+                .then(console.log(`${user.username} s'est enlevé ${removedRole.name} dans ${removedRole.guild.name}`))
                 .catch(console.error);
             break;
             case "🇦":
             removedRole = guild.roles.find(x => x.name.toLowerCase() === "ahuntsic");
             guildMember.removeRole(removedRole)
-                .then(console.log(`The role ${removedRole.name} was removed from ${user.username}`))
+                .then(console.log(`${user.username} s'est enlevé ${removedRole.name} dans ${removedRole.guild.name}`))
                 .catch(console.error);
             break;
             case "🇬":
             removedRole = guild.roles.find(x => x.name.toLowerCase() === "gatineau");
             guildMember.removeRole(removedRole)
-                .then(console.log(`The role ${removedRole.name} was removed from ${user.username}`))
+                .then(console.log(`${user.username} s'est enlevé ${removedRole.name} dans ${removedRole.guild.name}`))
                 .catch(console.error);
             break;
             case "📽":
             removedRole = guild.roles.find(x => x.name.toLowerCase() === "prod");
             guildMember.removeRole(removedRole)
-                .then(console.log(`The role ${removedRole.name} was removed from ${user.username}`))
+                .then(console.log(`${user.username} s'est enlevé ${removedRole.name} dans ${removedRole.guild.name}`))
                 .catch(console.error);
             break;
             case "🔩":
             removedRole = guild.roles.find(x => x.name.toLowerCase() === "opérations");
             guildMember.removeRole(removedRole)
-                .then(console.log(`The role ${removedRole.name} was removed from ${user.username}`))
+                .then(console.log(`${user.username} s'est enlevé ${removedRole.name} dans ${removedRole.guild.name}`))
                 .catch(console.error);
             break;
             case "🎵":
             removedRole = guild.roles.find(x => x.name.toLowerCase() === "musique");
             guildMember.removeRole(removedRole)
-                .then(console.log(`The role ${removedRole.name} was removed from ${user.username}`))
+                .then(console.log(`${user.username} s'est enlevé ${removedRole.name} dans ${removedRole.guild.name}`))
                 .catch(console.error);
             break;
             case "🐤":
             removedRole = guild.roles.find(x => x.name.toLowerCase() === "junior");
             guildMember.removeRole(removedRole)
-                .then(console.log(`The role ${removedRole.name} was removed from ${user.username}`))
+                .then(console.log(`${user.username} s'est enlevé ${removedRole.name} dans ${removedRole.guild.name}`))
                 .catch(console.error);
             break;
             case "📱":
             removedRole = guild.roles.find(x => x.name.toLowerCase() === "treize10huit");
             guildMember.removeRole(removedRole)
-                .then(console.log(`The role ${removedRole.name} was removed from ${user.username}`))
+                .then(console.log(`${user.username} s'est enlevé ${removedRole.name} dans ${removedRole.guild.name}`))
                 .catch(console.error);
             break;
             case "📣":
             removedRole = guild.roles.find(x => x.name.toLowerCase() === "comm");
             guildMember.removeRole(removedRole)
-                .then(console.log(`The role ${removedRole.name} was removed from ${user.username}`))
+                .then(console.log(`${user.username} s'est enlevé ${removedRole.name} dans ${removedRole.guild.name}`))
                 .catch(console.error);
             break;
         }
