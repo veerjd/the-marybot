@@ -7,8 +7,8 @@ exports.archiveCategory = function (client) {
     return archiveChannel;
 }
 
-exports.projetCategory = function (client) {
-    const archiveChannel = client.channels.find(x => x.name.toLowerCase() === "projets");
+exports.projetCategory = function (guild) {
+    const archiveChannel = guild.channels.find(x => x.name.toLowerCase() === "projets");
     console.log(`archiveChannel:`, archiveChannel)
     return archiveChannel;
 }

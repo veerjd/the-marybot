@@ -54,7 +54,7 @@ exports.archive = function(message, channel) {
 exports.projet = function(args, message) {
 
     const nomProjet = args.shift(); // projet-orange
-    const categProjets = util.projetCategory(message.guild.client);
+    const categProjets = util.projetCategory(message.guild);
 
     for(i=0;args[i];i=i+1) {
         if(!args[i].startsWith("<@")) {
