@@ -9,5 +9,6 @@ exports.archiveCategory = function (client) {
 
 exports.projetCategory = function (client) {
     const archiveChannel = client.channels.find(x => x.name.toLowerCase() === "projets");
+    console.log(`archiveChannel:`, archiveChannel)
     return archiveChannel;
 }
