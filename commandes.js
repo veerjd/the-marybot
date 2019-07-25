@@ -81,6 +81,14 @@ exports.projet = function(args, message) {
                             console.log("permsArray: ", permsArray);
                             permsArray = permsArray.concat(message.mentions.roles.keyArray());
                             console.log("permsArrayAfterRoles: ", permsArray);
+                            newChannel.overwritePermissions(message.author, {
+                                VIEW_CHANNEL: true,
+                                MANAGE_ROLES: true
+                            })
+                                .then(x => {
+                                    console.log(`Les permissions ont été données à l'auteur.`)
+                                })
+                                .catch(console.error);
                 //**** PAS TOUS LES MENTIONS SE FONT DONNER LES PERMISSIONS
                             for(i=0;permsArray[i];i=i+1) {
                                 console.log(`permsArray[${i}]`, permsArray[i]);
