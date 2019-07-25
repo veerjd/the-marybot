@@ -53,12 +53,6 @@ exports.archive = function(message, channel) {
 //--------------------------------------
 exports.projet = function(args, message) {
 
-    if(message.guild.name === "[Local] La Chapelle") {
-        message.channel.send("Les projets doivent être absolument créées dans le server Global.")
-            .then(console.log("Le message a été composé dans le server local"))
-            .catch(console.error);
-        return;
-    }
     const nomProjet = args.shift(); // projet-orange
     const categProjets = util.projetCategory(message.guild.client);
 
