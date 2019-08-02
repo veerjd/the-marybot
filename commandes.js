@@ -56,14 +56,6 @@ exports.projet = function(args, message) {
     const nomProjet = args.shift(); // projet-orange
     const categProjets = util.projetCategory(message.guild);
 
-    for(i=0;args[i];i=i+1) {
-        if(!args[i].startsWith("<@")) {
-            message.channel.send("Tous les arguments pour les permissions doivent être des mentions, \`@\`");
-            return message.channel.send("Commande abortée.");
-        }
-    }
-    console.log("Sorti du for qui détermine si tous les arguments sont des mentions");
-
     message.guild.createChannel(nomProjet)
         .then(newChannel => {
             newChannel.setParent(categProjets)
