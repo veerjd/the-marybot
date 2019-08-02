@@ -80,6 +80,7 @@ exports.projet = function(args, message) {
                                 MANAGE_ROLES: true
                             })
                                 .then(x => {
+                                    message.channel.send(`Voilà, j'ai créé le channel pour ton projet, ${x}`);
                                     console.log(`Les permissions ont été données à l'auteur.`)
                                 })
                                 .catch(console.error);
