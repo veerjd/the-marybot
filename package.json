@@ -7,6 +7,7 @@
     "discord.js": "github:discordjs/discord.js#11.5-dev",
     "dotenv": "8.0.0",
     "eslint": "5.13.0",
+    "eslint-utils": "1.4.2",
     "express": "4.16.4",
     "lodash": "4.17.14",
     "node-fetch": "2.5.0",
