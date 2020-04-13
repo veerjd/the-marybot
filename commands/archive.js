@@ -1,17 +1,17 @@
 module.exports = {
-  name: 'NAME',
-  description: 'DESCRIPTION',
-  aliases: ['', ''],
+  name: 'archive',
+  description: 'déplacer le channel dans la catégorie `archive`',
+  aliases: [],
   usage(prefix) {
-    return `${prefix}NAME`
+    return `\`${prefix}archive [#CHANNEL]\``
   },
   // You can have as many categories as you want, just make sure to update the help.js file with them
-  category: 'Main',
+  category: 'Staff',
   // Required perms of the author of the message
-  permsAllowed: ['VIEW_CHANNEL'],
+  permsAllowed: ['MANAGE_ROLES', 'VIEW_AUDIT_LOG'],
   // User that can do the command regardless of .permsAllowed
-  usersAllowed: [''],
+  usersAllowed: ['217385992837922819'],
   execute: async function(message, argsStr, embed) {
-    // EXECUTE
+    
   }
 };
