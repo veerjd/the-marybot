@@ -2,7 +2,6 @@ require('dotenv').config();
 const { Client, MessageEmbed, Collection } = require('discord.js');
 const bot = new Client({ partials: ['MESSAGE', 'CHANNEL', 'REACTION'] });
 const fs = require('fs')
-const warningMessage = 'Normalement, il faut mentionner les rôles ou personnes concernées quand tu fais une requête. Pas besoin de recommencer, fais juste écrire un nouveau message en tagant les personnes concernées (en utilisant le `@`).\nCe message s\'autodétruira dans quelques secondes.'
 const prefix = process.env.PREFIX
 
 // bot.commands as a collection(Map) of commands from ./commands
@@ -39,9 +38,9 @@ bot.on('guildMemberUpdate', (oldMember, newMember) => {
     return;
   else { // Si l'événement n'est pas un changement de rôle
     if (newMember.guild.name === '[Local] La Chapelle') {
-      otherGuild = bot.guilds.find(val => val.name === '[Global] La Chapelle');
+      otherGuild = bot.guilds.cache.find(val => val.name === '[Global] La Chapelle');
     } else if (newMember.guild.name === '[Global] La Chapelle') {
-      otherGuild = bot.guilds.find(val => val.name === '[Local] La Chapelle');
+      otherGuild = bot.guilds.cache.find(val => val.name === '[Local] La Chapelle');
     }
     if(otherGuild.members.get(newMember.id)) {
       userOtherGuild = otherGuild.members.get(newMember.id);
@@ -97,7 +96,8 @@ bot.on('raw', event => {
     if (event.d.channel_id === '572430115389308939' || event.d.channel_id === '563104709968265219') {
       const user = bot.users.get(event.d.user_id);
       const guild = bot.guilds.get(event.d.guild_id);
-      guildMember = guild.members.get(user.id);
+      const guildMember = guild.members.get(user.id);
+      let newRole
       switch (event.d.emoji.name) {
       case '🇷':
         newRole = guild.roles.find(x => x.name.toLowerCase() === 'rosemont');
@@ -164,12 +164,12 @@ bot.on('raw', event => {
     // --------------------------------------
     //               REPONSE
     // --------------------------------------
-    guild = bot.guilds.find(x => x.id == event.d.guild_id);
-    channel = guild.channels.find(x => x.id == event.d.channel_id);
+    const guild = bot.guilds.find(x => x.id == event.d.guild_id);
+    const channel = guild.channels.cache.find(x => x.id == event.d.channel_id);
 
     if(event.d.emoji.name === 'reponse' && (!channel.name.includes('annonce') || channel.name == 'annonces-dimanche')) {
       const user = bot.users.get(event.d.user_id);
-      const channel = bot.channels.get(event.d.channel_id);
+      const channel = bot.channels.cache.get(event.d.channel_id);
 
       // if you're on the master/v12 branch, use `channel.messages.fetch()`
       channel.fetchMessage(event.d.message_id)
@@ -188,7 +188,7 @@ bot.on('raw', event => {
 
           // custom emojis reactions are keyed in a `name:ID` format, while unicode emojis are keyed by names
           // if you're on the master/v12 branch, custom emojis reactions are keyed by their ID
-          const replyEmbed = new RichEmbed()
+          const replyEmbed = new MessageEmbed()
             .setColor('#AAFFFF')
             .setAuthor(author, message.author.displayAvatarURL)
             .setTitle(`Ce message a été rappeler par **${user.username}**`)
@@ -208,6 +208,7 @@ bot.on('raw', event => {
     if (event.d.channel_id === '572430115389308939' || event.d.channel_id === '563104709968265219') {
       const user = bot.users.get(event.d.user_id);
       const guild = bot.guilds.get(event.d.guild_id);
+      let removedRole
       guild.fetchMember(user)
         .then(guildMember => {
           switch (event.d.emoji.name) {
@@ -285,14 +286,6 @@ bot.on('message', async message => {
   if(message.author.bot || !message.content.startsWith(prefix) || message.content === prefix)
     return
 
-  const globalServer = bot.guilds.cache.find(x=>x.name == '[Global] La Chapelle');
-
-  // If it's a DM
-  if(message.channel.type === 'dm') {
-    message.channel.send(`I do not support DM commands.\nYou can go into any server I'm in and do \`${prefix}help\` for all my commands.`)
-      .then().catch(console.error)
-  }
-
   // Handling
   const textStr = message.content.slice(prefix.length)
   const commandName = textStr.split(/ +/).shift().toLowerCase();
@@ -307,17 +300,6 @@ bot.on('message', async message => {
 
   // Instantiate the embed that's sent to every command execution
   const embed = new MessageEmbed().setColor('#F5F5DC')
-
-  // delete delays
-  const generalDelete = { timeout: 5000 }
-
-  // Warning when channel name includes general and delete both messages
-  if(message.channel.name.includes('general'))
-    return message.channel.send(`Come on! Not in #**${message.channel.name}**`)
-      .then(x => {
-        x.delete(generalDelete).then().catch(console.error)
-        message.delete(generalDelete).then().catch(console.error)
-      }).catch(console.error).catch(console.error)
 
   // Check if command is allowed in that channel
   if(command.channelsAllowed) { // Certain commands can only be triggered in specific channels
@@ -339,8 +321,10 @@ bot.on('message', async message => {
         .then().catch(console.error)
     return
   } catch (error) {
-    // If error, log it and reply it
-    console.log('error:', error)
+    const globalBuild = bot.guilds.cache.find(val => val.name === '[Global] La Chapelle')
+    const errorLogChannel = globalBuild.channels.cache.find(x => x.name === 'mary-error-logs')
+    console.log('error')
+    errorLogChannel.send(`${error}`)
     return message.channel.send(`${error}`)
       .then().catch(console.error)
   }
@@ -354,8 +338,8 @@ bot.on('message', async message => {
 bot.on('guildMemberAdd', newMember => {
   newMember.createDM()
     .then(DMs => {
-      channelRoles = newMember.guild.channels.find(chan => chan.name === 'assignation-de-rôles');
-      channelNouveau = newMember.guild.channels.find(chan => chan.name === 'soutien');
+      const channelRoles = newMember.guild.channels.cache.find(chan => chan.name === 'assignation-de-rôles');
+      const channelNouveau = newMember.guild.channels.cache.find(chan => chan.name === 'soutien');
       DMs.send(`Bienvenue **${newMember.user}** dans l'outil de communication de la Chapelle!
 Tu n'as qu'à aller dans le channel ${channelRoles} de l'équipe **${newMember.guild}** et réagir avec les emojis qui correspondent à tes rôles!
 Si tu as des questions, tu peux toujours écrire dans ${channelNouveau} à la même place.`);
@@ -376,7 +360,7 @@ bot.on('guildMemberRemove', oldMember => {
 [Global] La Chapelle: https://discord.gg/g2GfCNU`);
       DMs.send('[Local] La Chapelle: https://discord.gg/mBHuA2r');
       console.log(`${oldMember.user.username} est parti!`);
-      quitteChannel = oldMember.guild.channels.find(x => x.name === 'quitte');
+      const quitteChannel = oldMember.guild.channels.cache.find(x => x.name === 'quitte');
       quitteChannel.send(`${oldMember.user} (${oldMember.user.username}) est parti!`);
     })
     .catch(console.error);
