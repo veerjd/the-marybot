@@ -43,7 +43,7 @@ bot.on('guildMemberUpdate', (oldMember, newMember) => {
     otherGuild = bot.guilds.cache.find(val => val.name === '[Local] La Chapelle');
   }
 
-  if(otherGuild.members.cache.get(newMember.id)) {
+  if (otherGuild.members.cache.get(newMember.id)) {
     memberOtherGuild = otherGuild.members.cache.get(newMember.id);
   } else {
     return
@@ -52,10 +52,10 @@ bot.on('guildMemberUpdate', (oldMember, newMember) => {
 
   if (oldMember.roles.cache.size > newMember.roles.cache.size) { // Si le rôle est enlevé
     for (const [key, value] of oldMember.roles.cache) { // Loop les rôles avant le changement (comparé celui qui en a le plus)
-      if(oldMember.roles.cache.get(key) != newMember.roles.cache.get(key)) { // Cherche le rôle enlevé
+      if (oldMember.roles.cache.get(key) != newMember.roles.cache.get(key)) { // Cherche le rôle enlevé
         console.log(`@${value.name} removed from ${newMember.user.username} in ${newMember.guild.name}!`);
         otherRole = otherGuild.roles.cache.find(r => r.name === value.name);
-        if(otherRole) {
+        if (otherRole) {
           memberOtherGuild.roles.remove(otherRole)
             .then(console.log(`@${value.name} also removed from ${otherGuild}.`))
             .catch(console.error);
@@ -66,10 +66,10 @@ bot.on('guildMemberUpdate', (oldMember, newMember) => {
     }
   } else if (oldMember.roles.cache.size < newMember.roles.cache.size) { // Si le rôle est ajouté
     for (const [key, value] of newMember.roles.cache) { // Loop les rôles après le changement (comparé celui qui en a le plus)
-      if(oldMember.roles.cache.get(key) != newMember.roles.cache.get(key)) { // Cherche le rôle ajouté
+      if (oldMember.roles.cache.get(key) != newMember.roles.cache.get(key)) { // Cherche le rôle ajouté
         console.log(`@${value.name} added from ${newMember.user.username} in ${newMember.guild.name}!`);
         otherRole = otherGuild.roles.cache.find(r => r.name === value.name);
-        if(otherRole) {
+        if (otherRole) {
           memberOtherGuild.roles.add(otherRole)
             .then(console.log(`@${value.name} also added in ${otherGuild}.`))
             .catch(console.error);
@@ -87,92 +87,20 @@ bot.on('guildMemberUpdate', (oldMember, newMember) => {
 //
 // --------------------------------------
 bot.on('messageReactionAdd', async (reaction, user) => {
-
   if (reaction.message.partial) await reaction.message.fetch();
 
   const guild = reaction.message.guild;
   const channel = reaction.message.channel;
   const guildMember = guild.member(user);
+  const assignChannelIDs = ['837483858110578758', '837657304727552040']
 
-  // if(channel.id !== '563104709968265219' && channel.id !== '572430115389308939') {
-  if(channel.id !== '699461964358877264' && channel.id !== '699470229407006759') {
-    if(reaction.emoji.name === 'reponse') {
-      const embed = new MessageEmbed()
-        .setColor('#AAFFFF')
-        .setAuthor(`${user.tag}`)
-        .setTitle(`Ce message a été rappeler par **${user.username}**`)
-        .addField('**Message :**', '**' + reaction.message.cleanContent + '**')
-        .addField('**Lien :**', reaction.message.url)
-        .setFooter('Message original envoyé')
-        .setTimestamp(reaction.message.createdAt);
-      channel.send(embed)
-    } else
-      return
-  } else {
-    let newRole
-    switch (reaction.emoji.name) {
-    case '🇷':
-      newRole = guild.roles.cache.find(x => x.name.toLowerCase() === 'rosemont');
-      guildMember.roles.add(newRole)
-        .then(console.log(`${user.username} s'est ajouté ${newRole.name} dans ${newRole.guild.name}`))
-        .catch(console.error);
-      break
-    case '🇲':
-      newRole = guild.roles.cache.find(x => x.name.toLowerCase() === 'mile-end');
-      guildMember.roles.add(newRole)
-        .then(console.log(`${user.username} s'est ajouté ${newRole.name} dans ${newRole.guild.name}`))
-        .catch(console.error);
-      break
-    case '🇦':
-      newRole = guild.roles.cache.find(x => x.name.toLowerCase() === 'ahuntsic');
-      guildMember.roles.add(newRole)
-        .then(console.log(`${user.username} s'est ajouté ${newRole.name} dans ${newRole.guild.name}`))
-        .catch(console.error);
-      break
-    case '🇬':
-      newRole = guild.roles.cache.find(x => x.name.toLowerCase() === 'gatineau');
-      guildMember.roles.add(newRole)
-        .then(console.log(`${user.username} s'est ajouté ${newRole.name} dans ${newRole.guild.name}`))
-        .catch(console.error);
-      break
-    case '📽':
-      newRole = guild.roles.cache.find(x => x.name.toLowerCase() === 'prod')
-      guildMember.roles.add(newRole)
-        .then(console.log(`${user.username} s'est ajouté ${newRole.name} dans ${newRole.guild.name}`))
-        .catch(console.error);
-      break
-    case '🔩':
-      newRole = guild.roles.cache.find(x => x.name.toLowerCase() === 'opérations')
-      guildMember.roles.add(newRole)
-        .then(console.log(`${user.username} s'est ajouté ${newRole.name} dans ${newRole.guild.name}`))
-        .catch(console.error);
-      break
-    case '🎵':
-      newRole = guild.roles.cache.find(x => x.name.toLowerCase() === 'musique')
-      guildMember.roles.add(newRole)
-        .then(console.log(`${user.username} s'est ajouté ${newRole.name} dans ${newRole.guild.name}`))
-        .catch(console.error);
-      break
-    case '🐤':
-      newRole = guild.roles.cache.find(x => x.name.toLowerCase() === 'junior')
-      guildMember.roles.add(newRole)
-        .then(console.log(`${user.username} s'est ajouté ${newRole.name} dans ${newRole.guild.name}`))
-        .catch(console.error);
-      break
-    case '📱':
-      newRole = guild.roles.cache.find(x => x.name.toLowerCase() === 'treize10huit')
-      guildMember.roles.add(newRole)
-        .then(console.log(`${user.username} s'est ajouté ${newRole.name} dans ${newRole.guild.name}`))
-        .catch(console.error);
-      break
-    case '📣':
-      newRole = guild.roles.cache.find(x => x.name.toLowerCase() === 'comm')
-      guildMember.roles.add(newRole)
-        .then(console.log(`${user.username} s'est ajouté ${newRole.name} dans ${newRole.guild.name}`))
-        .catch(console.error);
-      break
-    }
-  }
+  if (!assignChannelIDs.some(assignChannel => assignChannel === channel.id) || !channel.name.startsWith('assignation'))
+    return
+
+  const newRole = guild.roles.cache.find(x => x.name.toLowerCase() === reaction.message.content.toLowerCase())
+  guildMember.roles.add(newRole)
+    .then(console.log(`${user.username} s'est ajouté ${newRole.name} dans ${newRole.guild.name}`))
+    .catch(console.error);
 })
 
 // --------------------------------------
@@ -181,78 +109,20 @@ bot.on('messageReactionAdd', async (reaction, user) => {
 //
 // --------------------------------------
 bot.on('messageReactionRemove', async (reaction, user) => {
-
   if (reaction.message.partial) await reaction.message.fetch();
 
   const guild = reaction.message.guild;
   const channel = reaction.message.channel;
   const guildMember = guild.member(user);
+  const assignChannelIDs = ['837483858110578758', '837657304727552040']
 
-  if(channel.id !== '563104709968265219' || channel.id !== '572430115389308939') {
-    let removedRole
-    switch (reaction.emoji.name) {
-    case '🇷':
-      removedRole = guild.roles.cache.find(x => x.name.toLowerCase() === 'rosemont');
-      guildMember.roles.remove(removedRole)
-        .then(console.log(`${user.username} s'est enlevé ${removedRole.name} dans ${removedRole.guild.name}`))
-        .catch(console.error);
-      break;
-    case '🇲':
-      removedRole = guild.roles.cache.find(x => x.name.toLowerCase() === 'mile-end');
-      guildMember.roles.remove(removedRole)
-        .then(console.log(`${user.username} s'est enlevé ${removedRole.name} dans ${removedRole.guild.name}`))
-        .catch(console.error);
-      break;
-    case '🇦':
-      removedRole = guild.roles.cache.find(x => x.name.toLowerCase() === 'ahuntsic');
-      guildMember.roles.remove(removedRole)
-        .then(console.log(`${user.username} s'est enlevé ${removedRole.name} dans ${removedRole.guild.name}`))
-        .catch(console.error);
-      break;
-    case '🇬':
-      removedRole = guild.roles.cache.find(x => x.name.toLowerCase() === 'gatineau');
-      guildMember.roles.remove(removedRole)
-        .then(console.log(`${user.username} s'est enlevé ${removedRole.name} dans ${removedRole.guild.name}`))
-        .catch(console.error);
-      break;
-    case '📽':
-      removedRole = guild.roles.cache.find(x => x.name.toLowerCase() === 'prod');
-      guildMember.roles.remove(removedRole)
-        .then(console.log(`${user.username} s'est enlevé ${removedRole.name} dans ${removedRole.guild.name}`))
-        .catch(console.error);
-      break;
-    case '🔩':
-      removedRole = guild.roles.cache.find(x => x.name.toLowerCase() === 'opérations');
-      guildMember.roles.remove(removedRole)
-        .then(console.log(`${user.username} s'est enlevé ${removedRole.name} dans ${removedRole.guild.name}`))
-        .catch(console.error);
-      break;
-    case '🎵':
-      removedRole = guild.roles.cache.find(x => x.name.toLowerCase() === 'musique');
-      guildMember.roles.remove(removedRole)
-        .then(console.log(`${user.username} s'est enlevé ${removedRole.name} dans ${removedRole.guild.name}`))
-        .catch(console.error);
-      break;
-    case '🐤':
-      removedRole = guild.roles.cache.find(x => x.name.toLowerCase() === 'junior');
-      guildMember.roles.remove(removedRole)
-        .then(console.log(`${user.username} s'est enlevé ${removedRole.name} dans ${removedRole.guild.name}`))
-        .catch(console.error);
-      break;
-    case '📱':
-      removedRole = guild.roles.cache.find(x => x.name.toLowerCase() === 'treize10huit');
-      guildMember.roles.remove(removedRole)
-        .then(console.log(`${user.username} s'est enlevé ${removedRole.name} dans ${removedRole.guild.name}`))
-        .catch(console.error);
-      break;
-    case '📣':
-      removedRole = guild.roles.cache.find(x => x.name.toLowerCase() === 'comm');
-      guildMember.roles.remove(removedRole)
-        .then(console.log(`${user.username} s'est enlevé ${removedRole.name} dans ${removedRole.guild.name}`))
-        .catch(console.error);
-      break;
-    }
-  }
+  if (!assignChannelIDs.some(assignChannel => assignChannel === channel.id) || !channel.name.startsWith('assignation'))
+    return
+
+  const removedRole = guild.roles.cache.find(x => x.name.toLowerCase() === reaction.message.content.toLowerCase())
+  guildMember.roles.remove(removedRole)
+    .then(console.log(`${user.username} s'est ajouté ${removedRole.name} dans ${removedRole.guild.name}`))
+    .catch(console.error);
 })
 
 // --------------------------------------
@@ -261,7 +131,7 @@ bot.on('messageReactionRemove', async (reaction, user) => {
 //
 // --------------------------------------
 bot.on('message', async message => {
-  if(message.author.bot || !message.content.startsWith(prefix) || message.content === prefix)
+  if (message.author.bot || !message.content.startsWith(prefix) || message.content === prefix)
     return
 
   // Handling
@@ -280,13 +150,13 @@ bot.on('message', async message => {
   const embed = new MessageEmbed().setColor('#F5F5DC')
 
   // Check if command is allowed in that channel
-  if(command.channelsAllowed) { // Certain commands can only be triggered in specific channels
-    if(!(command.channelsAllowed && command.channelsAllowed.some(x => x === message.channel.id)))
+  if (command.channelsAllowed) { // Certain commands can only be triggered in specific channels
+    if (!(command.channelsAllowed && command.channelsAllowed.some(x => x === message.channel.id)))
       return
   }
 
   // Check if the user has the permissions necessary to execute the command
-  if(!(command.permsAllowed.some(x => message.member.hasPermission(x)) || command.usersAllowed.some(x => x === message.author.id)))
+  if (!(command.permsAllowed.some(x => message.member.hasPermission(x)) || command.usersAllowed.some(x => x === message.author.id)))
     return message.channel.send('Seul le staff peut utiliser cette commande!')
 
   try {
@@ -294,7 +164,7 @@ bot.on('message', async message => {
     const reply = await command.execute(message, argsStr, embed);
 
     // if there's a reply, send it
-    if(reply)
+    if (reply)
       message.channel.send(reply)
         .then().catch(console.error)
     return
